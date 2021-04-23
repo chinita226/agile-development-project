@@ -10,11 +10,21 @@ PYTHON = python
 all:
 
 venv:
+<<<<<<< HEAD
 	$(PYTHON) -m venv .venv
 	.venv\Scripts\activate
+=======
+	[ -d .venv ] || $(PYTHON) -m venv .venv
+	@printf "Now activate the Python virtual environment.\n"
+	@printf "On Unix and Mac, do:\n"
+	@printf ". .venv/bin/activate\n"
+	@printf "On Windows (bash terminal), do:\n"
+	@printf ". .venv/Scripts/activate\n"
+	@printf "Type 'deactivate' to deactivate.\n"
+>>>>>>> 9e868139ef3fc0beafc7a6b37438a24ce558bd45
 
 install:
-	$(PYTHON) -m pip install -r requirements.txt
+	$(PYTHON) -m pip install -r ../requirements.txt
 
 installed:
 	$(PYTHON) -m pip list
@@ -64,10 +74,10 @@ pyreverse:
 	ls -l doc/pyreverse
 
 radon-cc:
-	radon cc --show-complexity --average .
+	radon cc . -a
 
 radon-mi:
-	radon mi --show .
+	radon mi .
 
 radon-raw:
 	radon raw .
@@ -76,7 +86,7 @@ radon-hal:
 	radon hal .
 
 bandit:
-	bandit --recursive .
+	bandit -r .
 
 lint: flake8 pylint
 

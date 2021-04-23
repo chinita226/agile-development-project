@@ -10,7 +10,7 @@ PYTHON = python
 all:
 
 venv:
-	py -m venv .venv
+	$(PYTHON) -m venv .venv
 	$(PYTHON) -m .venv\Scripts\activate
 
 install:

@@ -1,7 +1,7 @@
 #!/usr/bin/env make
 
 # Change this to be your variant of the python command
-#PYTHON = python3
+# PYTHON = python3
 PYTHON = python
 #PYTHON = py
 
@@ -11,7 +11,7 @@ all:
 
 venv:
 	$(PYTHON) -m venv .venv
-	$(PYTHON) -m .venv\Scripts\activate
+	.venv\Scripts\activate
 
 install:
 	$(PYTHON) -m pip install -r requirements.txt

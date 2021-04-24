@@ -31,7 +31,7 @@ clean-all: clean clean-doc
 	rm -rf .venv
 
 database:
-	$(PYTHON) ./db/db_init.py
+	$(PYTHON) ./app/db_init.py
 	sqlite3 database.db < schema.sql
 
 unittest:

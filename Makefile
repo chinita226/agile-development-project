@@ -31,7 +31,7 @@ clean-all: clean clean-doc
 	rm -rf .venv
 
 database:
-	$(PYTHON) ./app/db_init.py
+	$(PYTHON) -c 'import app.database as db; db.create_database("database.db")'
 	sqlite3 database.db < schema.sql
 
 unittest:

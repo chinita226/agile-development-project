@@ -32,7 +32,12 @@ clean-all: clean clean-doc
 
 database:
 	$(PYTHON) -c 'import website.database as db; db.create_database("database.db")'
-	sqlite3 database.db < schema.sql
+
+	sqlite3 database.db < ./db/schema.sql
+
+	sqlite3 database.db -cmd ".mode csv" \
+	-cmd ".import ./db/restaurants.csv restaurants" \
+	-cmd ".import ./db/foods.csv foods"
 
 unittest:
 	 $(PYTHON) -m unittest discover . "*_test.py"

@@ -10,3 +10,5 @@ pylint
 # Flask framework
 Flask
 
+#database
+pysqlite3

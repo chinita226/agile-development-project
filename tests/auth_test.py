@@ -1,6 +1,7 @@
 import unittest.mock
 from website import auth
 
+
 class TestAuth(unittest.TestCase):
 
     @unittest.mock.patch("builtins.print", autospec=True, side_effect=print)

@@ -1,12 +1,12 @@
 {
     // COLOR CUSTOMIZATION
     "workbench.colorCustomizations": {
-        "titleBar.activeBackground": "#1b18ca",
-        "titleBar.inactiveBackground": "#1b18ca",
+        "titleBar.activeBackground": "#333",
+        "titleBar.inactiveBackground": "#333",
     },
     // PYTHON LANGUAGE SERVER
 
-    
+
     "python.analysis.extraPaths": ["./website"],
     "python.languageServer": "Pylance",
     "python.terminal.activateEnvironment": true,

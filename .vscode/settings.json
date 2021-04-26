@@ -1,0 +1,30 @@
+{
+    // COLOR CUSTOMIZATION
+    "workbench.colorCustomizations": {
+        "titleBar.activeBackground": "#1b18ca",
+        "titleBar.inactiveBackground": "#1b18ca",
+    },
+    // PYTHON LANGUAGE SERVER
+
+    
+    "python.analysis.extraPaths": ["./website"],
+    "python.languageServer": "Pylance",
+    "python.terminal.activateEnvironment": true,
+
+
+    // PYTHON LINTING
+    "python.linting.enabled": true,
+
+    "python.linting.banditEnabled": true,
+    "python.linting.flake8Enabled": true,
+    "python.linting.mypyEnabled": true,
+    "python.linting.pylintEnabled": true,
+
+
+    // PYTHON TEST
+    "python.testing.unittestEnabled": true,
+
+
+    // PYTHON COVERAGE
+    "coverage-gutters.xmlname": "coverage.xml",
+}

@@ -14,7 +14,8 @@ venv:
 	.venv\Scripts\activate
 
 install:
-	$(PYTHON) -m pip install -r ../requirements.txt
+	$(PYTHON) -m pip install -r requirements.txt
+	$(PYTHON) -m pip install -e .
 
 installed:
 	$(PYTHON) -m pip list

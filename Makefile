@@ -36,9 +36,8 @@ clean-all: clean clean-doc
 	rm -rf .venv
 
 database:
-	winpty ./sqlite/sqlite3.exe ./app/database.db -init schema.sql .quit
-	$(PYTHON) ./app/db_init.py
-	
+	$(PYTHON) -c 'import website.database as db; db.create_database("database.db")'
+	sqlite3 database.db < schema.sql
 
 unittest:
 	 $(PYTHON) -m unittest discover . "*_test.py"

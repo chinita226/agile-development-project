@@ -5,5 +5,5 @@ htmlcov/
 *.pyc
 /doc
 *.dot
-.vscode
-
+website.egg-info
+.mypy_cache

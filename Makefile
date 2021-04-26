@@ -14,7 +14,8 @@ venv:
 	.venv\Scripts\activate
 
 install:
-	$(PYTHON) -m pip install -r ../requirements.txt
+	$(PYTHON) -m pip install -r requirements.txt
+	$(PYTHON) -m pip install -e .
 
 installed:
 	$(PYTHON) -m pip list
@@ -31,7 +32,7 @@ clean-all: clean clean-doc
 	rm -rf .venv
 
 database:
-	$(PYTHON) ./app/db_init.py
+	$(PYTHON) -c 'import website.database as db; db.create_database("database.db")'
 	sqlite3 database.db < schema.sql
 
 unittest:

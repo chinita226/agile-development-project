@@ -5,4 +5,5 @@ htmlcov/
 *.pyc
 /doc
 *.dot
+.vscode
 

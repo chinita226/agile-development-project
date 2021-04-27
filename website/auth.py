@@ -20,9 +20,11 @@ def login_npos():
     """Route to non-profit users, return login template."""
     return render_template("login.html")
 
+
 @auth.route('/about', methods=['GET'])
 def about():
     return render_template("about.html")
+
 
 class Auth():
     """Test purpose."""

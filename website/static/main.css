@@ -1,6 +1,6 @@
 #content-container {
     position: absolute;
-    height: 95vh;
+    height: calc(100vh - 46.6px);
     overflow: hidden;
     background-color: cadetblue;
 }
@@ -17,8 +17,4 @@
 #login-heading {
     padding: 0.25rem 0 2rem 0;
     margin: 0 auto;
-}
-
-nav{
-    height: 5vh;
 }

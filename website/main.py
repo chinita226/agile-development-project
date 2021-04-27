@@ -1,6 +1,7 @@
-#
 
-import auth
+from website import create_web
+
+web = create_web()
 
 if __name__ == "__main__":
-    auth.Auth.login(auth)
+    web.run(debug=True)

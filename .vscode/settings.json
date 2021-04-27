@@ -27,8 +27,4 @@
 
     // PYTHON COVERAGE
     "coverage-gutters.xmlname": "coverage.xml",
-<<<<<<< HEAD
-    "python.pythonPath": "C:\\Python39\\python.exe",
-=======
->>>>>>> main
 }

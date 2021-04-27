@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-=======
 from flask import Blueprint, render_template, request
 
 auth = Blueprint('auth', __name__)
@@ -29,7 +27,6 @@ def login_npos():
 
 
 
->>>>>>> main
 class Auth():
     """Test purpose."""
 

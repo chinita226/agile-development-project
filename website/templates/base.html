@@ -14,11 +14,12 @@
       href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
       crossorigin="anonymous"
     />
+    <link rel="stylesheet" href="../static/main.css">
 
     <title>{% block title %}Home{% endblock %}</title>
   </head>
   <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
       <button
         class="navbar-toggler"
         type="button"
@@ -29,13 +30,15 @@
       </button>
       <div class="collapse navbar-collapse" id="navbar">
         <div class="navbar-nav">
-          <a class="nav-item nav-link" id="restaurants" href="/restaurants">Restaurants</a>
-          <a class="nav-item nav-link" id="npo" href="/npo">Non-profit Organizations</a>
+          <a class="btn btn-outline-success btn-sm nav-btn my-1" href="/restaurants", role="button">Restaurants</a>
+          <a class="btn btn-outline-success btn-sm nav-btn my-1" href="/npo", role="button">Non-profit Organizations</a>
+          <a class="btn btn-outline-success btn-sm nav-btn my-1" href="/about", role="button">About Yummy Savior</a>
         </div>
       </div>
     </nav>
-    
-    <div class="container">{% block content %} {% endblock %}</div>
+    <div>
+        {% block content %} {% endblock %}
+    </div>
     <script
       src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
       integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"

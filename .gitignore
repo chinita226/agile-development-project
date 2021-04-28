@@ -6,5 +6,5 @@ htmlcov/
 *.pyc
 /doc
 *.dot
-website.egg-info
+/website.egg-info
 .mypy_cache

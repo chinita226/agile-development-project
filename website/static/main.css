@@ -1,6 +1,7 @@
 #content-container {
     position: absolute;
-    height: 95vh;
+    height: calc(100vh - 54.6px);
+    width: 100%;
     overflow: hidden;
     background-color: cadetblue;
 }
@@ -19,6 +20,6 @@
     margin: 0 auto;
 }
 
-nav{
-    height: 5vh;
+.nav-btn {
+    margin: 0 1rem 0 0;
 }

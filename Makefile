@@ -44,6 +44,9 @@ database:
 	-cmd ".import ./db/orders.csv orders" \
 	-cmd ".import ./db/organizations.csv organizations"
 
+app:
+	$(PYTHON) website/main.py
+
 unittest:
 	 $(PYTHON) -m unittest discover . "*_test.py"
 

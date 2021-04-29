@@ -1,8 +1,19 @@
 #content-container {
     position: absolute;
-    height: calc(100vh - 54.6px);
+    height: calc(100vh - 61px);
     width: 100%;
     background-color: cadetblue;
+}
+
+#logo-container {
+    width: 100%;
+    text-align: center;
+}
+
+#logo-container > img {
+    height: 110px;
+    margin-bottom: 1rem;
+    width: auto;
 }
 
 #login-card {
@@ -25,8 +36,7 @@
 }
 
 #nav-logo {
-    position: absolute;
-    right: 0;
+    padding-right: 2.5rem;
 }
 
 #nav-logo > img {

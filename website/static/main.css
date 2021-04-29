@@ -2,25 +2,14 @@
     position: absolute;
     height: calc(100vh - 54.6px);
     width: 100%;
-    overflow: hidden;
     background-color: cadetblue;
 }
 
-#content-container > #logo-container {
-    width: 100%;
-}
-
-#content-container > #logo-container > img {
-    display: block;
-    margin: 0 auto;
-    height: 200px;
-    width: auto;
-    padding: 40px 0 0 0;
-    transform: translateX(20px);
-}
-
-#login-container {
-    margin: 60px auto 0 auto;
+#login-card {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     max-width: 20rem;
     padding: 2rem;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.51);

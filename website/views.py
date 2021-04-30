@@ -1,5 +1,6 @@
 from flask import Blueprint, render_template, request, flash
-
+from . import db
+from .models import foods
 
 views = Blueprint('views', __name__)
 

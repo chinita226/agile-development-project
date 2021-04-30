@@ -1,6 +1,17 @@
-{% extends "base.html" %} {% block title %}TEST{% endblock %}
+{% extends "base.html" %} {% block title %}Login{% endblock %}
 {% block content %}
-<div>
-    <h1>SUCCESS</h1>
-</div>
+<h1>Sign up</h1>
+<form method="POST">
+    <label for="name">Username</label>
+    <input type="text" id='username' name='username' placeholder="enter username"><br><br>
+    <label for="password">Password</label>
+    <input type="password" id='password1' name='password1' placeholder="enter password"><br><br>
+    <lable for="password2">Confirm password</lable>
+    <input type="password" id='password2' name='password2' placeholder="confirm password"><br><br>
+    <input type="radio" name="org_type" id="restaurant_select" value='restaurant' checked>
+    <label for="restaurant_select">restaurant</label>
+    <input type="radio" name="org_type" id="npo_select" value='npo'>
+    <label for="npo_select">NPO</label><br><br>
+    <input type="submit" value="Submit">
+</form>
 {% endblock %}

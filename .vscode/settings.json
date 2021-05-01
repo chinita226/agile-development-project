@@ -20,7 +20,19 @@
     "python.linting.mypyEnabled": true,
     "python.linting.pylintEnabled": true,
 
+    "python.linting.pylintArgs": [
+        "--load-plugins",
+        "pylint_flask_sqlalchemy",
+        "pylint_flask",
+        "mypy_flask_sqlalchemy",
+    ],
 
+    "python.linting.mypyArgs": [
+        "--load-plugins",
+        "mypy_flask_sqlalchemy",
+        "mypy_flask",
+        "mypy_flask_sqlalchemy",
+    ],
     // PYTHON TEST
     "python.testing.unittestEnabled": true,
 

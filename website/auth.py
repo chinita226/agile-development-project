@@ -11,13 +11,13 @@ auth = Blueprint('auth', __name__)
 def login():
     """Route to restaurants users, return login template."""
     if request.method == 'POST':
-        username = request.form.get('userName')
+        userName = request.form.get('username')
         password = request.form.get('password')
 
-        user = User.query.filter_by(user_name=username).first()
+        user = User.query.filter_by(user_name=userName).first()
         if user:
             if check_password_hash(user.password, password):
-                flash("Log in for restaurant user successfully", category='success')
+                flash("Log in successfully", category='success')
                 return redirect(url_for('views.home'))
 
     return render_template("login.html")
@@ -38,7 +38,7 @@ def sign_up():
             new_user = User(user_name=username, password=generate_password_hash(password1, method='sha256'))
             db.session.add(new_user)
             db.session.commit()
-            flash('Restaurant account created!', category='success')
+            flash('Your account has been created!', category='success')
             return redirect(url_for('views.home'))
 
     return render_template("signup.html")

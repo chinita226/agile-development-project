@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for
 from werkzeug.security import generate_password_hash, check_password_hash
-from .models import Restaurants, Orgazations
+from .models import Restaurants, Organizations
 from . import db
 
 
@@ -15,6 +15,12 @@ def login():
         password = request.form.get('password')
         user_type = request.form.get('org_type')
 
+        table = Restaurants if user_type == 'restaurant' else Organizations
+        user = table.query.filter_by(user_name=username).first()
+        if user and check_password_hash(user.password, password):
+            flash("Log in for restaurant user successfully", category='success')
+            return redirect(url_for('views.home'))
+
         if user_type == 'restaurant':
             user = Restaurants.query.filter_by(user_name=username).first()
             if user:
@@ -22,7 +28,7 @@ def login():
                     flash("Log in for restaurant user successfully", category='success')
                     return redirect(url_for('views.home'))
         else:
-            user = Orgazations.query.filter_by(user_name=username).first()
+            user = Organizations.query.filter_by(user_name=username).first()
             if user:
                 if check_password_hash(user.password, password):
                     flash("Log in for npo successfully", category='success')

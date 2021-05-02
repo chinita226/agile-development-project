@@ -1,7 +1,7 @@
 
-from website import create_web
+from website import create_app
 
-web = create_web()
+app = create_app()
 
 if __name__ == "__main__":
-    web.run(debug=True)
+    app.run(debug=True)

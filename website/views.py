@@ -14,4 +14,7 @@ def home():
 @views.route('/npo', methods=['GET', 'POST'])
 @login_required
 def npo_view():
+    attrs = [current_user.user_name, current_user.password]
+    for i in attrs:
+        print(i)
     return "<h1>It works for NPO</h1>"

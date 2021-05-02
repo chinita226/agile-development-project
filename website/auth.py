@@ -29,6 +29,7 @@ def login():
                     return redirect(url_for('views.home'))
     return render_template("login.html")
 
+
 @auth.route('/sign-up', methods=['GET', 'POST'])
 def sign_up():
     if request.method == 'POST':

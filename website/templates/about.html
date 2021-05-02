@@ -1,6 +1,18 @@
 {% extends "base.html" %}
 {% block title %}About Yummy Savior{% endblock %}
 {% block content %}
+<style>
+  
+
+#container1{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100;
+    height: 60px;
+}
+</style>
 <form method="POST">
     <h3 align="center">Yummy Savior</h3>
     <h5 align="center">What is Yummy Savior?</h5>
@@ -12,5 +24,8 @@
         At the heart of Yummy Savior, our mission is to promote responsible consumption and production. 
         Our vision is to help build a circular economy at large. 
     </h6>
+    <div id="container1">
+    <footer>Copyright © 2021-2022 Yummy Saviour
+        All Rights are reserved</footer></div>
 </form>
 {% endblock %}

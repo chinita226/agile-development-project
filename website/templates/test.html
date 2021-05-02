@@ -1,17 +1,52 @@
 {% extends "base.html" %} {% block title %}Login{% endblock %}
 {% block content %}
-<h1>Sign up</h1>
+<style>
+    
+    .submitbtn {
+      color: white;
+      padding: 14px 20px;
+      margin: 8px 0;
+      border: none;
+      cursor: pointer;
+      width: auto;
+      padding: 10px 18px;
+      background-color: green;
+    }
+    
+    /* Center the image */
+    .imgcontainer {
+      text-align: center;
+        margin: 10px;
+      position: relative;
+    }
+    
+    img.user {
+      width: 20%;
+      border-radius: 50%;
+    }
+    
+    .container {
+      padding: 16px;
+    
+    </style>
+
+<h1>Sign Up</h1>
+<p>Please fill in this form to create an account.</p>
 <form method="POST">
+    <div class="imgcontainer">
+    <img src="../static/user.jpg" width="150" height="150" alt=""/> </div>
     <label for="name">Username</label>
-    <input type="text" id='username' name='username' placeholder="enter username"><br><br>
+    <input type="text" id='username' name='username' placeholder="Enter username"><br><br>
     <label for="password">Password</label>
-    <input type="password" id='password1' name='password1' placeholder="enter password"><br><br>
+    <input type="password" id='password1' name='password1' placeholder="Enter password"><br><br>
     <lable for="password2">Confirm password</lable>
-    <input type="password" id='password2' name='password2' placeholder="confirm password"><br><br>
+    <input type="password" id='password2' name='password2' placeholder="Confirm password"><br><br>
     <input type="radio" name="org_type" id="restaurant_select" value='restaurant' checked>
-    <label for="restaurant_select">restaurant</label>
+    <label for="restaurant_select">Restaurant</label><br>
     <input type="radio" name="org_type" id="npo_select" value='npo'>
     <label for="npo_select">NPO</label><br><br>
-    <input type="submit" value="Submit">
+    <div class="container" style="background-color:#f1f1f1">
+    <input type="submit" value="Submit"class="submitbtn">
+	</div>
 </form>
 {% endblock %}

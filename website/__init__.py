@@ -23,13 +23,13 @@ def create_app():
 
     @login_manager.user_loader
     def load_restaurant(id):
-        return Restaurants.query.get(id)
+        return Restaurants.query.get(int(id))
 
     from .models import Organizations
 
     @login_manager.user_loader
     def load_organization(id):
-        return Organizations.query.get(id)
+        return Organizations.query.get(int(id))
 
     from website.auth import auth
     from website.views import views

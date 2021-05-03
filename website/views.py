@@ -3,7 +3,7 @@ from flask.helpers import url_for
 from flask_login.utils import login_required, current_user
 from werkzeug.utils import redirect
 from . import db
-
+from flask_login import login_required, current_user
 
 views = Blueprint('views', __name__)
 

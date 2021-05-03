@@ -1,43 +1,18 @@
-"""Module for database actions."""
-import sqlite3
-from sqlite3 import Error
+from . import db
+from flask_login import UserMixin
  
  
-def create_database(db_path):
-    """Create an SQLite database."""
-    connection = None
-    try:
-        connection = sqlite3.connect(db_path)
- 
-    except Error as e:
-        print(e)
- 
-    finally:
-        if connection:
-            connection.close()
+class User(UserMixin, db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(25), unique=True, nullable=False)
+    password = db.Column(db.String(30), nullable=False)
+    user_type = db.Column(db.String(30), nullable=False)
+    foods = db.relationship('Food')
  
  
-def query(sql):
-    """Get data from database."""
-    with sqlite3.connect('database.db') as con:
-        try:
-            cur = con.cursor()
-            cur.execute(sql)
-            res = cur.fetchall()
-        except Error as e:
-            print(e)
- 
-    return res
+class Food(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    food_name = db.Column(db.String(25))
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
  
  
-def update(sql):
-    """Maniulate data in the database."""
-    with sqlite3.connect('database.db') as con:
-        try:
-            cur = con.cursor()
-            cur.execute(sql)
-            con.commit()
-        except Error as e:
-            print(e)
- 
-

@@ -11,7 +11,21 @@ def create_app():
     app.config['SECRET_KEY'] = 'whhhhhaaatteeverr'
     app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{DB_NAME}'
     db.init_app(app)
+<<<<<<< HEAD
  
+=======
+
+    login_manager = LoginManager()
+    login_manager.login_view = 'auth.login'
+    login_manager.init_app(app)
+
+    from .models import User
+
+    @login_manager.user_loader
+    def load_user(id):
+        return User.query.get(int(id))
+
+>>>>>>> 741512dbe7ca26d0197c05a8612fabf3541b2cf4
     from website.auth import auth
     from website.views import views
  
@@ -21,6 +35,7 @@ def create_app():
     from .models import User
  
     create_table(app)
+<<<<<<< HEAD
  
     login_manager = LoginManager()
     login_manager.login_view = 'auth.login'
@@ -30,6 +45,9 @@ def create_app():
     def load_user(id):
         return User.query.get(int(id))
     
+=======
+
+>>>>>>> 741512dbe7ca26d0197c05a8612fabf3541b2cf4
     return app
  
 def create_table(app):

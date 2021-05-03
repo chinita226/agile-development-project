@@ -8,5 +8,5 @@ flake8-polyfill
 pylint
 
 # Flask framework
-Flask
+flask
 

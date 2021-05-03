@@ -47,8 +47,14 @@ def about():
 @views.route('/<user>')
 @login_required
 def dashboard(user):
+    # Show restaurant page
     if current_user.user_type == 'restaurant':
         return render_template('restaurant.html')
+<<<<<<< HEAD
     elif current_user.user_type == 'organization':
         return render_template('npo.html')
 >>>>>>> 741512dbe7ca26d0197c05a8612fabf3541b2cf4
+=======
+    # Show NPO page
+    return render_template('npo.html')
+>>>>>>> 7a445a38d4eb6826dec620267b1612219072d2c3

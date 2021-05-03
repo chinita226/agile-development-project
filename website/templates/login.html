@@ -1,50 +1,17 @@
 {% extends "base.html" %} {% block title %}Login{% endblock %}
 {% block content %}
-
-<style>
-    
-.submitbtn {
-  color: white;
-      padding: 14px 20px;
-      margin: 8px 0;
-      border: none;
-      cursor: pointer;
-      width: auto;
-      padding: 10px 18px;
-      background-color: green;
-}
-
-/* Center the image */
-.imgcontainer {
-  text-align: center;
-	margin: 10px;
-  position: relative;
-}
-
-img.user {
-  width: 20%;
-  border-radius: 50%;
-}
-
-.container {
-  padding: 16px;
-
-</style>
 <h1>Log in</h1>
 <form method="POST">
-    <div class="imgcontainer">
-    <img src="../static/user.jpg" width="150" height="150" alt=""/> </div>
     <label for="name">Username</label>
-    <input type="text" id="username" name="username" placeholder="Enter username"><br><br>
+    <input type="text" id='username' name='username' placeholder="enter username"><br><br>
     <label for="password">Password</label>
-    <input type="password" id="password" name="password" placeholder="Enter password"><br><br>
-    <input type="radio" name="org_type" id="restaurant_select" value="Restaurant" checked>
-    <label for="restaurant_select">Restaurant</label><br>
-    <input type="radio" name="org_type" id="npo_select" value="npo">
+    <input type="password" id='password' name='password' placeholder="enter password"><br><br>
+    <input type="radio" name="org_type" id="restaurant_select" value='restaurant' checked>
+    <label for="restaurant_select">restaurant</label>
+    <input type="radio" name="org_type" id="npo_select" value='npo'>
     <label for="npo_select">NPO</label><br><br>
-	<div class="container" style="background-color:#f1f1f1">
-    <input type="submit" value="Submit"class="submitbtn">
-	</div>
+    <input type="submit" value="Submit">
 </form>
-
+ 
 {% endblock %}
+ 

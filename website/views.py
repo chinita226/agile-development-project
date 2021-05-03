@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, flash
+from flask import Blueprint, render_template
 from flask.helpers import url_for
 from flask_login.utils import login_required, current_user
 from werkzeug.utils import redirect

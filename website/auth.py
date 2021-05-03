@@ -1,9 +1,6 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for
-<<<<<<< HEAD
-=======
 from flask_login import login_user
 from flask_login.utils import login_required, logout_user
->>>>>>> 741512dbe7ca26d0197c05a8612fabf3541b2cf4
 from werkzeug.security import generate_password_hash, check_password_hash
 from .models import User
 from . import db
@@ -11,65 +8,20 @@ from flask_login import login_user, login_required, logout_user, current_user
  
  
 auth = Blueprint('auth', __name__)
-<<<<<<< HEAD
  
  
-@auth.route('/login', methods=['GET', 'POST'])
-def login():
-    """Route to restaurants users, return login template."""
-    if request.method == 'POST':
-        userName = request.form.get('username')
-        password = request.form.get('password')
-        user_type = request.form.get('org_type')
- 
-        user = User.query.filter_by(user_name=userName).first()
-        if user:
-            if check_password_hash(user.password, password):
-                flash("Log in successfully", category='success')
-                login_user(user, remember=True)
-                if user_type == 'restaurant':
-                    return redirect(url_for('views.home'))
-                return redirect(url_for('views.npo_view'))
- 
-    return render_template("login.html")
- 
-@auth.route('/sign-up', methods=['GET', 'POST'])
-def sign_up():
-    if request.method == 'POST':
-        username = request.form.get('username')
-        password1 = request.form.get('password1')
-        password2 = request.form.get('password2')
- 
-        user = User.query.filter_by(user_name=username).first()
-        if user:
-            flash('A restaurant user with same name already exists.', category='error')
-        elif password1 != password2:
-            flash('Password must be the same.', category='error')
-        else:
-            new_user = User(user_name=username, password=generate_password_hash(password1, method='sha256'))
-            db.session.add(new_user)
-            db.session.commit()
-            flash('Your account has been created!', category='success')
-            return redirect(url_for('auth.login'))
- 
-    return render_template("signup.html")
- 
-@auth.route('/logout')
-=======
-
-
 @auth.route('/signup')
 def signup():
     """Signup get request."""
     return render_template('signup.html')
-
-
+ 
+ 
 @auth.route('/login')
 def login():
     """Login get request."""
     return render_template('login.html')
-
-
+ 
+ 
 @auth.route('/login', methods=['POST'])
 def login_post():
     """Login post request, when a user tries to log in."""
@@ -77,26 +29,26 @@ def login_post():
     username = request.form.get('username')
     password = request.form.get('password')
     user_type = request.form.get('org_type')
-
+ 
     # Find the user in the database
     user = User.query.filter_by(username=username).first()
-
+ 
     # If no user was found or the password was incorrect create error message
     # and redirect to the login page to display it.
     if not user or not check_password_hash(user.password, password):
         flash('Incorrect username or password!', category='error')
         return redirect(url_for('auth.login'))
-
+ 
     # If the above block didnt run, there is a user with the correct
     # credentials. Log the user in and create success message.
-
+ 
     login_user(user)
-
+ 
     flash("Log in Successful!", category='success')
-
+ 
     return redirect(url_for('views.dashboard', user=user.username))
-
-
+ 
+ 
 @auth.route('/signup', methods=['POST'])
 def signup_post():
     """Signup post request, when a user tries to register."""
@@ -105,10 +57,10 @@ def signup_post():
     password = request.form.get('password')
     confirm = request.form.get('confirm')
     user_type = request.form.get('org_type')
-
+ 
     # Check if there is a user in the database with the entered username
     user = User.query.filter_by(username=username).first()
-
+ 
     # If there is a user, that username is not available. Create error msg
     if user:
         flash('Username not available!', category='error')
@@ -122,7 +74,7 @@ def signup_post():
         user = User(username=username,
                     password=generate_password_hash(password, method='sha256'),
                     user_type=user_type)
-
+ 
         # Add the user to the database
         db.session.add(user)
         # Save the changes to the database
@@ -133,14 +85,13 @@ def signup_post():
         login_user(user)
         # redirect the user to the dashboard
         return redirect(url_for('views.dashboard', user=user.username))
-
+ 
     # If the else block above didn't run, refresh the signup page
     # to display messages to user.
     return redirect(url_for('auth.signup'))
-
-
+ 
+ 
 @auth.route('/logout', methods=['POST'])
->>>>>>> 741512dbe7ca26d0197c05a8612fabf3541b2cf4
 @login_required
 def logout():
     logout_user()

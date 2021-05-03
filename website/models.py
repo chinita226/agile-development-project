@@ -9,11 +9,7 @@ class Restaurants(UserMixin, db.Model):
     foods = db.relationship('Food')
 
 
-<<<<<<< HEAD
-class Organizations(db.Model):
-=======
 class Organizations(UserMixin, db.Model):
->>>>>>> tian
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(25), unique=True)
     password = db.Column(db.String(30))

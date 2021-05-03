@@ -9,14 +9,7 @@ pylint
 
 # Flask framework
 flask
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
 flask-sqlalchemy
 flask-login
->>>>>>> e20e89ec37ab91824b8f43c065a80025d5ccf56a
-=======
-flask-sqlalchemy
-flask-login
->>>>>>> 741512dbe7ca26d0197c05a8612fabf3541b2cf4
+
 

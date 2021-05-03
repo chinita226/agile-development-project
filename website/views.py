@@ -30,5 +30,9 @@ def dashboard(user):
     if current_user.user_type == 'restaurant':
         return render_template('restaurant.html')
     # Show NPO page
+<<<<<<< HEAD
     return render_template('npo.html')
  
+=======
+    return render_template('npo.html')
+>>>>>>> 0ffb5b48a2aeb17e2a0847830de6377dfb6871c1

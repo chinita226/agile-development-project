@@ -2,7 +2,7 @@ from flask import Blueprint, render_template, request, flash, redirect, url_for
 from flask_login import login_user
 from flask_login.utils import login_required, logout_user, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
-from .models import Restaurants, Organizations
+from .models import User
 from . import db
 
 
@@ -30,10 +30,7 @@ def login_post():
     user_type = request.form.get('org_type')
 
     # Find the user in the database
-    if user_type == 'restaurant':
-        user = Restaurants.query.filter_by(username=username).first()
-    else:
-        user = Organizations.query.filter_by(username=username).first()
+    user = User.query.filter_by(username=username).first()
 
     # If no user was found or the password was incorrect create error message
     # and redirect to the login page to display it.
@@ -61,24 +58,21 @@ def signup_post():
     user_type = request.form.get('org_type')
 
     # Check if there is a user in the database with the entered username
-    if user_type == 'restaurant':
-        user = Restaurants.query.filter_by(username=username).first()
-    else:
-        user = Organizations.query.filter_by(username=username).first()
+    user = User.query.filter_by(username=username).first()
 
-    # If there is a user, that username is not available
+    # If there is a user, that username is not available. Create error msg
     if user:
         flash('Username not available!', category='error')
-    # If no user with entered username, confirm the passwords match.
+    # If no user with entered username, confirm the passwords match. If they
+    # don't match, create the error message.
     elif password != confirm:
         flash('The passwords do not match!', category='error')
     # If username unique and passwords are correct.
     else:
-        # Create the new user object from the corresponding model
-        if user_type == 'restaurant':
-            user = Restaurants(username=username, password=generate_password_hash(password, method='sha256'))
-        else:
-            user = Organizations(username=username, password=generate_password_hash(password, method='sha256'))
+        # Create the new user object
+        user = User(username=username,
+                    password=generate_password_hash(password, method='sha256'),
+                    user_type=user_type)
 
         # Add the user to the database
         db.session.add(user)
@@ -96,11 +90,11 @@ def signup_post():
     return redirect(url_for('auth.signup'))
 
 
-@auth.route('/logout')
+@auth.route('/logout', methods=['POST'])
 @login_required
 def logout():
     logout_user()
-    return redirect(url_for('views.home'))
+    return redirect(url_for('auth.login'))
 
 
 class Auth():

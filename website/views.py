@@ -11,7 +11,10 @@ views = Blueprint('views', __name__)
 @views.route('/')
 def home():
     """Route to home page."""
-    return render_template('index.html')
+    if current_user.is_authenticated:
+        return redirect(url_for('views.dashboard', user=current_user.username))
+
+    return redirect(url_for('auth.login'))
 
 
 @views.route('/about')
@@ -23,4 +26,7 @@ def about():
 @views.route('/<user>')
 @login_required
 def dashboard(user):
-    return render_template('dashboard.html', user=current_user.username)
+    if current_user.user_type == 'restaurant':
+        return render_template('restaurant.html')
+    elif current_user.user_type == 'organization':
+        return render_template('npo.html')

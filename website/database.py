@@ -39,3 +39,5 @@ def update(sql):
             con.commit()
         except Error as e:
             print(e)
+ 
+

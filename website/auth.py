@@ -61,4 +61,4 @@ class Auth():
         """Test method."""
         print("test")
  
- 
+

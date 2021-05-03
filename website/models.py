@@ -13,3 +13,5 @@ class Food(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     food_name = db.Column(db.String(25))
     users_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+ 
+

@@ -45,3 +45,7 @@
     height: 45px;
     width: auto;
 }
+
+#register > input {
+    display: block;
+}

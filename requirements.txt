@@ -9,6 +9,8 @@ pylint
 
 # Flask framework
 flask
+flask-sqlalchemy
+flask-login
 
 #database
 pysqlite3

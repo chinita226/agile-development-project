@@ -1,10 +1,16 @@
-import unittest.mock
-from website import auth
+import unittest
+from website import app
 
+def test_new_user():
+    """
+    GIVEN a User model
+    WHEN a new User is created
+    THEN check the email, hashed_password, and role fields are defined correctly
+    """
+    user = User('abc', 'FlaskIsAwesome')
+    assert user.username == 'abc'
+    assert user.hashed_password == 'FlaskIsAwesome'
+ 
+if __name__ == "__main__":
+    unittest.main()
 
-class TestAuth(unittest.TestCase):
-
-    @unittest.mock.patch("builtins.print", autospec=True, side_effect=print)
-    def test_login(self, mock_print):
-        auth.Auth.login(auth)
-        mock_print.assert_called_with("test")

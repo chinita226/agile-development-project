@@ -5,10 +5,9 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from .models import User
 from . import db
 from flask_login import login_user, login_required, logout_user, current_user
- 
- 
+
 auth = Blueprint('auth', __name__)
- 
+
  
 @auth.route('/signup')
 def signup():
@@ -97,9 +96,3 @@ def logout():
     logout_user()
     return redirect(url_for('auth.login'))
  
-class Auth():
-    """Test purpose."""
- 
-    def login(self):
-        """Test method."""
-        print("test")

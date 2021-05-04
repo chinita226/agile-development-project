@@ -10,11 +10,6 @@ def home():
     """Route to home page."""
     return render_template("about.html")
 
-@views.route('/about')
-def about():
-    return render_template("about.html")
-
-
 # current_user is the object for the logged in user.
 @views.route('/<user>')
 @login_required

@@ -44,3 +44,15 @@ class TestView(unittest.TestCase):
         views.View.about(views)
         mock_print.assert_called_with("NPO")
         
+        
+class FlaskClientTestCase(unittest.TestCase):
+        @self.app.route("/")
+                def about():
+                        return render_template('about.html')
+
+     def test_home(self):
+                response = self.client.get('/')
+                self.assertTrue('Yummy' in response.get_data(as_text=True))
+                suite = unittest.TestLoader().loadTestsFromTestCase(FlaskClientTestCase)
+                unittest.TextTestRunner(verbosity=2).run(suite)
+

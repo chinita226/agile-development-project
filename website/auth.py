@@ -54,10 +54,12 @@ def signup_post():
     password = request.form.get('password')
     confirm = request.form.get('confirm')
     user_type = request.form.get('org_type')
- 
+    businessname = request.form.get('businessname')
+    location = request.form.get('location')
+
     # Check if there is a user in the database with the entered username
     user = User.query.filter_by(username=username).first()
- 
+    user = User.query.filter_by(businessname=businessname).first()
     # If there is a user, that username is not available. Create error msg
     if user:
         flash('Username not available!', category='error')
@@ -66,10 +68,14 @@ def signup_post():
     elif password != confirm:
         flash('The passwords do not match!', category='error')
     # If username unique and passwords are correct.
+    elif businessname:
+        flash('Business name is already in use!', category='error')
     else:
         # Create the new user object
         user = User(username=username,
                     password=generate_password_hash(password, method='sha256'),
+                    businessname=businessname,
+                    location=location,
                     user_type=user_type)
  
         # Add the user to the database

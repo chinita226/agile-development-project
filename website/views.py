@@ -1,7 +1,4 @@
-from flask import Blueprint, render_template
-from flask.helpers import url_for
-from flask_login.utils import login_required, current_user
-from werkzeug.utils import redirect
+from flask import Blueprint, render_template, redirect, url_for
 from . import db
 from flask_login import login_required, current_user
  
@@ -11,6 +8,7 @@ views = Blueprint('views', __name__)
 @views.route('/')
 def home():
     """Route to home page."""
+<<<<<<< HEAD
     if current_user.is_authenticated:
         return redirect(url_for('views.dashboard', user=current_user.username))
  
@@ -22,6 +20,10 @@ def about():
     return render_template("about.html")
  
  
+=======
+    return render_template("about.html")
+
+>>>>>>> a9d16e18ee39a33b6919e3608fedd74c8349f54f
 # current_user is the object for the logged in user.
 @views.route('/<user>')
 @login_required

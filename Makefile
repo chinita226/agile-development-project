@@ -31,19 +31,6 @@ clean-doc:
 clean-all: clean clean-doc
 	rm -rf .venv
 
-database:
-	$(PYTHON) -c 'import website.database as db; db.create_database("database.db")'
-
-	sqlite3 database.db < ./db/schema.sql
-
-	sqlite3 database.db \
-	-cmd ".mode csv" \
-	-cmd ".import ./db/restaurants.csv restaurants" \
-	-cmd ".import ./db/foods.csv foods" \
-	-cmd ".import ./db/foods_orders.csv foods_orders" \
-	-cmd ".import ./db/orders.csv orders" \
-	-cmd ".import ./db/organizations.csv organizations"
-
 app:
 	$(PYTHON) website/main.py
 

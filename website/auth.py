@@ -69,7 +69,6 @@ def signup_post():
     elif password != confirm:
         flash('The passwords do not match!', category='error')
     
-    
     # If username unique and passwords are correct.
     else:
         # Create the new user object

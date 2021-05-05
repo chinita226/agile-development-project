@@ -45,7 +45,6 @@ def login_post():
  
     return redirect(url_for('views.dashboard', user=user.username))
  
- 
 @auth.route('/signup', methods=['POST'])
 def signup_post():
     """Signup post request, when a user tries to register."""

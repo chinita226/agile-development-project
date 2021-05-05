@@ -63,13 +63,14 @@ def signup_post():
     # If there is a user, that username is not available. Create error msg
     if user:
         flash('Username not available!', category='error')
+        flash('This business name is not available!', category='error')
     # If no user with entered username, confirm the passwords match. If they
     # don't match, create the error message.
     elif password != confirm:
         flash('The passwords do not match!', category='error')
+    
+    
     # If username unique and passwords are correct.
-    elif businessname:
-        flash('Business name is already in use!', category='error')
     else:
         # Create the new user object
         user = User(username=username,

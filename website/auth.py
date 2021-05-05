@@ -3,10 +3,9 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from .models import User
 from . import db
 from flask_login import login_user, login_required, logout_user, current_user
- 
- 
+
 auth = Blueprint('auth', __name__)
- 
+
  
 @auth.route('/signup')
 def signup():
@@ -57,10 +56,14 @@ def signup_post():
     user_type = request.form.get('org_type')
     businessname = request.form.get('businessname')
     location = request.form.get('location')
+<<<<<<< HEAD
  
+=======
+
+>>>>>>> 32b61bd1b967022599db072a8e0e4a06177ffd00
     # Check if there is a user in the database with the entered username
     user = User.query.filter_by(username=username).first()
- 
+    user = User.query.filter_by(businessname=businessname).first()
     # If there is a user, that username is not available. Create error msg
     if user:
         flash('Username not available!', category='error')
@@ -69,10 +72,14 @@ def signup_post():
     elif password != confirm:
         flash('The passwords do not match!', category='error')
     # If username unique and passwords are correct.
+    elif businessname:
+        flash('Business name is already in use!', category='error')
     else:
         # Create the new user object
         user = User(username=username,
                     password=generate_password_hash(password, method='sha256'),
+                    businessname=businessname,
+                    location=location,
                     user_type=user_type)
  
         # Add the user to the database
@@ -97,6 +104,7 @@ def logout():
     logout_user()
     return redirect(url_for('auth.login'))
  
+<<<<<<< HEAD
 class Auth():
     """Test purpose."""
  
@@ -104,3 +112,5 @@ class Auth():
         """Test method."""
         print("test")
  
+=======
+>>>>>>> 32b61bd1b967022599db072a8e0e4a06177ffd00

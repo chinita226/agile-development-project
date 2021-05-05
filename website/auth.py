@@ -56,11 +56,6 @@ def signup_post():
     user_type = request.form.get('org_type')
     businessname = request.form.get('businessname')
     location = request.form.get('location')
-<<<<<<< HEAD
- 
-=======
-
->>>>>>> 32b61bd1b967022599db072a8e0e4a06177ffd00
     # Check if there is a user in the database with the entered username
     user = User.query.filter_by(username=username).first()
     user = User.query.filter_by(businessname=businessname).first()
@@ -104,13 +99,3 @@ def logout():
     logout_user()
     return redirect(url_for('auth.login'))
  
-<<<<<<< HEAD
-class Auth():
-    """Test purpose."""
- 
-    def login(self):
-        """Test method."""
-        print("test")
- 
-=======
->>>>>>> 32b61bd1b967022599db072a8e0e4a06177ffd00

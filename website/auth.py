@@ -55,6 +55,8 @@ def signup_post():
     password = request.form.get('password')
     confirm = request.form.get('confirm')
     user_type = request.form.get('org_type')
+    businessname = request.form.get('businessname')
+    location = request.form.get('location')
  
     # Check if there is a user in the database with the entered username
     user = User.query.filter_by(username=username).first()

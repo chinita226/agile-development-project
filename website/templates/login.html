@@ -1,7 +1,8 @@
 {% extends "base.html" %} {% block title %}Login{% endblock %}
 {% block content %}
- 
+<link rel="stylesheet" href="../static/backgroundcolor.css"> 
 <style>
+
 
 .submitbtn {
   color: white;
@@ -32,15 +33,17 @@ img.user {
 </style>
 <h1>Log in</h1>
 <form method="POST">
+    <body>
     <div class="imgcontainer">
-    <img src="../static/user.jpg" width="150" height="150" alt=""/> </div>
+    <img src="../static/user2.png" width="150" height="150" alt=""/> </div>
     <label for="name">Username</label>
     <input type="text" id="username" name="username" placeholder="Enter username"><br><br>
     <label for="password">Password</label>
     <input type="password" id="password" name="password" placeholder="Enter password"><br><br>
-  <div class="container" style="background-color:#f1f1f1">
+  <div class="container" style="background-color: rgb(228, 248, 139);">
     <input type="submit" value="Submit"class="submitbtn">
   </div>
+</body>
 </form>
  
 {% endblock %}

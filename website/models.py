@@ -7,6 +7,8 @@ class User(UserMixin, db.Model):
     username = db.Column(db.String(25), unique=True, nullable=False)
     password = db.Column(db.String(30), nullable=False)
     user_type = db.Column(db.String(30), nullable=False)
+    businessname = db.Column(db.String(30), unique=True, nullable=False)
+    location = db.Column(db.String(30), nullable=False)
     foods = db.relationship('Food')
  
  

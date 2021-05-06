@@ -49,8 +49,8 @@ def signup_post():
     """Signup post request, when a user tries to register."""
     # Retrieve the data the user entered into the form.
     username = request.form.get('username')
-    password = request.form.get('password')
-    confirm = request.form.get('confirm')
+    password = request.form.get('password1')
+    confirm = request.form.get('password2')
     businessname = request.form.get('businessname')
     location = request.form.get('location')
     user_type = request.form.get('org_type')

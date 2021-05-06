@@ -32,7 +32,9 @@ def login_post():
  
     # If no user was found or the password was incorrect create error message
     # and redirect to the login page to display it.
-
+    if not user or not check_password_hash(user.password, password):
+        flash('Incorrect username or password!', category='error')
+        return redirect(url_for('auth.login'))
  
     # If the above block didnt run, there is a user with the correct
     # credentials. Log the user in and create success message.

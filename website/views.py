@@ -16,6 +16,6 @@ def home():
 def dashboard(user):
     # Show restaurant page
     if current_user.user_type == 'restaurant':
-        return render_template('restaurant.html')
+        return render_template('restaurant.html', businessname=current_user.businessname)
     # Show NPO page
-    return render_template('npo.html')
+    return render_template('npo.html', businessname=current_user.businessname)

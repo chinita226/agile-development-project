@@ -33,14 +33,21 @@ def sign_up():
         username = request.form.get('username')
         password1 = request.form.get('password1')
         password2 = request.form.get('password2')
+        businessname = request.form.get('businessname')
+        location = request.form.get('location')
+    # Check if there is a user in the database with the entered username
+    user = User.query.filter_by(username=username).first()
+    user = User.query.filter_by(businessname=businessname).first()
+    # If there is a user, that username is not available. Create error msg
+    if user:
+        flash('This username is already taken!', category='error')
+        flash('This business name is already in use!', category='error')
  
-        user = User.query.filter_by(user_name=username).first()
-        if user:
-            flash('A restaurant user with same name already exists.', category='error')
-        elif password1 != password2:
+    elif password1 != password2:
             flash('Password must be the same.', category='error')
-        else:
-            new_user = User(user_name=username, password=generate_password_hash(password1, method='sha256'))
+ 
+    else:
+            new_user = User(user_name=username, password=generate_password_hash(password1, method='sha256',))
             db.session.add(new_user)
             db.session.commit()
             flash('Your account has been created!', category='success')
@@ -60,3 +67,5 @@ class Auth():
     def login(self):
         """Test method."""
         print("test")
+ 
+ 

@@ -32,7 +32,12 @@ def login_post():
  
     # If no user was found or the password was incorrect create error message
     # and redirect to the login page to display it.
-
+    if not user:
+        flash("Incorrect username!", category='error')
+        return redirect(url_for('auth.login'))
+    elif not check_password_hash(user.password, password):
+        flash('Incorrect password!', category='error')
+        return redirect(url_for('auth.login'))
  
     # If the above block didnt run, there is a user with the correct
     # credentials. Log the user in and create success message.
@@ -58,10 +63,11 @@ def signup_post():
 
     # Check if there is a user in the database with the entered username
     user = User.query.filter_by(username=username).first()
- 
+    user_business = User.query.filter_by(businessname=businessname).first()
     # If there is a user, that username is not available. Create error msg
     if user:
         flash('Username not available!', category='error')
+    elif user_business:
         flash('Business name is already in use!', category='error')
     # If no user with entered username, confirm the passwords match. If they
     # don't match, create the error message.

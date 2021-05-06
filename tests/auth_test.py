@@ -1,6 +1,6 @@
 import unittest.mock
 from website import auth
-
+import unittest
 
 class TestAuth(unittest.TestCase):
 
@@ -8,3 +8,6 @@ class TestAuth(unittest.TestCase):
     def test_login(self, mock_print):
         auth.Auth.login(auth)
         mock_print.assert_called_with("test")
+        
+
+

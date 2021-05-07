@@ -25,5 +25,3 @@ def dashboard(user):
     return render_template('restaurant.html', businessname=current_user.businessname, food=food)
     
 
-    # Show NPO page
-#return render_template('npo.html', businessname=current_user.businessname)

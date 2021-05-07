@@ -1,6 +1,6 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
-from flask_login import LoginManager
+from flask_login import LoginManager,  login_manager
 from os import path
 
 db = SQLAlchemy()
@@ -25,6 +25,8 @@ def create_app():
     def load_user(id):
         return User.query.get(int(id))
 
+    def load_user(id):
+        return Food.query.get(int(id))
 
     from website.auth import auth
     from website.views import views
@@ -43,4 +45,3 @@ def create_table(app):
     if not path.exists('website/' + DB_NAME):
         db.create_all(app=app)
         print('Created Database!')
-        

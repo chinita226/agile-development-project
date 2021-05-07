@@ -5,13 +5,11 @@ from os import path
 
 db = SQLAlchemy()
 DB_NAME = 'test.db'
-DB_NAME2 = 'food.db'
 
 def create_app():
     app = Flask(__name__)
     app.config['SECRET_KEY'] = 'whhhhhaaatteeverr'
     app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{DB_NAME}'
-    app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{DB_NAME2}'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
     db.init_app(app)
@@ -46,8 +44,3 @@ def create_table(app):
         db.create_all(app=app)
         print('Created Database!')
         
-def create_table(app):
-    if not path.exists('website/' + DB_NAME2):
-        db.create_all(app=app)
-        print('Created Database!')
-

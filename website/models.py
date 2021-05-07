@@ -15,7 +15,4 @@ class Food(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     food_name = db.Column(db.String(25))
     users_id = db.Column(db.Integer, db.ForeignKey('user.id'))
- 
-def __repr__(self):
-        return "<Food: {}>".format(self.food_name)
 

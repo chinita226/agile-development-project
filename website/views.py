@@ -1,6 +1,4 @@
 from flask import Blueprint, render_template, request, flash
-from flask_login import UserMixin
-from models import Food
 from . import db
 from flask_login import login_required, current_user
 
@@ -16,12 +14,8 @@ def home():
 @views.route('/<user>')
 @login_required
 def dashboard(user):
-    food = Food(title=request.form.get("food"))
-    db.session.add(food)
-    db.session.commit()
-    foods = Food.query.all()
     # Show restaurant page
     if current_user.user_type == 'restaurant':
-        return render_template('restaurant.html', businessname=current_user.businessname,foods=foods)
+        return render_template('restaurant.html', businessname=current_user.businessname)
     # Show NPO page
-    return render_template('npo.html', businessname=current_user.businessname,foods=foods)
+    return render_template('npo.html', businessname=current_user.businessname)

@@ -98,14 +98,6 @@ def signup_post():
     # to display messages to user.
     return redirect(url_for('auth.signup'))
 
-@auth.route('/restaurant.html', methods=['POST'])
-def add():
-    if request.form:
-        food = Food(food_name=request.form.get("food_name"))
-        db.session.add(food)
-        db.session.commit()
-    return render_template("restaurant.html")
- 
  
 @auth.route('/logout', methods=['POST'])
 @login_required

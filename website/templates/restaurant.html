@@ -72,7 +72,9 @@
           <th>Quantity</th>
         </tr>
         <tr>
-          <th><input type="text" id="food_name" name="food_name" placeholder="Enter food">&nbsp;&nbsp;&nbsp;<input type="submit" value="Add"></th>
+          <th><input type="text" id="food_name" name="food_name" placeholder="Enter food"></th>
+          <th><input type="text" id="description" name="description" placeholder="Enter description"></th>
+          <th><input type="number" id="quantity" name="quantity" placeholder="Enter amount">&nbsp;&nbsp;&nbsp;<input type="submit" value="Add"></th>
         </tr>
           <tr>
             <th><input type="text" id="food_name" name="food_name[]" placeholder="Enter food"></th>
@@ -86,7 +88,6 @@
               </tr>
 
         </table>
-
       </div>
 
     </body>
@@ -96,8 +97,8 @@
 <form action="{{ url_for('auth.logout') }}" method="POST">
     <br><br>
     <h1>Foods</h1>
-    {% for food in foods %}
-      <p>{{food.foods}}</p>
+    {% for food in food %}
+      <p>{{food.food_name,food.description,food.quantity}}</p>
     {% endfor %}
     <br><br>
     <input type="submit" value="Logout">

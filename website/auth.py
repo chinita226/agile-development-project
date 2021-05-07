@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for
 from werkzeug.security import generate_password_hash, check_password_hash
 from .models import User
+from .models import Food
 from . import db
 from flask_login import login_user, login_required, logout_user, current_user
 
@@ -96,6 +97,14 @@ def signup_post():
     # If the else block above didn't run, refresh the signup page
     # to display messages to user.
     return redirect(url_for('auth.signup'))
+
+@auth.route('/restaurant.html', methods=['POST'])
+def add():
+    if request.form:
+        food = Food(food_name=request.form.get("food_name"))
+        db.session.add(food)
+        db.session.commit()
+    return render_template("restaurant.html")
  
  
 @auth.route('/logout', methods=['POST'])

@@ -18,6 +18,5 @@ class Food(db.Model):
     quantity= db.Column(db.Integer())
     users_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
-
     def repr(self):
         return "<food_name: {}>".format(self.food_name)

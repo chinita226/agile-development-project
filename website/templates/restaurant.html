@@ -54,15 +54,26 @@
       <a href="#">View all items</a>
       <a href="#">Delete items</a>
       </div>
-    </div>
-
-
-    </body>
-    </html>
-
+      <div>
+      <br><br>
+      <label for="add">Add:</label>
+      <input type="add" id="add" name="add" value="Add" placeholder="Add an item"><br><br>
+      <br><br>
+      <label for="Update">Update:</label>
+      <input type="update" id="update" name="update" value="Update" placeholder="Update an item"><br><br>
+      <br><br>
+      <label for="delete">Delete:</label>
+      <input type="delete" id="delete" name="delete"  value="Delete" placeholder="Delete an item"><br><br>
+      </div>
+      </body>
+      </html>
 
 <form action="{{ url_for('auth.logout') }}" method="POST">
     <br><br>
     <input type="submit" value="Logout">
 </form>
+
+<h1>Foods</h1>
+    {% for food in foods %}
+      <p>{{food.foods}}</p>
 {% endblock %}

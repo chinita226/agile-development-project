@@ -1,4 +1,8 @@
-$(document).ready(function() {
-    setTimeout(function() {
-        $('.alert').fadeOut('slow');
-    }, 2000)});
+function deleteFood(foodId) {
+    fetch("/delete-food", {
+        method: "POST",
+        body: JSON.stringify({ foodId: foodId }),
+    }).then((_res) => {
+        window.location.href = "/add_item";
+    });
+}

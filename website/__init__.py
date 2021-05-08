@@ -10,7 +10,6 @@ def create_app():
     app = Flask(__name__)
     app.config['SECRET_KEY'] = 'whhhhhaaatteeverr'
     app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{DB_NAME}'
-    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
     db.init_app(app)
 
@@ -25,17 +24,12 @@ def create_app():
     def load_user(id):
         return User.query.get(int(id))
 
-    def load_user(id):
-        return Food.query.get(int(id))
-
     from website.auth import auth
     from website.views import views
 
     app.register_blueprint(auth, url_prefix='/')
     app.register_blueprint(views, url_prefix='/')
 
-    from .models import User
-    from .models import Food
 
     create_table(app)
 

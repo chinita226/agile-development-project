@@ -1,5 +1,6 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for
 from werkzeug.security import generate_password_hash, check_password_hash
+# from .views import update
 from .models import User
 from .models import Food
 from . import db
@@ -105,3 +106,15 @@ def logout():
     logout_user()
     return redirect(url_for('auth.login'))
  
+# @auth.route('/restaurant', method=['POST'])
+# def updating():
+#     food_name =request.form.get('food_name')
+
+#     food = Food(id = id,
+#                 food_name = food_name,
+#                 description = description,
+#                 quantity= quantity,
+#                 users_id = users_id)
+#     db.session.add(food)
+#     update(food)
+#     return redirect(url_for('views.update', food=food))

@@ -6,7 +6,6 @@ from os import path
 db = SQLAlchemy()
 DB_NAME = 'test.db'
 
-
 def create_app():
     app = Flask(__name__)
     app.config['SECRET_KEY'] = 'whhhhhaaatteeverr'

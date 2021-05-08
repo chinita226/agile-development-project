@@ -11,11 +11,12 @@ class User(UserMixin, db.Model):
     user_type = db.Column(db.String(30), nullable=False)
     foods = db.relationship('Food')
  
-class Food(UserMixin, db.Model):
+class Food(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     food_name = db.Column(db.String(25))
+    description = db.Column(db.String(25))
+    quantity= db.Column(db.Integer())
     users_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-        
 
-    def __repr__(self):
+    def repr(self):
         return "<food_name: {}>".format(self.food_name)

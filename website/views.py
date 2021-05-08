@@ -18,12 +18,28 @@ def home():
 def dashboard(user):
     # Show restaurant page
     if current_user.user_type == 'restaurant' and request.form:
-        food = Food(food_name=request.form.get("food_name"))
+        food = Food(food_name=request.form.get("food_name"),description=request.form.get("description"),quantity=request.form.get("quantity"))
         db.session.add(food)
         db.session.commit()
     food=Food.query.all()
     return render_template('restaurant.html', businessname=current_user.businessname, food=food)
     
 
-    # Show NPO page
-#return render_template('npo.html', businessname=current_user.businessname)
+@views.route("/update/<int:id>", methods=["POST"])
+@login_required
+def update(id):
+    id = request.form['id']
+    food = Food.query.get_or_404(id)
+    db.session.commit()
+    food=Food.query.all()
+    return render_template('restaurant.html', businessname=current_user.businessname, food=food)
+
+
+@views.route("/delete", methods=["POST"])
+@login_required
+def delete():
+    id = request.form.get("id")
+    food=Food.query.filter_by(id=id).delete()
+    db.session.commit()
+    food=Food.query.all()
+    return render_template('restaurant.html',businessname=current_user.businessname,food=food)

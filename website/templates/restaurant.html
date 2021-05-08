@@ -90,7 +90,7 @@
             </form>
           </td>
           <td>
-            <form method="post" action="{{ url_for('views.delete', id=food.id)}}">
+            <form method="POST" action="{{ url_for('views.delete', id=food.id)}}">
               <input type="hidden" value="{{food.id}}" name="id">
               <input type="hidden" value="{{food.food_name}}" name="food_name">
               <input type="hidden" value="{{food.description}}" name="description">

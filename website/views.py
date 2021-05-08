@@ -35,11 +35,11 @@ def update(id):
     return render_template('restaurant.html', businessname=current_user.businessname, food=food)
 
 
-@views.route("/delete/<int:id>", methods=["POST"])
+@views.route("/delete", methods=["POST"])
 @login_required
-def delete(id):
-    id = request.form['id']
-    food = Food.query.get_or_404(id)
-    db.session.delete(food)
+def delete():
+    id = request.form.get("id")
+    food=Food.query.filter_by(id=id).delete()
     db.session.commit()
+    food=Food.query.all()
     return dashboard(current_user)

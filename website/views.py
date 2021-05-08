@@ -33,7 +33,7 @@ def update(id):
     food = Food.query.get_or_404(id)
     db.session.commit()
     food=Food.query.all()
-    return render_template('restaurant.html', businessname=current_user.businessname, food=food)
+    return redirect(url_for("views.dashboard", user=current_user))
 
 
 @views.route("/delete", methods=["POST"])

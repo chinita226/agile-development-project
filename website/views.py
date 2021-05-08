@@ -31,4 +31,4 @@ def delete():
     food=Food.query.filter_by(id=id).delete()
     db.session.commit()
     food=Food.query.all()
-    return render_template('restaurant.html',businessname=current_user.businessname,food=food)
+    return dashboard(current_user)

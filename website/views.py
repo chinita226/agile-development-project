@@ -23,17 +23,6 @@ def dashboard(user):
         db.session.commit()
     food=Food.query.all()
     return render_template('restaurant.html', businessname=current_user.businessname, food=food)
-    
-
-@views.route("/update/<int:id>", methods=["POST"])
-@login_required
-def update(id):
-    id = request.form['id']
-    food = Food.query.get_or_404(id)
-    db.session.commit()
-    food=Food.query.all()
-    return render_template('restaurant.html', businessname=current_user.businessname, food=food)
-
 
 @views.route("/delete", methods=["POST"])
 @login_required

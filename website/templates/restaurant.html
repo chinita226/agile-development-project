@@ -73,22 +73,24 @@
 
     <h1>Foods</h1>
     <table>
+      <th>View</th>
+      <th>Food Name &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp  Description &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp Quantity </th>
+      <th>Remove item</th>
       {% for food in food %}
         <tr>
           <td>
             {{food.food_name, food.description, food.quantity}}
           </td>
           <td>
-            <form method="POST" action="./update" style="display: inline">
+            <form method="POST" >
               <input type="hidden" value="{{food.id}}" name="id">
               <input type="text" value="{{food.food_name}}" name="food_name">
               <input type="text" value="{{food.description}}" name="description">
               <input type="text" value="{{food.quantity}}" name="quantity">
-              <input type="submit" value="Update">
             </form>
           </td>
           <td>
-            <form method="POST" action="./delete" style="display: inline">
+            <form method="POST" action="delete" style="display: inline">
               <input type="hidden" value="{{food.id}}" name="id">
               <input type="hidden" value="{{food.food_name}}" name="food_name">
               <input type="hidden" value="{{food.description}}" name="description">

@@ -42,5 +42,4 @@ def delete(id):
     food = Food.query.get_or_404(id)
     db.session.delete(food)
     db.session.commit()
-    #food=Food.query.all()
-    return redirect(url_for('views.dashboard', user=current_user))
+    return dashboard(current_user)

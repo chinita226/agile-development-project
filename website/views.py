@@ -31,6 +31,7 @@ def update(id):
     id = request.form['id']
     food = Food.query.get_or_404(id)
     db.session.commit()
+    food=Food.query.all()
     return render_template('restaurant.html', businessname=current_user.businessname, food=food)
 
 
@@ -41,4 +42,4 @@ def delete():
     food=Food.query.filter_by(id=id).delete()
     db.session.commit()
     food=Food.query.all()
-    return render_template('restaurant.html', businessname=current_user.businessname, food=food)
+    return render_template('restaurant.html',businessname=current_user.businessname,food=food)

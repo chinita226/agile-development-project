@@ -80,17 +80,16 @@
           </td>
           <td>
             <form method="POST" action="./update" style="display: inline">
-              <input type="hidden" value="{{food.food_name}}" name="oldname">
-              <input type="text" value="{{food.food_name}}" name="newname">
-              <input type="hidden" value="{{food.description}}" name="olddescription">
-              <input type="text" value="{{food.description}}" name="newdescription">
-              <input type="hidden" value="{{food.quantity}}" name="oldquantity">
-              <input type="text" value="{{food.quantity}}" name="newquantity">
+              <input type="hidden" value="{{food.id}}" name="id">
+              <input type="text" value="{{food.food_name}}" name="food_name">
+              <input type="text" value="{{food.description}}" name="description">
+              <input type="text" value="{{food.quantity}}" name="quantity">
               <input type="submit" value="Update">
             </form>
           </td>
           <td>
             <form method="POST" action="./delete" style="display: inline">
+              <input type="hidden" value="{{food.id}}" name="id">
               <input type="hidden" value="{{food.food_name}}" name="food_name">
               <input type="hidden" value="{{food.description}}" name="description">
               <input type="hidden" value="{{food.quantity}}" name="quantity">

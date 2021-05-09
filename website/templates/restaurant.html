@@ -1,53 +1,12 @@
 {% extends "base.html" %} {% block title %}Login{% endblock %}
 {% block content %}
+
 <link rel="stylesheet" href="../static/backgroundcolor.css">
+
 <h1>Welcome to Yummy Saviour, {{ businessname }}!</h1>
 <h2>Restaurant</h2>
+
 <style>
-
-    .addbtn { background-color: whitesmoke;
-
-    }
-
-    .dropbtn {
-      background-color: #002aff98;
-      color: white;
-      padding: 16px;
-      font-size: 16px;
-      border: none;
-      cursor: pointer;
-    }
-
-    .dropdown {
-      position: relative;
-      display: inline-block;
-    }
-
-    .dropdown-content {
-      display: none;
-      position: absolute;
-      background-color: #f9f9f9;
-      min-width: 160px;
-      box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0);
-      z-index: 1;
-    }
-
-    .dropdown-content a {
-      color: black;
-      padding: 12px 16px;
-      text-decoration: none;
-      display: block;
-    }
-
-    .dropdown-content a:hover {background-color: #f1f1f1}
-
-    .dropdown:hover .dropdown-content {
-      display: block;
-    }
-
-    .dropdown:hover .dropbtn {
-      background-color: #121b49;
-    }
 
     table, th, td {
       border: 1px solid black;
@@ -58,48 +17,46 @@
       text-align: left;
     }
     </style>
-    <form method="POST">
     </head>
+
     <body>
 
+    <h1>List of Foods</h1>
 
-      <h1>List of Foods</h1>
     <form  method="POST">
       <th>Food Name <input type="text" name="food_name"></th>
       <th>Description <input type="text" name="description"></th> 
       <th>Quantity <input type="text" name="quantity"> <input type="submit" value="Add"></th>
-
     </form>
 
     <h1>Foods</h1>
+
     <table>
       <th>View</th>
       <th>Food Name &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp  Description &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp Quantity </th>
       <th>Update item</th>
       <th>Remove item</th>
+
       {% for food in food %}
         <tr>
           <td>
             {{food.food_name, food.description, food.quantity}}
           </td>
+
           <td>
-            <form method="POST" action="{{ url_for('views.update', id=food.id)}}">
+            <form action="{{ url_for('views.update', id=food.id)}}" method="POST">
                 <input type="hidden" value="{{food.food_name}}" name="oldname">
                 <input type="text" value="{{food.food_name}}" name="newname">
                 <input type="hidden" value="{{food.description}}" name="oldndes">
                 <input type="text" value="{{food.description}}" name="newdes">
                 <input type="hidden" value="{{food.quantity}}" name="oldquantity">
                 <input type="text" value="{{food.quantity}}" name="newquantity">
-                <!-- <input type="submit" value="Update">
-              <input type="hidden" value="{{food.id}}" name="id">
-              <input type="text" value="{{food.food_name}}" name="food_name">
-              <input type="text" value="{{food.description}}" name="description">
-              <input type="text" value="{{food.quantity}}" name="quantity"> -->
               <td><input type="submit" name="update" value="Update"></td>
             </form>
           </td>
+
           <td>
-            <form method="POST" action="{{ url_for('views.delete', id=food.id)}}">
+            <form action="{{ url_for('views.delete', id=food.id)}}" method="POST" >
               <input type="hidden" value="{{food.id}}" name="id">
               <input type="hidden" value="{{food.food_name}}" name="food_name">
               <input type="hidden" value="{{food.description}}" name="description">
@@ -108,6 +65,7 @@
             </form>
           </td>
         </tr>
+
       {% endfor %}
     </table>
     </body>
@@ -117,4 +75,5 @@
     <br><br>
     <input type="submit" value="Logout">
 </form>
+
 {% endblock %}

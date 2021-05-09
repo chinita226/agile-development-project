@@ -11,13 +11,16 @@ class User(UserMixin, db.Model):
     user_type = db.Column(db.String(30), nullable=False)
     foods = db.relationship('Food')
  
+ 
 class Food(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     food_name = db.Column(db.String(25))
     description = db.Column(db.String(25))
     quantity= db.Column(db.Integer())
     users_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    #edit = LinkCol('Edit', 'edit', url_kwargs=dict(id='id'))
+
 
     def repr(self):
         return "<food_name: {}>".format(self.food_name)
+    
+    

@@ -1,14 +1,12 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for
 from werkzeug.security import generate_password_hash, check_password_hash
-# from .views import update
 from .models import User
-from .models import Food
 from . import db
 from flask_login import login_user, login_required, logout_user, current_user
 
+
 auth = Blueprint('auth', __name__)
 
- 
 @auth.route('/signup')
 def signup():
     """Signup get request."""
@@ -45,9 +43,7 @@ def login_post():
     # credentials. Log the user in and create success message.
  
     login_user(user)
- 
     flash("Log in Successful!", category='success')
- 
     return redirect(url_for('views.dashboard', user=user.username))
  
  
@@ -106,15 +102,3 @@ def logout():
     logout_user()
     return redirect(url_for('auth.login'))
  
-# @auth.route('/restaurant', method=['POST'])
-# def updating():
-#     food_name =request.form.get('food_name')
-
-#     food = Food(id = id,
-#                 food_name = food_name,
-#                 description = description,
-#                 quantity= quantity,
-#                 users_id = users_id)
-#     db.session.add(food)
-#     update(food)
-#     return redirect(url_for('views.update', food=food))

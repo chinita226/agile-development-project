@@ -19,9 +19,9 @@ def dashboard(user):
     # Show restaurant page
     if current_user.user_type == 'restaurant':
         food=Food.query.all()
-        return render_template('restaurant.html')
+        return render_template('restaurant.html',  businessname=current_user.businessname, food=food)
     food=Food.query.all()
-    return render_template('npo.html')
+    return render_template('npo.html' , businessname=current_user.businessname, food=food)
 
 # current_user is the object for the logged in user.
 @views.route('/<user>', methods=["GET", "POST"])

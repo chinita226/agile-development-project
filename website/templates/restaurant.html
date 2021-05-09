@@ -75,6 +75,7 @@
     <table>
       <th>View</th>
       <th>Food Name &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp  Description &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp Quantity </th>
+      <th>Update item</th>
       <th>Remove item</th>
       {% for food in food %}
         <tr>
@@ -87,7 +88,7 @@
               <input type="text" value="{{food.food_name}}" name="food_name">
               <input type="text" value="{{food.description}}" name="description">
               <input type="text" value="{{food.quantity}}" name="quantity">
-              <input type="submit" name="update" value="Update">
+              <td><input type="submit" name="update" value="Update"></td>
             </form>
           </td>
           <td>

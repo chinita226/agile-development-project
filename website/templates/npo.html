@@ -11,9 +11,9 @@
       <td>
         <form method="POST" action="./view" style="display: inline">
           <input type="hidden" value="{{food.id}}" name="id">
-          <input type="text" value="{{food.food_name}}" name="food_name">
-          <input type="text" value="{{food.description}}" name="description">
-          <input type="text" value="{{food.quantity}}" name="quantity">
+          <input type="text" value="{{food.food_name}}" name="food_name" readonly>
+          <input type="text" value="{{food.description}}" name="description" readonly>
+          <input type="text" value="{{food.quantity}}" name="quantity" readonly>
           {% endfor %}
         </form>
       </td>

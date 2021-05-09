@@ -36,14 +36,22 @@ def dashboard1(user):
     food=Food.query.all()
     return render_template('restaurant.html', businessname=current_user.businessname, food=food)
 
-@views.route("/update/<int:id>", methods=["POST"])
+@views.route("/update", methods=["POST"])
 @login_required
-def update(id):
-    id = request.form.get("id")
-    food = Food.query.get_or_404(id)
+def update():
+    newname = request.form.get("newname")
+    oldname = request.form.get("oldname")
+    newdes = request.form.get("newdes")
+    olddes = request.form.get("olddes")
+    newquantity = request.form.get("newquantity")
+    oldquantity = request.form.get("oldquantity")
+    food = Food.query.filter_by(food_name=oldname).first()
+    food = Food.query.filter_by(description=olddes).first()
+    food = Food.query.filter_by(quantity=oldquantity).first()
+    food.food_name = newname
+    food.description = newdes
+    food.quantity = newquantity
     db.session.commit()
-    food=Food.query.all()
-    flash("Item updated!")
     return redirect(url_for("views.dashboard", user=current_user))
 
 @views.route("/delete", methods=["POST"])

@@ -9,7 +9,7 @@ class User(UserMixin, db.Model):
     businessname = db.Column(db.String(45), unique=True, nullable=False)
     location = db.Column(db.String(30), nullable=False)
     user_type = db.Column(db.String(30), nullable=False)
-    foods = db.relationship('Food')
+    foods = db.relationship('Food',backref=db.backref('user'), lazy=True)
  
  
 class Food(db.Model):

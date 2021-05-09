@@ -82,12 +82,12 @@
             {{food.food_name, food.description, food.quantity}}
           </td>
           <td>
-            <form method="POST" action="./update" style="display: inline">
+            <form method="POST" action="{{ url_for('views.update', id=food.id)}}">
               <input type="hidden" value="{{food.id}}" name="id">
               <input type="text" value="{{food.food_name}}" name="food_name">
               <input type="text" value="{{food.description}}" name="description">
               <input type="text" value="{{food.quantity}}" name="quantity">
-              <input type="submit" value="Update">
+              <input type="submit" name="update" value="Update">
             </form>
           </td>
           <td>

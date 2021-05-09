@@ -1,7 +1,8 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for
+from flask.globals import session
 from flask_login import UserMixin
 from flask_login.utils import login_user
-from .models import Food
+from .models import Food, User 
 from . import db
 from flask_login import login_required, current_user
 
@@ -18,8 +19,8 @@ def home():
 def dashboard(user):
     # Show restaurant page
     if current_user.user_type == 'restaurant':
-        food=Food.query.all()
-        return render_template('restaurant.html',  businessname=current_user.businessname, food=food)
+        food=Food.query.filter_by(users_id=current_user.id).all()
+        return render_template('restaurant.html', businessname=current_user.businessname ,food=food)
     food=Food.query.all()
     return render_template('npo.html' , businessname=current_user.businessname, food=food)
 
@@ -29,11 +30,11 @@ def dashboard(user):
 def dashboard1(user):
     # Show restaurant page
     if current_user.user_type == 'restaurant' and request.form:
-        food = Food(food_name=request.form.get("food_name"),description=request.form.get("description"),quantity=request.form.get("quantity"))
+        food = Food(food_name=request.form.get("food_name"),description=request.form.get("description"),quantity=request.form.get("quantity"),users_id=current_user.id)
         db.session.add(food)
         db.session.commit()
         flash("Item added!")
-    food=Food.query.all()
+    food=Food.query.filter_by(users_id=current_user.id).all()
     return render_template('restaurant.html', businessname=current_user.businessname, food=food)
 
 @views.route("/update", methods=["POST"])

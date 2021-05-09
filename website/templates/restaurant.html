@@ -65,10 +65,9 @@
 
       <h1>List of Foods</h1>
     <form  method="POST">
-      <th>Food Name <input type="text" name="food_name"></th>
-      <th>Description <input type="text" name="description"></th> 
-      <th>Quantity <input type="text" name="quantity"> <input type="submit" value="Add"></th>
-
+        <th>Food Name <input type="text" name="food_name"></th>
+        <th>Description <input type="text" name="description"></th> 
+        <th>Quantity <input type="text" name="quantity"> <input type="submit" value="Add"></th>
     </form>
 
     <h1>Foods</h1>
@@ -80,7 +79,7 @@
       {% for food in food %}
         <tr>
           <td>
-            {{food.food_name, food.description, food.quantity}}
+            {{food.food_name, food.description, food.quantity,food.users_id}}
           </td>
           <td>
             <form method="POST" action="{{ url_for('views.update', id=food.id)}}">

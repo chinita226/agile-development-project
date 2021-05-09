@@ -20,6 +20,7 @@ def dashboard(user):
     # Show restaurant page
     if current_user.user_type == 'restaurant':
         return redirect(url_for('views.add'))
+    return redirect(url_for('views.npo'))
 
 @views.route('/add_item', methods=['POST', 'GET'])
 @login_required
@@ -48,3 +49,13 @@ def delete_food():
             db.session.commit()
 
     return jsonify({})
+
+@views.route('/npo', methods=['GET'])
+@login_required
+def npo():
+    food = Food.query.all()
+    if food:
+        return render_template('npo.html', foods=food)
+    return render_template('npo.html')
+    
+

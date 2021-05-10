@@ -2,7 +2,7 @@ from flask import Blueprint, render_template, request, flash, redirect, url_for
 from flask.globals import session
 from flask_login import UserMixin
 from flask_login.utils import login_user
-from .models import Food, User 
+from .models import Food, User
 from . import db
 from flask_login import login_required, current_user
 
@@ -22,6 +22,7 @@ def dashboard(user):
     if current_user.user_type == 'restaurant':
         food=Food.query.filter_by(users_id=current_user.id).all()
         return render_template('restaurant.html', businessname=current_user.businessname ,food=food)
+
     food=Food.query.all()
      # Show NPO page
     return render_template('npo.html' , businessname=current_user.businessname, food=food)

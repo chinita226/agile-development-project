@@ -2,7 +2,7 @@
 from . import db
 from flask_login import UserMixin
 
- 
+
 class User(UserMixin, db.Model):
     """User object class for database."""
 
@@ -13,8 +13,8 @@ class User(UserMixin, db.Model):
     location = db.Column(db.String(30), nullable=False)
     user_type = db.Column(db.String(30), nullable=False)
     foods = db.relationship('Food',backref=db.backref('user'), lazy=True)
- 
- 
+
+
 class Food(db.Model):
     """Food object class for database."""
 
@@ -27,5 +27,5 @@ class Food(db.Model):
 
     def repr(self):
         return "<food_name: {}>".format(self.food_name)
-    
-    
+
+

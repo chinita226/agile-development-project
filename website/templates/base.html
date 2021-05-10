@@ -18,7 +18,7 @@
     />
 
     <link rel="stylesheet" href="../static/main.css">
- 
+
     <title>{% block title %}Home{% endblock %}</title>
   </head>
 
@@ -35,17 +35,17 @@
       <div class="collapse navbar-collapse" id="navbar">
         <div class="navbar-nav">
           <a class="btn btn-outline-success btn-sm nav-btn my-1"  href="/", role="button">About Yummy Savior</a>
-          <a class="btn btn-outline-success btn-sm nav-btn my-1" href="/logout", role="button">Log out</a>
+          <a class="btn btn-outline-success btn-sm nav-btn my-1" href="{{ url_for('auth.logout') }}", role="button">Log out</a>
           <a class="btn btn-outline-success btn-sm nav-btn my-1" href="/login", role="button">Log in</a>
           <a class="btn btn-outline-success btn-sm nav-btn my-1" href="/signup",role="button">Sign Up</a>
- 
+
         </div>
         <div id="nav-logo">
           <img src="../static/logo-icon.png" alt="logo">
         </div>
       </div>
     </nav>
- 
+
     {% with messages = get_flashed_messages(with_categories=true) %}
     {% if messages %} {% for category, message in messages %} {% if category == 'error' %}
     <div class="alert alert-danger alter-dismissable fade show" role="alert">
@@ -62,7 +62,7 @@
       </button>
     </div>
     {% endif %} {% endfor %} {% endif %} {% endwith %}
- 
+
     <div class="container">
         {% block content %} {% endblock %}
     </div>
@@ -71,7 +71,7 @@
       integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
       crossorigin="anonymous"
     ></script>
-    
+
     <script
       src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
       integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"

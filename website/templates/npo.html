@@ -1,8 +1,32 @@
 {% extends "base.html" %} {% block title %}Login{% endblock %}
 {% block content %}
+
 <link rel="stylesheet" href="../static/backgroundcolor.css">
-<h1>NPO</h1>
+
+<h1>Welcome to Yummy Saviour, {{ businessname }}!</h1>
+<h2>NPO</h2>
+<h1 align="center">Available Food</h1>
+
+<table align="center">
+    <th>Food Name &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp  Description &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp Quantity(kg) </th>
+  {% for food in food %}
+    <tr>
+      <td>
+        <form method="POST" action="./view" style="display: inline">
+          <input type="hidden" value="{{food.id}}" name="id">
+          <input type="text" value="{{food.food_name}}" name="food_name" readonly>
+          <input type="text" value="{{food.description}}" name="description" readonly>
+          <input type="text" value="{{food.quantity}}" name="quantity" readonly>
+          {% endfor %}
+        </form>
+      </td>
+    </tr>
+</table>
+
 <form action="{{ url_for('auth.logout') }}" method="POST">
+    <br><br>
     <input type="submit" value="Logout">
 </form>
+
 {% endblock %}
+

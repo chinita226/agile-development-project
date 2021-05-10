@@ -1,7 +1,7 @@
 from flask import Flask
 from website.config import DevSettings, TestSettings
 from flask_sqlalchemy import SQLAlchemy
-from flask_login import LoginManager
+from flask_login import LoginManager,  login_manager
 from os import path
 
 db = SQLAlchemy()
@@ -38,7 +38,6 @@ def create_table(app):
         db.create_all(app=app)
         print('Created Database!')
 
-
 def create_test_app():
     app = Flask(__name__)
     app.config.from_object(TestSettings)
@@ -62,4 +61,3 @@ def create_test_app():
     app.register_blueprint(views, url_prefix='/')
 
     return app
-

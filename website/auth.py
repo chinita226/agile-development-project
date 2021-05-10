@@ -5,12 +5,12 @@ from .models import User
 from . import db
 from flask_login import login_user, login_required, logout_user, current_user
 
-auth = Blueprint('auth', __name__)
 
+auth = Blueprint('auth', __name__)
 
 @auth.route('/signup')
 def signup():
-    """Signup get request."""
+    """GET signup page."""
     if current_user.is_authenticated:
         return redirect(url_for('views.dashboard', user=current_user.username), code=302)
     return render_template('signup.html')
@@ -18,7 +18,7 @@ def signup():
 
 @auth.route('/login')
 def login():
-    """Login get request."""
+    """GET login page."""
     if current_user.is_authenticated:
         return redirect(url_for('views.dashboard', user=current_user.username))
     return render_template('login.html')
@@ -26,11 +26,10 @@ def login():
 
 @auth.route('/login', methods=['POST'])
 def login_post():
-    """Login post request, when a user tries to log in."""
+    """Log the user in."""
     # Retrieve the data the user entered into the form.
     username = request.form.get('username')
     password = request.form.get('password')
-    user_type = request.form.get('user_type')
 
     # Find the user in the database
     user = User.query.filter_by(username=username).first()
@@ -46,15 +45,13 @@ def login_post():
     # credentials. Log the user in and create success message.
 
     login_user(user)
-
     flash("Log in Successful!", category='success')
-
     return redirect(url_for('views.dashboard', user=user.username))
 
 
 @auth.route('/signup', methods=['POST'])
 def signup_post():
-    """Signup post request, when a user tries to register."""
+    """Register a new user."""
     # Retrieve the data the user entered into the form.
     username = request.form.get('username')
     password = request.form.get('password')
@@ -104,11 +101,11 @@ def signup_post():
     # to display messages to user.
     return redirect(url_for('auth.signup'))
 
-
-@auth.route('/logout', methods=['POST'])
+@auth.route('/logout')
 @login_required
 def logout():
-    if logout_user():
-        msg = 'Log out successful!'
-        flash(msg, category='success')
-        return redirect(url_for('auth.login'))
+    logout_user()
+    msg = 'Log out successful!'
+    flash(msg, category='success')
+    return redirect(url_for('auth.login'))
+

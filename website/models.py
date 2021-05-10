@@ -1,6 +1,6 @@
 from . import db
 from flask_login import UserMixin
- 
+
  
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -9,13 +9,18 @@ class User(UserMixin, db.Model):
     businessname = db.Column(db.String(45), unique=True, nullable=False)
     location = db.Column(db.String(30), nullable=False)
     user_type = db.Column(db.String(30), nullable=False)
-    foods = db.relationship('Food')
-
+    foods = db.relationship('Food',backref=db.backref('user'), lazy=True)
  
  
 class Food(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     food_name = db.Column(db.String(25))
+    description = db.Column(db.String(25))
+    quantity= db.Column(db.Integer())
     users_id = db.Column(db.Integer, db.ForeignKey('user.id'))
- 
 
+
+    def repr(self):
+        return "<food_name: {}>".format(self.food_name)
+    
+    

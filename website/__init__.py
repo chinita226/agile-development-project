@@ -1,10 +1,14 @@
 from flask import Flask
 from website.config import DevSettings, TestSettings
 from flask_sqlalchemy import SQLAlchemy
-from flask_login import LoginManager, login_manager
+from flask_login import LoginManager,  login_manager
 from os import path
 
 db = SQLAlchemy()
+<<<<<<< HEAD
+=======
+DB_NAME = 'test.db'
+>>>>>>> 76406859a26474f7902d540833c655f8978709fe
 
 def create_app():
     app = Flask(__name__)
@@ -17,6 +21,7 @@ def create_app():
     login_manager.init_app(app)
 
     from .models import User
+    from .models import Food
 
     @login_manager.user_loader
     def load_user(id):
@@ -37,6 +42,7 @@ def create_table(app):
     if not path.exists('website/' + DevSettings.SQLALCHEMY_DATABASE_URI):
         db.create_all(app=app)
         print('Created Database!')
+<<<<<<< HEAD
 
 
 def create_test_app():
@@ -63,3 +69,5 @@ def create_test_app():
 
     return app
 
+=======
+>>>>>>> 76406859a26474f7902d540833c655f8978709fe

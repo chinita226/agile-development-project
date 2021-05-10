@@ -1,8 +1,9 @@
 {% extends "base.html" %} {% block title %}Login{% endblock %}
 {% block content %}
-<link rel="stylesheet" href="../static/backgroundcolor.css">
-<style>
 
+<link rel="stylesheet" href="../static/backgroundcolor.css">
+
+<style>
 
     .submitbtn {
       color: white;
@@ -34,6 +35,7 @@
 
 <h1>Sign Up</h1>
 <p>Please fill in this form to create an account.</p>
+
 <form method="POST">
     <body>
     <div class="imgcontainer">
@@ -45,10 +47,15 @@
     <lable for="confirm">Confirm password</lable>
     <input type="password" id='password2' name='confirm' placeholder="Confirm password"><br><br>
     <label for="business name">Business Name</label>
-    <input type="businessname" id='businessname' name='businessname' placeholder="enter your business name" required><br><br>
+    <input type="businessname" id='businessname' name='businessname' placeholder="Enter your business name" required><br><br>
     <label for="location">Location</label>
+<<<<<<< HEAD
     <input type="location" id='location' name='location' placeholder="enter your location" required><br><br>
     <input type="radio" name="user_type" id="restaurant_select" value='restaurant' checked>
+=======
+    <input type="location" id='location' name='location' placeholder="Enter your location" required><br><br>
+    <input type="radio" name="org_type" id="restaurant_select" value='restaurant' checked>
+>>>>>>> 76406859a26474f7902d540833c655f8978709fe
     <label for="restaurant_select">Restaurant</label><br>
     <input type="radio" name="user_type" id="npo_select" value='npo'>
     <label for="npo_select">NPO</label><br><br>
@@ -57,4 +64,5 @@
   </div>
 </body>
 </form>
+
 {% endblock %}

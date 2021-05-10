@@ -1,8 +1,79 @@
 {% extends "base.html" %} {% block title %}Login{% endblock %}
 {% block content %}
+
 <link rel="stylesheet" href="../static/backgroundcolor.css">
-<h1>Restaurant</h1>
+
+<h1>Welcome to Yummy Saviour, {{ businessname }}!</h1>
+<h2>Restaurant</h2>
+
+<style>
+
+    table, th, td {
+      border: 1px solid black;
+      border-collapse: collapse;
+    }
+    th, td {
+      padding: 5px;
+      text-align: left;
+    }
+    </style>
+    </head>
+
+    <body>
+
+    <h1>List of Foods</h1>
+
+    <form  method="POST">
+        <th>Food Name <input type="text" name="food_name"></th>
+        <th>Description <input type="text" name="description"></th> 
+        <th>Quantity (kg) <input type="text" name="quantity"> <input type="submit" value="Add"></th>
+    </form>
+
+    <h1>Foods</h1>
+
+    <table>
+      <th>View</th>
+      <th>Food Name &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp  Description &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp Quantity(kg) </th>
+      <th>Update item</th>
+      <th>Remove item</th>
+
+      {% for food in food %}
+        <tr>
+          <td>
+            {{food.food_name, food.description, food.quantity}}
+          </td>
+
+          <td>
+            <form action="{{ url_for('views.update', id=food.id)}}" method="POST">
+                <input type="hidden" value="{{food.food_name}}" name="oldname">
+                <input type="text" value="{{food.food_name}}" name="newname">
+                <input type="hidden" value="{{food.description}}" name="oldndes">
+                <input type="text" value="{{food.description}}" name="newdes">
+                <input type="hidden" value="{{food.quantity}}" name="oldquantity">
+                <input type="text" value="{{food.quantity}}" name="newquantity">
+              <td><input type="submit" name="update" value="Update"></td>
+            </form>
+          </td>
+
+          <td>
+            <form action="{{ url_for('views.delete', id=food.id)}}" method="POST" >
+              <input type="hidden" value="{{food.id}}" name="id">
+              <input type="hidden" value="{{food.food_name}}" name="food_name">
+              <input type="hidden" value="{{food.description}}" name="description">
+              <input type="hidden" value="{{food.quantity}}" name="quantity">
+              <input type="submit" name="delete" value="Delete" >
+            </form>
+          </td>
+        </tr>
+
+      {% endfor %}
+    </table>
+    </body>
+    </html>
+
 <form action="{{ url_for('auth.logout') }}" method="POST">
+    <br><br>
     <input type="submit" value="Logout">
 </form>
+
 {% endblock %}

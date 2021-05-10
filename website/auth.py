@@ -5,8 +5,8 @@ from .models import User
 from . import db
 from flask_login import login_user, login_required, logout_user, current_user
 
-auth = Blueprint('auth', __name__)
 
+auth = Blueprint('auth', __name__)
 
 @auth.route('/signup')
 def signup():
@@ -45,9 +45,7 @@ def login_post():
     # credentials. Log the user in and create success message.
 
     login_user(user)
-
     flash("Log in Successful!", category='success')
-
     return redirect(url_for('views.dashboard', user=user.username))
 
 
@@ -102,7 +100,6 @@ def signup_post():
     # If the else block above didn't run, refresh the signup page
     # to display messages to user.
     return redirect(url_for('auth.signup'))
-
 
 @auth.route('/logout', methods=['POST'])
 @login_required

@@ -1,10 +1,11 @@
 from flask import Flask
 from website.config import DevSettings, TestSettings
 from flask_sqlalchemy import SQLAlchemy
-from flask_login import LoginManager, login_manager
+from flask_login import LoginManager,  login_manager
 from os import path
 
 db = SQLAlchemy()
+DB_NAME = 'test.db'
 
 def create_app():
     app = Flask(__name__)
@@ -62,4 +63,3 @@ def create_test_app():
     app.register_blueprint(views, url_prefix='/')
 
     return app
-

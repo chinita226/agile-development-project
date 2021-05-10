@@ -1,7 +1,7 @@
-from website import create_app, db
-from website.config import DevSettings
+"""Main module to run the app."""
+from website import create_app
 
-app = create_app(DevSettings)
+app = create_app()
 
 
 if __name__ == "__main__":

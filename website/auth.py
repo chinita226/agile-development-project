@@ -8,10 +8,6 @@ from flask_login import login_user, login_required, logout_user, current_user
 
 auth = Blueprint('auth', __name__)
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 76406859a26474f7902d540833c655f8978709fe
 @auth.route('/signup')
 def signup():
     """Signup get request."""
@@ -50,13 +46,7 @@ def login_post():
     # credentials. Log the user in and create success message.
 
     login_user(user)
-<<<<<<< HEAD
-
     flash("Log in Successful!", category='success')
-
-=======
-    flash("Log in Successful!", category='success')
->>>>>>> 76406859a26474f7902d540833c655f8978709fe
     return redirect(url_for('views.dashboard', user=user.username))
 
 
@@ -112,21 +102,9 @@ def signup_post():
     # to display messages to user.
     return redirect(url_for('auth.signup'))
 
-<<<<<<< HEAD
-
-@auth.route('/logout', methods=['POST'])
-@login_required
-def logout():
-    if logout_user():
-        msg = 'Log out successful!'
-        flash(msg, category='success')
-        return redirect(url_for('auth.login'))
-=======
- 
 @auth.route('/logout', methods=['POST'])
 @login_required
 def logout():
     logout_user()
     return redirect(url_for('auth.login'))
  
->>>>>>> 76406859a26474f7902d540833c655f8978709fe

@@ -42,7 +42,7 @@
     "python.testing.unittestArgs": [
         "-v",
         "-s",
-        "./website",
+        "./tests",
         "-p",
         "*_test.py"
     ],

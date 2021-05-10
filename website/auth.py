@@ -10,7 +10,7 @@ auth = Blueprint('auth', __name__)
 
 @auth.route('/signup')
 def signup():
-    """Signup get request."""
+    """GET signup page."""
     if current_user.is_authenticated:
         return redirect(url_for('views.dashboard', user=current_user.username), code=302)
     return render_template('signup.html')
@@ -18,7 +18,7 @@ def signup():
 
 @auth.route('/login')
 def login():
-    """Login get request."""
+    """GET login page."""
     if current_user.is_authenticated:
         return redirect(url_for('views.dashboard', user=current_user.username))
     return render_template('login.html')
@@ -26,11 +26,10 @@ def login():
 
 @auth.route('/login', methods=['POST'])
 def login_post():
-    """Login post request, when a user tries to log in."""
+    """Log the user in."""
     # Retrieve the data the user entered into the form.
     username = request.form.get('username')
     password = request.form.get('password')
-    user_type = request.form.get('user_type')
 
     # Find the user in the database
     user = User.query.filter_by(username=username).first()
@@ -52,7 +51,7 @@ def login_post():
 
 @auth.route('/signup', methods=['POST'])
 def signup_post():
-    """Signup post request, when a user tries to register."""
+    """Register a new user."""
     # Retrieve the data the user entered into the form.
     username = request.form.get('username')
     password = request.form.get('password')

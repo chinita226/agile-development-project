@@ -5,10 +5,6 @@ from flask_login import LoginManager,  login_manager
 from os import path
 
 db = SQLAlchemy()
-<<<<<<< HEAD
-DB_NAME = 'test.db'
-=======
->>>>>>> 5b92ddbe2419beebc43e69ba2a875116a1ed7424
 
 def create_app():
     app = Flask(__name__)
@@ -42,8 +38,6 @@ def create_table(app):
     if not path.exists('website/' + DevSettings.SQLALCHEMY_DATABASE_URI):
         db.create_all(app=app)
         print('Created Database!')
-<<<<<<< HEAD
-=======
 
 
 def create_test_app():
@@ -70,4 +64,3 @@ def create_test_app():
 
     return app
 
->>>>>>> 5b92ddbe2419beebc43e69ba2a875116a1ed7424

@@ -1,7 +1,7 @@
 from flask import Flask
 from website.config import DevSettings, TestSettings
 from flask_sqlalchemy import SQLAlchemy
-from flask_login import LoginManager, login_manager
+from flask_login import LoginManager
 from os import path
 
 db = SQLAlchemy()

@@ -42,7 +42,6 @@
     "python.testing.unittestArgs": [
         "-v",
         "-s",
-        ".",
         "-p",
         "*_test.py"
     ],

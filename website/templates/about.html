@@ -1,21 +1,35 @@
 {% extends "base.html" %}
 {% block title %}About Yummy Savior{% endblock %}
 {% block content %}
+<link rel="stylesheet" href="static/about.css">
+<main role="main">
+    <section class="jumbotron text-center">
+      <div class="container">
+        <h1 class="jumbotron-heading">Yummy Savior</h1>
+        <p class="font-weight-bold">Wasting food is not cool. The best you can do for the future generation, save food. Your wasted food could have fed the poor. Yummy Savior is here to help you save food and waste less. </p>
+        <div>
+          <a href="/signup" class="btn btn-primary my-2">Sign up</a>
+        </div>
+      </div>
+    </section>
 
-<link rel="stylesheet" href="../static/backgroundcolor.css">
+    <div class="album text-muted">
+      <div class="container">
 
-<form method="POST">
-    
-    <h3 align="center">Yummy Savior</h3>
-    <h5 align="center">What is Yummy Savior?</h5>
-    <h6 align="center">
-        Yummy Savior is a web-based platform for restaurants to donate foods and for 
-        non-profit organizations to distribute foods to people in need. 
-        The platform offers tools to help restaurants to gain insights into their food wastage. 
-        Yummy Savior is not only a web-based service, it’s a movement. 
-        At the heart of Yummy Savior, our mission is to promote responsible consumption and production. 
-        Our vision is to help build a circular economy at large. 
-    </h6>
-</form>
-
+        <div class="row">
+          <div class="card">
+            <img src="static/mission.png" alt="mission"> 
+            <p class="card-text">Yummy Savior is a web-based service. Our mission is to promote responsible consumption and production.</p>
+          </div>
+          <div class="card">
+            <img src="static/vision.png" alt="vision"> 
+            <p class="card-text">Yummy Savior is a movement. Our vision is to help build a circular economy at large. </p>
+          </div>
+          <div class="card">
+            <img src="static/values.png" alt="values"> 
+            <p class="card-text">The SDGs have continued to challenge us to stretch our aspirations further, particularly in areas such as reduce food waste and poverty.</p>
+          </div>
+        </div>
+    </div>
+</main>
 {% endblock %}

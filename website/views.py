@@ -29,15 +29,22 @@ def dashboard(user):
 
 
 # current_user is the object for the logged in user.
-@views.route('/<user>', methods=["POST"])
+@views.route('/add-food', methods=["POST"])
 @login_required
-def add(user):
+def add():
     # Show and add items in restaurant page
     if current_user.user_type == 'restaurant' and request.form:
-        food = Food(food_name=request.form.get("food_name"),description=request.form.get("description"),quantity=request.form.get("quantity"),users_id=current_user.id)
+        food = Food(
+            food_name=request.form.get("food_name"),
+            description=request.form.get("description"),
+            quantity=request.form.get("quantity"),
+            users_id=current_user.id
+            )
+
         db.session.add(food)
         db.session.commit()
         flash("Item added!")
+
     food=Food.query.filter_by(users_id=current_user.id).all()
     return render_template('restaurant.html', businessname=current_user.businessname, food=food)
 

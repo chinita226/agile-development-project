@@ -1,58 +1,13 @@
-import unittest.mock
-from website import views
-from flask import Flask, render_template
-from flask.ext.testing import TestCase
-import unittest
-from flask.ext.login import current_user
-from flask import request
-from base import BaseTestCase
-from project.models import user
+from tests import BaseTestCase
+from website import db
+from website.models import User
 
-class views(BaseTestCase):
+class TestViews(BaseTestCase):
 
-    # Ensure that the login page loads correctly
-    def test_about(self):
-        response = self.client.get('/about')
-        self.assertIn(b'Please login', response.data)
+    def test_home(self):
 
-class MyTest(TestCase):
+        with self.app.test_client() as client:
 
-    def create_app(self):
-        app = Flask(__name__)
-        app.config['TESTING'] = True
-        return app
-    
-    def test_about(self):
-        self.app.get('/')
-        self.assert_template_used('about.html')
-    
-    
-class TestView(unittest.TestCase):
+            response = client.get('/')
 
-    @unittest.mock.patch("builtins.print", autospec=True, side_effect=print)
-    def test_home(self, mock_print):
-        views.View.home(views)
-        mock_print.assert_called_with("yummy saviour")
-        
-    @unittest.mock.patch("builtins.print", autospec=True, side_effect=print)
-    def test_dashboard(self, mock_print):
-        views.View.dashboard(views)
-        mock_print.assert_called_with("login")
-        
-    @unittest.mock.patch("builtins.print", autospec=True, side_effect=print)
-    def test_about(self, mock_print):
-        views.View.about(views)
-        mock_print.assert_called_with("NPO")
-        
-        
-class FlaskClientTestCase(unittest.TestCase):
-        @self.app.route("/")
-                def about():
-                        return render_template('about.html')
-
-     def test_home(self):
-                response = self.client.get('/')
-                self.assertTrue('Yummy' in response.get_data(as_text=True))
-                suite = unittest.TestLoader().loadTestsFromTestCase(FlaskClientTestCase)
-                unittest.TextTestRunner(verbosity=2).run(suite)
-
+            self.assertTrue(response.status_code == 200)

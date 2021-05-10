@@ -101,11 +101,10 @@ def signup_post():
     # to display messages to user.
     return redirect(url_for('auth.signup'))
 
-@auth.route('/logout')
+@auth.route('/logout', methods=['POST'])
 @login_required
 def logout():
     logout_user()
-    msg = 'Log out successful!'
-    flash(msg, category='success')
     return redirect(url_for('auth.login'))
+
 

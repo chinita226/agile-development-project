@@ -14,6 +14,9 @@ def home():
     """Route to home page."""
     return render_template("about.html")
 
+@views.route('/food-waste')
+def blog():
+    return render_template("blog.html")
 
 @views.route('/<user>')
 @login_required

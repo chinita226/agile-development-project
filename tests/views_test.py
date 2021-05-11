@@ -1,5 +1,4 @@
 import unittest
-
 from flask.helpers import url_for
 from tests import BaseTestCase
 from website.models import Food, User
@@ -121,66 +120,6 @@ class TestViewRoutes(BaseTestCase):
 
                 self.assertEqual(res, exp)
 
-    def test_added_foods_values(self):
-        """Food object added with correct values."""
-        with self.context:
-            db.session.add(self.test_user)
-            db.session.commit()
-            with self.client as client:
-                client.post(
-                    '/login',
-                    follow_redirects=True,
-                    data=dict(
-                        username=self.test_user.username,
-                        password='password'
-                    )
-                )
-
-                self.assertTrue(current_user.is_authenticated)
-
-                food = self.test_food
-
-                client.post(
-                    '/add-food',
-                    follow_redirects=True,
-                    data=dict(
-                        id=food.id
-                    )
-                )
-                the_food = Food.query.filter_by(id=food.id).count()
-                self.assertTrue(the_food == 1)
-
-
-    def test_update(self):
-        with self.context:
-            db.session.add(self.test_user)
-            db.session.add(self.test_food)
-            db.session.commit()
-            with self.client as client:
-
-                food = db.session.query(Food.id).filter_by(food_name='the name').first()
-                self.assertTrue(food)
-
-                client.post(
-                    '/login',
-                    follow_redirects=True,
-                    data=dict(
-                        username=self.test_user.username,
-                        password='password'
-                    )
-                )
-                self.assertTrue(current_user.is_authenticated)
-
-                response = client.post(
-                    '/update',
-                    follow_redirects=True,
-                    data=dict(
-                        id=food.id
-                    )
-                )
-                the_food = Food.query.filter_by(id=food.id).count()
-                self.assertTrue(the_food == 1)
-
     # def test_update(self):
     #     with self.context:
     #         db.session.add(self.test_user)
@@ -201,19 +140,112 @@ class TestViewRoutes(BaseTestCase):
     #             )
     #             self.assertTrue(current_user.is_authenticated)
 
-    #             response = client.post(
-    #                 '/update',
-    #                 follow_redirects=True,
-    #                 data=dict(newname='newname',
-    #                           oldname='oldname',
-    #                           newdes='newdes',
-    #                           olddes='olddes',
-    #                           olduantity='oldquantity',
-    #                           newquantity='newquantity')
+    #             with self.client as client:
 
-    #             )
-    #             food = Food.query.filter_by(food_name=oldname, description=olddes, quantity=oldquantity ).first()
-    #             self.assertTrue(food == 1)
+    #                 food = self.test_food
+
+    #                 client.post(
+    #                     '/update',
+    #                     follow_redirects=True,
+    #                     data=dict(
+    #                         id=food.id,
+    #                         food_name=food.food_name,
+    #                         description=food.description,
+    #                         quantity=food.quantity)
+    #                 )
+
+    #                 the_food = Food.query.filter_by(id=food.id).first()
+    #                 self.assertTrue(the_food)
+
+    #             res = [
+    #                 the_food.id,
+    #                 the_food.food_name,
+    #                 the_food.description,
+    #                 the_food.quantity,
+    #                 the_food.users_id
+    #                 ]
+    #             # Class food objects values
+    #             exp = [
+    #                 food.id2,
+    #                 food.food_name2,
+    #                 food.description2,
+    #                 food.quantity2,
+    #                 current_user.id
+    #                 ]
+
+    #             self.assertEqual(res, exp)
+
+
+    def test_delete_flash_message(self):
+        with self.context:
+            db.session.add(self.test_user)
+            db.session.add(self.test_food)
+            db.session.commit()
+            with self.client as client:
+
+                food = db.session.query(Food.id).filter_by(food_name='the name').first()
+                self.assertTrue(food)
+
+                client.post(
+                    '/login',
+                    follow_redirects=True,
+                    data=dict(
+                        username=self.test_user.username,
+                        password='password'
+                    )
+                )
+                self.assertTrue(current_user.is_authenticated)
+                
+                response = client.post(
+                        '/delete',
+                        follow_redirects=True,
+                        data=dict(food_name='name',
+                                  description='cheese',
+                                  quantity='2',
+                                  id = '1')
+                )
+                
+                msg = b'Item Deleted!'
+                self.assertTrue(msg)
+
+    def test_add_food_flash_message(self):
+        """User can add a food object to the database."""
+        with self.context:
+            db.session.add(self.test_user)
+            db.session.commit()
+            with self.client as client:
+                client.post(
+                    '/login',
+                    follow_redirects=True,
+                    data=dict(
+                        username=self.test_user.username,
+                        password='password'
+                    )
+                )
+
+                self.assertTrue(current_user.is_authenticated)
+
+            with self.client as client:
+
+                food = self.test_food
+
+                client.post(
+                    '/add-food',
+                    follow_redirects=True,
+                    data=dict(
+                        id=food.id
+                    )
+                )
+                the_food = Food.query.filter_by(id=food.id).count()
+                self.assertTrue(the_food == 1)
+
+                the_food = Food.query.filter_by(id=food.id).first()
+                self.assertTrue(the_food)
+
+                msg = b'Item Added!'
+                self.assertTrue(msg)
+
+
 
 
     def test_home(self):

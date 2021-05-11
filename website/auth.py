@@ -1,4 +1,3 @@
-from types import CodeType
 from flask import Blueprint, render_template, request, flash, redirect, url_for
 from werkzeug.security import generate_password_hash, check_password_hash
 from .models import User
@@ -101,9 +100,9 @@ def signup_post():
     # to display messages to user.
     return redirect(url_for('auth.signup'))
 
-
 @auth.route('/logout', methods=['POST'])
 @login_required
 def logout():
     logout_user()
     return redirect(url_for('auth.login'))
+

@@ -26,3 +26,4 @@ class Food(db.Model):
 
     def repr(self):
         return "<food_name: {}>".format(self.food_name)
+

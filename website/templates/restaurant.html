@@ -24,9 +24,9 @@
     <h1>List of Foods</h1>
 
     <form  method="POST">
-        <th>Food Name <input type="text" name="food_name"></th>
-        <th>Description <input type="text" name="description"></th> 
-        <th>Quantity (kg) <input type="text" name="quantity"> <input type="submit" value="Add"></th>
+        <th>Food Name <input type="text" name="food_name" required></th>
+        <th>Description <input type="text" name="description" required></th> 
+        <th>Quantity (kg) <input type="text" name="quantity" required> <input type="submit" value="Add"></th>
     </form>
 
     <h1>Foods</h1>
@@ -47,7 +47,7 @@
             <form action="{{ url_for('views.update', id=food.id)}}" method="POST">
                 <input type="hidden" value="{{food.food_name}}" name="oldname">
                 <input type="text" value="{{food.food_name}}" name="newname">
-                <input type="hidden" value="{{food.description}}" name="oldndes">
+                <input type="hidden" value="{{food.description}}" name="olddes">
                 <input type="text" value="{{food.description}}" name="newdes">
                 <input type="hidden" value="{{food.quantity}}" name="oldquantity">
                 <input type="text" value="{{food.quantity}}" name="newquantity">

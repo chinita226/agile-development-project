@@ -1,7 +1,7 @@
 from flask import Flask
 from website.config import DevSettings, TestSettings
 from flask_sqlalchemy import SQLAlchemy
-from flask_login import LoginManager,  login_manager
+from flask_login import LoginManager
 from os import path
 
 db = SQLAlchemy()
@@ -37,6 +37,7 @@ def create_table(app):
     if not path.exists('website/' + DevSettings.SQLALCHEMY_DATABASE_URI):
         db.create_all(app=app)
         print('Created Database!')
+
 
 def create_test_app():
     app = Flask(__name__)

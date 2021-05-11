@@ -1,32 +1,29 @@
-from flask.globals import request
-from website import db
-from website.models import User, Food
+from tests import BaseTestCase
+from website.models import Food, User
 from flask_login import current_user
 from werkzeug.security import generate_password_hash
-from tests import BaseTestCase
+from website import db
 
-class TestViews(BaseTestCase):
+
+class TestViewRoutes(BaseTestCase):
+
+    # TEST INITIALIZATION AND TEAR DOWN #
 
     def setUp(self):
-        """Initialise the test."""
         with self.app.app_context() as context:
             self.context = context
-            self.test_user = User(
-                id=1,
-                username='username',
-                password=generate_password_hash('password', 'sha256'),
-                businessname='business',
-                location='Sweden',
-                user_type='restaurant'
-            )
+            self.test_user = User(  username='username',
+                                    password=generate_password_hash('password', 'sha256'),
+                                    businessname='testbusiness',
+                                    location='Sweden',
+                                    user_type='restaurant')
 
-            self.test_food = Food(
-                id=1,
-                food_name = 'the name',
-                description = 'the description',
-                quantity = 10,
-                users_id = 1
-            )
+            self.test_food = Food(food_name='the name',
+                                  description='dec',
+                                  quantity='num of items',
+                                  users_id='id',
+                                  id=1
+                                  )
 
             self.context = context
             db.create_all()
@@ -34,7 +31,6 @@ class TestViews(BaseTestCase):
             self.client = self.app.test_client()
 
     def tearDown(self):
-        """Clean up after the test."""
         # clear the database at the end of the test
         with self.context:
             db.drop_all()
@@ -48,7 +44,6 @@ class TestViews(BaseTestCase):
             response = client.get('/')
 
             self.assertTrue(response.status_code == 200)
-
 
     def test_delete(self):
         with self.context:
@@ -68,7 +63,6 @@ class TestViews(BaseTestCase):
                         password='password'
                     )
                 )
-
                 self.assertTrue(current_user.is_authenticated)
 
                 response = client.post(
@@ -78,7 +72,157 @@ class TestViews(BaseTestCase):
                         id=food.id
                     )
                 )
-
                 the_food = Food.query.filter_by(id=food.id).count()
-
                 self.assertTrue(the_food == 0)
+
+    def test_add_food(self):
+        """User can add a food object to the database."""
+        with self.context:
+            db.session.add(self.test_user)
+            db.session.commit()
+            with self.client as client:
+                client.post(
+                    '/login',
+                    follow_redirects=True,
+                    data=dict(
+                        username=self.test_user.username,
+                        password='password'
+                    )
+                )
+
+                self.assertTrue(current_user.is_authenticated)
+
+            with self.client as client:
+
+                food = self.test_food
+
+                client.post(
+                    '/add-food',
+                    follow_redirects=True,
+                    data=dict(
+                        id=food.id,
+                        food_name=food.food_name,
+                        description=food.description,
+                        quantity=food.quantity)
+                )
+
+                the_food = Food.query.filter_by(id=food.id).first()
+                self.assertTrue(the_food)
+
+                # Values of food object returned from database
+                res = [
+                    the_food.id,
+                    the_food.food_name,
+                    the_food.description,
+                    the_food.quantity,
+                    the_food.users_id
+                    ]
+                # Class food objects values
+                exp = [
+                    food.id,
+                    food.food_name,
+                    food.description,
+                    food.quantity,
+                    current_user.id
+                    ]
+
+                self.assertEqual(res, exp)
+
+    def test_delete_flash_message(self):
+        with self.context:
+            db.session.add(self.test_user)
+            db.session.add(self.test_food)
+            db.session.commit()
+            with self.client as client:
+
+                food = db.session.query(Food.id).filter_by(food_name='the name').first()
+                self.assertTrue(food)
+
+                client.post(
+                    '/login',
+                    follow_redirects=True,
+                    data=dict(
+                        username=self.test_user.username,
+                        password='password'
+                    )
+                )
+                self.assertTrue(current_user.is_authenticated)
+
+                response = client.post(
+                        '/delete',
+                        follow_redirects=True,
+                        data=dict(food_name='name',
+                                  description='cheese',
+                                  quantity='2',
+                                  id='1')
+                )
+
+                msg = b'Item Deleted!'
+                self.assertTrue(msg)
+
+    def test_add_food_flash_message(self):
+        """User can add a food object to the database."""
+        with self.context:
+            db.session.add(self.test_user)
+            db.session.commit()
+            with self.client as client:
+                client.post(
+                    '/login',
+                    follow_redirects=True,
+                    data=dict(
+                        username=self.test_user.username,
+                        password='password'
+                    )
+                )
+
+                self.assertTrue(current_user.is_authenticated)
+
+            with self.client as client:
+
+                food = self.test_food
+
+                client.post(
+                    '/add-food',
+                    follow_redirects=True,
+                    data=dict(
+                        id=food.id
+                    )
+                )
+                the_food = Food.query.filter_by(id=food.id).first()
+                self.assertTrue(the_food)
+
+                msg = b'Item Added!'
+                self.assertTrue(msg)
+
+    def test_update_flash_message(self):
+        with self.context:
+            db.session.add(self.test_user)
+            db.session.commit()
+            with self.client as client:
+                client.post(
+                    '/login',
+                    follow_redirects=True,
+                    data=dict(
+                        username=self.test_user.username,
+                        password='password'
+                    )
+                )
+
+                self.assertTrue(current_user.is_authenticated)
+
+            with self.client as client:
+
+                food = self.test_food
+
+                client.post(
+                    '/update-food',
+                    follow_redirects=True,
+                    data=dict(
+                        id=food.id
+                    )
+                )
+                the_food = Food.query.filter_by(id=food.id).first()
+                self.assertTrue(the_food)
+
+                msg = b'Item Updated!'
+                self.assertTrue(msg)

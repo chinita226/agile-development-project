@@ -12,9 +12,6 @@ flask
 flask-sqlalchemy
 flask-login
 
-<<<<<<< HEAD
 #database
 pysqlite3
-=======
 
->>>>>>> 800a12b60509c0de5053a6b56f433a97ce55a9ec

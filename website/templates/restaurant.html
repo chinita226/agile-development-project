@@ -1,48 +1,12 @@
 {% extends "base.html" %} {% block title %}Login{% endblock %}
 {% block content %}
+
 <link rel="stylesheet" href="../static/backgroundcolor.css">
+
 <h1>Welcome to Yummy Saviour, {{ businessname }}!</h1>
 <h2>Restaurant</h2>
+
 <style>
-    .dropbtn {
-      background-color: #002aff98;
-      color: white;
-      padding: 16px;
-      font-size: 16px;
-      border: none;
-      cursor: pointer;
-    }
-
-    .dropdown {
-      position: relative;
-      display: inline-block;
-    }
-
-    .dropdown-content {
-      display: none;
-      position: absolute;
-      background-color: #f9f9f9;
-      min-width: 160px;
-      box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0);
-      z-index: 1;
-    }
-
-    .dropdown-content a {
-      color: black;
-      padding: 12px 16px;
-      text-decoration: none;
-      display: block;
-    }
-
-    .dropdown-content a:hover {background-color: #f1f1f1}
-
-    .dropdown:hover .dropdown-content {
-      display: block;
-    }
-
-    .dropdown:hover .dropbtn {
-      background-color: #121b49;
-    }
 
     table, th, td {
       border: 1px solid black;
@@ -54,39 +18,62 @@
     }
     </style>
     </head>
-    <form method="POST">
+
     <body>
 
-    <div class="dropdown">
-      <button class="dropbtn">Dropdown</button>
-      <div class="dropdown-content">
-      <a href="#">Add items</a>      
-      <a href="#">View all items</a>
-      <a href="#">Delete items</a>
-      </div>
-    </div>
-    <table style="width:100%">
-      <tr>
-        <th>Food Name</th>
-        <th>Description</th> 
-        <th>Quantity</th>
-      </tr>
-      <tr>
-        <th><input type="text" id="food_name" name="food_name[]" placeholder="Enter food"></th>
-        <th><input type="text" id="description" name="description[]" placeholder="Enter description"></th>
-        <th><input type="number" id="quantity" name="quantity[]" placeholder="Enter amount"></th>
-      </tr>
+    <h1>List of Foods</h1>
+
+    <form  method="POST">
+        <th>Food Name <input type="text" name="food_name"></th>
+        <th>Description <input type="text" name="description"></th> 
+        <th>Quantity (kg) <input type="text" name="quantity"> <input type="submit" value="Add"></th>
+    </form>
+
+    <h1>Foods</h1>
+
+    <table>
+      <th>View</th>
+      <th>Food Name &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp  Description &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp Quantity(kg) </th>
+      <th>Update item</th>
+      <th>Remove item</th>
+
+      {% for food in food %}
+        <tr>
+          <td>
+            {{food.food_name, food.description, food.quantity}}
+          </td>
+
+          <td>
+            <form action="{{ url_for('views.update', id=food.id)}}" method="POST">
+                <input type="hidden" value="{{food.food_name}}" name="oldname">
+                <input type="text" value="{{food.food_name}}" name="newname">
+                <input type="hidden" value="{{food.description}}" name="oldndes">
+                <input type="text" value="{{food.description}}" name="newdes">
+                <input type="hidden" value="{{food.quantity}}" name="oldquantity">
+                <input type="text" value="{{food.quantity}}" name="newquantity">
+              <td><input type="submit" name="update" value="Update"></td>
+            </form>
+          </td>
+
+          <td>
+            <form action="{{ url_for('views.delete', id=food.id)}}" method="POST" >
+              <input type="hidden" value="{{food.id}}" name="id">
+              <input type="hidden" value="{{food.food_name}}" name="food_name">
+              <input type="hidden" value="{{food.description}}" name="description">
+              <input type="hidden" value="{{food.quantity}}" name="quantity">
+              <input type="submit" name="delete" value="Delete" >
+            </form>
+          </td>
+        </tr>
+
+      {% endfor %}
     </table>
-    <input type="submit" value="Submit"class="submitbtn">
-
-
     </body>
-  </form>
     </html>
-
 
 <form action="{{ url_for('auth.logout') }}" method="POST">
     <br><br>
     <input type="submit" value="Logout">
 </form>
+
 {% endblock %}

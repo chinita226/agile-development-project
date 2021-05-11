@@ -1,8 +1,9 @@
 {% extends "base.html" %} {% block title %}Login{% endblock %}
 {% block content %}
-<link rel="stylesheet" href="../static/backgroundcolor.css">
-<style>
 
+<link rel="stylesheet" href="../static/backgroundcolor.css">
+
+<style>
 
     .submitbtn {
       color: white;
@@ -31,30 +32,32 @@
       padding: 16px;
 
     </style>
- 
+
 <h1>Sign Up</h1>
 <p>Please fill in this form to create an account.</p>
+
 <form method="POST">
     <body>
     <div class="imgcontainer">
     <img src="../static/user2.png" width="150" height="150" alt=""/> </div>
     <label for="name">Username</label>
-    <input type="text" id='username' name='username' placeholder="Enter username"><br><br>
+    <input type="text" id='username' name='username' placeholder="Enter username" required><br><br>
     <label for="password">Password</label>
-    <input type="password" id='password1' name='password1' placeholder="Enter password"><br><br>
-    <lable for="password2">Confirm password</lable>
-    <input type="password" id='password2' name='password2' placeholder="Confirm password"><br><br>
+    <input type="password" id='password1' name='password' placeholder="Enter password" required><br><br>
+    <lable for="confirm">Confirm password</lable>
+    <input type="password" id='password2' name='confirm' placeholder="Confirm password" required><br><br>
     <label for="business name">Business Name</label>
-    <input type="businessname" id='businessname' name='businessname' placeholder="enter your business name" required><br><br>
+    <input type="businessname" id='businessname' name='businessname' placeholder="Enter your business name" required><br><br>
     <label for="location">Location</label>
-    <input type="location" id='location' name='location' placeholder="enter your location" required><br><br>
-    <input type="radio" name="org_type" id="restaurant_select" value='restaurant' checked>
+    <input type="location" id='location' name='location' placeholder="Enter your location" required><br><br>
+    <input type="radio" name="user_type" id="restaurant_select" value='restaurant' checked>
     <label for="restaurant_select">Restaurant</label><br>
-    <input type="radio" name="org_type" id="npo_select" value='npo'>
+    <input type="radio" name="user_type" id="npo_select" value='npo'>
     <label for="npo_select">NPO</label><br><br>
-    <div class="container" style="background-color:rgb(228, 248, 139">
-    <input type="submit" value="Submit"class="submitbtn">  
+    <div class="container" style="background-color:rgb(179, 222, 248">
+    <input type="submit" value="Submit" class="submitbtn">
   </div>
 </body>
 </form>
+
 {% endblock %}

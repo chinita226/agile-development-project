@@ -69,5 +69,6 @@ def delete():
     id = request.form.get("id")
     Food.query.filter_by(id=id).delete()
     db.session.commit()
-    food=Food.query.all()
-    return dashboard(current_user)
+    flash("Item deleted!")
+    Food.query.all()
+    return redirect(url_for("views.dashboard", user=current_user))

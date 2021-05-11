@@ -86,11 +86,8 @@ class TestViewRoutes(BaseTestCase):
                     )
                 )
 
-                self.assertTrue(current_user.is_authenticated)
-
-            with self.client as client:
-
-                food = self.test_food
+                food = db.session.query(Food.id).filter_by(food_name='the name').first()
+                self.assertTrue(food)
 
                 client.post(
                     '/add-food',
@@ -147,33 +144,42 @@ class TestViewRoutes(BaseTestCase):
                     '/add-food',
                     follow_redirects=True,
                     data=dict(
-                        id=food.id,
-                        food_name=food.food_name,
-                        description=food.description,
-                        quantity=food.quantity)
+                        id=food.id
+                    )
                 )
+                the_food = Food.query.filter_by(id=food.id).count()
+                self.assertTrue(the_food == 1)
 
-                the_food = Food.query.filter_by(id=food.id).first()
 
-                # Values of food object returned from database
-                res = [
-                    the_food.id,
-                    the_food.food_name,
-                    the_food.description,
-                    the_food.quantity,
-                    the_food.users_id
-                    ]
-                # Class food objects values
-                exp = [
-                    food.id,
-                    food.food_name,
-                    food.description,
-                    food.quantity,
-                    current_user.id
-                    ]
+    def test_update(self):
+        with self.context:
+            db.session.add(self.test_user)
+            db.session.add(self.test_food)
+            db.session.commit()
+            with self.client as client:
 
-                self.assertEqual(res, exp)
+                food = db.session.query(Food.id).filter_by(food_name='the name').first()
+                self.assertTrue(food)
 
+                client.post(
+                    '/login',
+                    follow_redirects=True,
+                    data=dict(
+                        username=self.test_user.username,
+                        password='password'
+                    )
+                )
+                self.assertTrue(current_user.is_authenticated)
+
+                response = client.post(
+                    '/update',
+                    follow_redirects=True,
+                    data=dict(
+                        id=food.id
+                    )
+                )
+                the_food = Food.query.filter_by(id=food.id).count()
+                self.assertTrue(the_food == 1)
 
     # def test_update(self):
     #     with self.context:

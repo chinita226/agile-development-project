@@ -29,9 +29,9 @@ def dashboard(user):
 
 
 # current_user is the object for the logged in user.
-@views.route('/add-food', methods=["POST"])
+@views.route('/<user>', methods=["POST"])
 @login_required
-def add():
+def add(user):
     # Show and add items in restaurant page
     if current_user.user_type == 'restaurant' and request.form:
         food = Food(

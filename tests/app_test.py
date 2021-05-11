@@ -1,17 +1,15 @@
-from typing import ByteString
 import unittest
-from website import create_app, create_test_app
+from website import create_app
 from flask import Flask
+
 
 class TestApp(unittest.TestCase):
 
     def setUp(self):
         self.app = create_app()
 
-
     def test_create_app(self):
         self.assertIsInstance(self.app, Flask)
-
 
     def test_create_app_config(self):
         app = self.app

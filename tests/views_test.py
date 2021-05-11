@@ -1,20 +1,18 @@
-import unittest
-from flask.helpers import url_for
 from tests import BaseTestCase
 from website.models import Food, User
 from flask_login import current_user
-from flask import request, Response
 from werkzeug.security import generate_password_hash
 from website import db
 
+
 class TestViewRoutes(BaseTestCase):
 
-    ### TEST INITIALIZATION AND TEAR DOWN ###
+    # TEST INITIALIZATION AND TEAR DOWN #
 
     def setUp(self):
         with self.app.app_context() as context:
             self.context = context
-            self.test_user = User(username='username',
+            self.test_user = User(  username='username',
                                     password=generate_password_hash('password', 'sha256'),
                                     businessname='testbusiness',
                                     location='Sweden',
@@ -32,13 +30,20 @@ class TestViewRoutes(BaseTestCase):
 
             self.client = self.app.test_client()
 
-
     def tearDown(self):
         # clear the database at the end of the test
         with self.context:
             db.drop_all()
             db.session.remove()
             self.test_user = None
+
+    def test_home(self):
+
+        with self.app.test_client() as client:
+
+            response = client.get('/')
+
+            self.assertTrue(response.status_code == 200)
 
     def test_delete(self):
         with self.context:
@@ -85,8 +90,11 @@ class TestViewRoutes(BaseTestCase):
                     )
                 )
 
-                food = db.session.query(Food.id).filter_by(food_name='the name').first()
-                self.assertTrue(food)
+                self.assertTrue(current_user.is_authenticated)
+
+            with self.client as client:
+
+                food = self.test_food
 
                 client.post(
                     '/add-food',
@@ -120,62 +128,6 @@ class TestViewRoutes(BaseTestCase):
 
                 self.assertEqual(res, exp)
 
-    # def test_update(self):
-    #     with self.context:
-    #         db.session.add(self.test_user)
-    #         db.session.add(self.test_food)
-    #         db.session.commit()
-    #         with self.client as client:
-
-    #             food = db.session.query(Food.id).filter_by(food_name='the name').first()
-    #             self.assertTrue(food)
-
-    #             client.post(
-    #                 '/login',
-    #                 follow_redirects=True,
-    #                 data=dict(
-    #                     username=self.test_user.username,
-    #                     password='password'
-    #                 )
-    #             )
-    #             self.assertTrue(current_user.is_authenticated)
-
-    #             with self.client as client:
-
-    #                 food = self.test_food
-
-    #                 client.post(
-    #                     '/update',
-    #                     follow_redirects=True,
-    #                     data=dict(
-    #                         id=food.id,
-    #                         food_name=food.food_name,
-    #                         description=food.description,
-    #                         quantity=food.quantity)
-    #                 )
-
-    #                 the_food = Food.query.filter_by(id=food.id).first()
-    #                 self.assertTrue(the_food)
-
-    #             res = [
-    #                 the_food.id,
-    #                 the_food.food_name,
-    #                 the_food.description,
-    #                 the_food.quantity,
-    #                 the_food.users_id
-    #                 ]
-    #             # Class food objects values
-    #             exp = [
-    #                 food.id2,
-    #                 food.food_name2,
-    #                 food.description2,
-    #                 food.quantity2,
-    #                 current_user.id
-    #                 ]
-
-    #             self.assertEqual(res, exp)
-
-
     def test_delete_flash_message(self):
         with self.context:
             db.session.add(self.test_user)
@@ -195,16 +147,16 @@ class TestViewRoutes(BaseTestCase):
                     )
                 )
                 self.assertTrue(current_user.is_authenticated)
-                
+
                 response = client.post(
                         '/delete',
                         follow_redirects=True,
                         data=dict(food_name='name',
                                   description='cheese',
                                   quantity='2',
-                                  id = '1')
+                                  id='1')
                 )
-                
+
                 msg = b'Item Deleted!'
                 self.assertTrue(msg)
 
@@ -236,22 +188,41 @@ class TestViewRoutes(BaseTestCase):
                         id=food.id
                     )
                 )
-                the_food = Food.query.filter_by(id=food.id).count()
-                self.assertTrue(the_food == 1)
-
                 the_food = Food.query.filter_by(id=food.id).first()
                 self.assertTrue(the_food)
 
                 msg = b'Item Added!'
                 self.assertTrue(msg)
 
+    def test_update_flash_message(self):
+        with self.context:
+            db.session.add(self.test_user)
+            db.session.commit()
+            with self.client as client:
+                client.post(
+                    '/login',
+                    follow_redirects=True,
+                    data=dict(
+                        username=self.test_user.username,
+                        password='password'
+                    )
+                )
 
+                self.assertTrue(current_user.is_authenticated)
 
+            with self.client as client:
 
-    def test_home(self):
+                food = self.test_food
 
-        with self.app.test_client() as client:
+                client.post(
+                    '/update-food',
+                    follow_redirects=True,
+                    data=dict(
+                        id=food.id
+                    )
+                )
+                the_food = Food.query.filter_by(id=food.id).first()
+                self.assertTrue(the_food)
 
-            response = client.get('/')
-
-            self.assertTrue(response.status_code == 200)
+                msg = b'Item Updated!'
+                self.assertTrue(msg)

@@ -1,8 +1,5 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for
-from flask.globals import session
-from flask_login import UserMixin
-from flask_login.utils import login_user
-from .models import Food, User
+from .models import Food
 from . import db
 from flask_login import login_required, current_user
 
@@ -20,12 +17,12 @@ def home():
 def dashboard(user):
     # Show restaurant page
     if current_user.user_type == 'restaurant':
-        food=Food.query.filter_by(users_id=current_user.id).all()
-        return render_template('restaurant.html', businessname=current_user.businessname ,food=food)
+        food = Food.query.filter_by(users_id=current_user.id).all()
+        return render_template('restaurant.html', businessname=current_user.businessname, food=food)
 
-    food=Food.query.all()
-     # Show NPO page
-    return render_template('npo.html' , businessname=current_user.businessname, food=food)
+    food = Food.query.all()
+    # Show NPO page
+    return render_template('npo.html', businessname=current_user.businessname, food=food)
 
 
 # current_user is the object for the logged in user.
@@ -45,14 +42,14 @@ def add(user):
         db.session.commit()
         flash("Item added!")
 
-    food=Food.query.filter_by(users_id=current_user.id).all()
+    food = Food.query.filter_by(users_id=current_user.id).all()
     return render_template('restaurant.html', businessname=current_user.businessname, food=food)
 
 
 @views.route("/update", methods=["POST"])
 @login_required
 def update():
-     # Show and Update items in restaurant page
+    # Show and Update items in restaurant page
     newname = request.form.get("newname")
     oldname = request.form.get("oldname")
     newdes = request.form.get("newdes")
@@ -72,7 +69,7 @@ def update():
 @views.route("/delete", methods=["POST"])
 @login_required
 def delete():
-     # Show and delete items in restaurant page
+    # Show and delete items in restaurant page
     id = request.form.get("id")
     Food.query.filter_by(id=id).delete()
     db.session.commit()

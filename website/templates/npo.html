@@ -8,19 +8,29 @@
 <h1 align="center">Available Food</h1>
 
 <table align="center">
-    <th>Food Name &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp  Description &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp Quantity(kg) </th>
+  <tr>
+    <th>Food name</th>
+    <th>Description</th>
+    <th>Quantity</th>
+    <th>Company</th>
+    <th>Location</th>
+  </tr>
   {% for food in food %}
     <tr>
-      <td>
-        <form method="POST" action="./view" style="display: inline">
+      <form method="POST" action="./view" style="display: inline">
+        <td><input type="text" value="{{food.food_name}}" name="food_name" readonly></td>
+        <td><input type="text" value="{{food.description}}" name="description" readonly></td>
+        <td><input type="text" value="{{food.quantity}}" name="quantity" readonly></td>
+      {% for user in users %}
+          {% if user.id == food.users_id %}
+            <td><input type="text" value="{{user.businessname}}" name="restaurant" readonly></td>
+            <td><input type="text" value="{{user.location}}" name="location" readonly></td>
+          {% endif %}
+      {% endfor %}
           <input type="hidden" value="{{food.id}}" name="id">
-          <input type="text" value="{{food.food_name}}" name="food_name" readonly>
-          <input type="text" value="{{food.description}}" name="description" readonly>
-          <input type="text" value="{{food.quantity}}" name="quantity" readonly>
-          {% endfor %}
         </form>
-      </td>
     </tr>
+  {% endfor %}
 </table>
 
 {% endblock %}

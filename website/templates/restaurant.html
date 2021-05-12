@@ -60,56 +60,37 @@
 
       <h1>List of Foods</h1>
     <form  method="POST">
-<<<<<<< HEAD
-      <th>Food Name <input type="text" name="food_name"></th>
-      <th>Description <input type="text" name="description"></th> 
-      <th>Quantity <input type="text" name="quantity"> <input type="submit" value="Add"></th>
-
-=======
         <th>Food Name <input type="text" name="food_name" required></th>
         <th>Description <input type="text" name="description" required></th>
         <th>Quantity (kg) <input type="text" name="quantity" required> <input type="submit" value="Add"></th>
->>>>>>> 2145e99ebd7f996f2a8806e81e0aad47cac145a6
     </form>
 
     <h1>Foods</h1>
-
     <table>
-      <th>View</th>
-      <th>Food Name &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp  Description &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp Quantity(kg) </th>
-      <th>Update item</th>
-      <th>Remove item</th>
-
+      <tr>
+        <th>Food Name</th>
+        <th>Description</th>
+        <th>Quantity</th>
+      </tr>
       {% for food in food %}
-        <tr>
-          <td>
-            {{food.food_name, food.description, food.quantity}}
-          </td>
-
-          <td>
-            <form action="{{ url_for('views.update', id=food.id) }}" method="POST">
-                <input type="hidden" value="{{food.id}}" name="id">
-                <input type="text" value="{{food.food_name}}" name="name">
-                <input type="text" value="{{food.description}}" name="description">
-                <input type="text" value="{{food.quantity}}" name="quantity">
-              <td><input type="submit" name="update" value="Update"></td>
-            </form>
-          </td>
-
-          <td>
-            <form method="post" action="{{ url_for('views.delete', id=food.id)}}">
-              <input type="hidden" value="{{food.id}}" name="id">
-              <input type="hidden" value="{{food.food_name}}" name="food_name">
-              <input type="hidden" value="{{food.description}}" name="description">
-              <input type="hidden" value="{{food.quantity}}" name="quantity">
-              <input type="submit" name="delete" value="Delete" >
-            </form>
-          </td>
-        </tr>
-
+      <tr>
+        <form action="{{ url_for('views.update', id=food.id) }}" method="POST">
+          <input type="hidden" value="{{food.id}}" name="id">
+          <td><input type="text" value="{{food.food_name}}" name="name"></td>
+          <td><input type="text" value="{{food.description}}" name="description"></td>
+          <td><input type="text" value="{{food.quantity}}" name="quantity"></td>
+          <td><input type="submit" name="update" value="Update"></td>
+        </form>
+        <form action="{{ url_for('views.delete', id=food.id)}}" method="POST">
+          <input type="hidden" value="{{food.id}}" name="id">
+          <input type="hidden" value="{{food.food_name}}" name="food_name">
+          <input type="hidden" value="{{food.description}}" name="description">
+          <input type="hidden" value="{{food.quantity}}" name="quantity">
+          <td><input type="submit" name="delete" value="Delete"></td>
+        </form>
+      </tr>
       {% endfor %}
     </table>
     </body>
     </html>
-
 {% endblock %}

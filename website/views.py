@@ -49,23 +49,23 @@ def add(user):
     return render_template('restaurant.html', businessname=current_user.businessname, food=food)
 
 
-@views.route("/update", methods=["POST"])
+@views.route("/update/<id>", methods=["POST"])
 @login_required
-def update():
-    # Show and Update items in restaurant page
-    newname = request.form.get("newname")
-    oldname = request.form.get("oldname")
-    newdes = request.form.get("newdes")
-    olddes = request.form.get("olddes")
-    newquantity = request.form.get("newquantity")
-    oldquantity = request.form.get("oldquantity")
-    food = Food.query.filter_by(food_name=oldname).first()
-    food = Food.query.filter_by(description=olddes).first()
-    food = Food.query.filter_by(quantity=oldquantity).first()
-    food.food_name = newname
-    food.description = newdes
-    food.quantity = newquantity
+def update(id):
+    id = request.form.get('id')
+    name = request.form.get('name')
+    description = request.form.get('description')
+    quantity = request.form.get('quantity')
+
+    food = Food.query.filter_by(id=id).first()
+
+    food.food_name = name
+    food.description = description
+    food.quantity = quantity
+
     db.session.commit()
+    flash('Item Updated!')
+
     return redirect(url_for("views.dashboard", user=current_user))
 
 

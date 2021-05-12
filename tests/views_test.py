@@ -1,4 +1,4 @@
-from tests import BaseTestCase
+from tests.base_test import BaseTestCase
 from website.models import Food, User
 from flask_login import current_user
 from werkzeug.security import generate_password_hash
@@ -12,23 +12,21 @@ class TestViewRoutes(BaseTestCase):
     def setUp(self):
         with self.app.app_context() as context:
             self.context = context
-            self.test_user = User(  username='username',
-                                    password=generate_password_hash('password', 'sha256'),
-                                    businessname='testbusiness',
-                                    location='Sweden',
-                                    user_type='restaurant')
-
-            self.test_food = Food(food_name='the name',
-                                  description='dec',
-                                  quantity='num of items',
-                                  users_id='id',
-                                  id=1
-                                  )
-
-            self.context = context
-            db.create_all()
-
             self.client = self.app.test_client()
+
+            self.test_user = User(username='username',
+                                  password=generate_password_hash('password', 'sha256'),
+                                  businessname='testbusiness',
+                                  location='Sweden',
+                                  user_type='restaurant')
+
+            self.test_food = Food(id=1,
+                                  food_name='name',
+                                  description='desc',
+                                  quantity='qty',
+                                  users_id=self.test_user.id)
+
+            db.create_all()
 
     def tearDown(self):
         # clear the database at the end of the test
@@ -52,7 +50,7 @@ class TestViewRoutes(BaseTestCase):
             db.session.commit()
             with self.client as client:
 
-                food = db.session.query(Food.id).filter_by(food_name='the name').first()
+                food = db.session.query(Food.id).filter_by(food_name='name').first()
                 self.assertTrue(food)
 
                 client.post(
@@ -65,13 +63,14 @@ class TestViewRoutes(BaseTestCase):
                 )
                 self.assertTrue(current_user.is_authenticated)
 
-                response = client.post(
+                client.post(
                     '/delete',
                     follow_redirects=True,
                     data=dict(
                         id=food.id
                     )
                 )
+
                 the_food = Food.query.filter_by(id=food.id).count()
                 self.assertTrue(the_food == 0)
 
@@ -135,7 +134,7 @@ class TestViewRoutes(BaseTestCase):
             db.session.commit()
             with self.client as client:
 
-                food = db.session.query(Food.id).filter_by(food_name='the name').first()
+                food = db.session.query(Food.id).filter_by(food_name='name').first()
                 self.assertTrue(food)
 
                 client.post(
@@ -148,13 +147,13 @@ class TestViewRoutes(BaseTestCase):
                 )
                 self.assertTrue(current_user.is_authenticated)
 
-                response = client.post(
-                        '/delete',
-                        follow_redirects=True,
-                        data=dict(food_name='name',
-                                  description='cheese',
-                                  quantity='2',
-                                  id='1')
+                client.post(
+                    '/delete',
+                    follow_redirects=True,
+                    data=dict(food_name='name',
+                              description='cheese',
+                              quantity='2',
+                              id='1')
                 )
 
                 msg = b'Item Deleted!'
@@ -197,6 +196,7 @@ class TestViewRoutes(BaseTestCase):
     def test_update_flash_message(self):
         with self.context:
             db.session.add(self.test_user)
+            db.session.add(self.test_food)
             db.session.commit()
             with self.client as client:
                 client.post(
@@ -210,19 +210,42 @@ class TestViewRoutes(BaseTestCase):
 
                 self.assertTrue(current_user.is_authenticated)
 
-            with self.client as client:
-
                 food = self.test_food
 
+                self.assertTrue(food.food_name == 'name')
+
                 client.post(
-                    '/update-food',
+                    '/update/<id>',
                     follow_redirects=True,
                     data=dict(
-                        id=food.id
-                    )
+                        id=food.id,
+                        name='updated',
+                        description='updated',
+                        quantity=200)
                 )
-                the_food = Food.query.filter_by(id=food.id).first()
-                self.assertTrue(the_food)
+
+                updated = Food.query.filter_by(id=food.id).first()
+                self.assertTrue(food)
+
+                res = [
+                    updated.food_name,
+                    updated.description,
+                    updated.quantity
+                ]
+
+                exp = [
+                    'updated',
+                    'updated',
+                    200
+                ]
+
+                self.assertEqual(res, exp)
 
                 msg = b'Item Updated!'
                 self.assertTrue(msg)
+
+    def test_blog(self):
+        with self.client as client:
+            res = client.get('/food-waste')
+
+            self.assertTrue(res.status_code == 200)

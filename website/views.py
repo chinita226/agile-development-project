@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for
-from .models import Food
+from .models import Food, User
 from . import db
 from flask_login import login_required, current_user
 
@@ -24,8 +24,12 @@ def dashboard(user):
         return render_template('restaurant.html', businessname=current_user.businessname, food=food)
 
     food = Food.query.all()
+    users = User.query.all()
     # Show NPO page
-    return render_template('npo.html', businessname=current_user.businessname, food=food)
+    return render_template('npo.html',
+                           businessname=current_user.businessname,
+                           food=food,
+                           users=users)
 
 
 # current_user is the object for the logged in user.

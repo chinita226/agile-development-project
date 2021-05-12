@@ -100,7 +100,7 @@ def signup_post():
     # to display messages to user.
     return redirect(url_for('auth.signup'))
 
-@auth.route('/logout', methods=['POST'])
+@auth.route('/logout')
 @login_required
 def logout():
     logout_user()

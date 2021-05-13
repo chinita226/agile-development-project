@@ -8,3 +8,4 @@ htmlcov/
 *.dot
 /website.egg-info
 .mypy_cache
+.os

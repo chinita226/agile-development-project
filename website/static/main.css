@@ -1,3 +1,17 @@
+.btn-success {
+    padding: 3px 10px !important;
+    background: #fcfffb;
+    border-color: #99d98c;
+}
+
+.btn-success:hover {
+    color: white !important;
+}
+
+.btn-warning {
+    font-weight: bold !important;
+}
+
 #content-container {
     position: absolute;
     height: calc(100vh - 54.6px);
@@ -35,15 +49,16 @@
     margin: 0 1rem 0 0;
 }
 
-#nav-logo {
+/* .nav-logo {
     position: absolute;
     right: 0;
-}
+} */
 
-#nav-logo > img {
+.nav-logo > img {
     padding-right: 10px;
-    height: 45px;
+    height: 75px;
     width: auto;
+
 }
 
 #register > input {
@@ -56,9 +71,57 @@
     width: 50px;
     text-align: center;
     text-decoration: none;
-  }
-  
-  /* Add a hover effect if you want */
-  .fa:hover {
+}
+
+/* Add a hover effect if you want */
+.fa:hover {
     opacity: 0.7;
-  }
+}
+
+
+/* side nav bar */
+.sidenav {
+    min-height: 100vh;
+    max-width: 250px;
+
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: #f8f9fa;
+    overflow-x: hidden;
+    padding-top: 20px;
+}
+
+.sidenav a {
+    padding: 6px 18px 6px 16px;
+    text-decoration: none;
+    font-size: 18px;
+    color: #333;
+    display: block;
+    outline: none;
+}
+
+.sidenav a:hover {
+    color: #007bff;
+}
+
+.main {
+    margin-left: 160px; /* Same as the width of the sidenav */
+    font-size: 28px; /* Increased text to enable scrolling */
+    padding: 0px 10px;
+}
+
+@media screen and (max-height: 450px) {
+    .sidenav {
+        padding-top: 15px;
+    }
+
+    .sidenav a {
+        font-size: 18px;
+    }
+}
+
+/* side nav bar */
+
+
+

@@ -3,7 +3,7 @@ from flask.globals import session
 from .models import Food, User
 from . import db
 from flask_login import login_required, current_user
-from flask_paginate import Pagination
+from flask_paginate import Pagination, get_page_args
 
 views = Blueprint('views', __name__)
 
@@ -22,7 +22,19 @@ def blog():
 def dashboard(user):
     # Show restaurant page
     if current_user.user_type == 'restaurant':
-        food = Food.query.filter_by(users_id=current_user.id).all()
+        if request.form:
+            food = Food(
+            food_name=request.form.get("food_name"),
+            description=request.form.get("description"),
+            quantity=request.form.get("quantity"),
+            users_id=current_user.id
+            )
+
+            db.session.add(food)
+            db.session.commit()
+            flash("Item added!")
+
+        food=Food.query.filter_by(users_id=current_user.id).all()
         return render_template('restaurant.html', businessname=current_user.businessname, food=food)
 
     page = int(request.args.get('page', 1))
@@ -39,17 +51,17 @@ def dashboard(user):
             flash("Missing keyword")
             return redirect(url_for("views.dashboard", user=current_user))
         search = "%{}%".format(tag)
-        location = User.query.filter(User.location.like(search)).order_by(User.location)
-        location_for_render=location.limit(per_page).offset(offset)
-        #if location == []:
-        #   flash("not found")
-        #    return render_template('npo.html', businessname=current_user.businessname, food =[], tag=tag)
+        locations = User.query.filter(User.location.like(search)).order_by(User.location)
+        location=locations.limit(per_page).offset(offset)
+        if location == []:
+            flash("not found")
+            return render_template('npo.html', businessname=current_user.businessname, food =[], tag=tag)
         for i in location:
-            food= Food.query.filter_by(users_id=i.id).order_by(Food.food_name)
-        food_for_render= food.limit(per_page).offset(offset)
-        pagination= Pagination(page=page,per_page=per_page,offset=offset, total=food.count(),css_framework='bootstrap3', 
+            foods= Food.query.filter_by(users_id=i.id).order_by(Food.food_name)
+        food= foods.limit(per_page).offset(offset)
+        pagination= Pagination(page=page,per_page=per_page,offset=offset, total=foods.count(),css_framework='bootstrap3', 
                            search=search)
-        return render_template('npo.html', businessname=current_user.businessname, food=food_for_render, users=location_for_render, tag=tag,
+        return render_template('npo.html', businessname=current_user.businessname, food=food, users=location, tag=tag,
         pagination=pagination)
 
     food = Food.query.order_by(Food.food_name)
@@ -66,25 +78,7 @@ def dashboard(user):
                            food=food_for_render,
                            users=users_for_render, pagination=pagination)
 
-# current_user is the object for the logged in user.
-@views.route('/<user>', methods=["POST"])
-@login_required
-def add(user):
-    # Show and add items in restaurant page
-    if current_user.user_type == 'restaurant' and request.form:
-        food = Food(
-            food_name=request.form.get("food_name"),
-            description=request.form.get("description"),
-            quantity=request.form.get("quantity"),
-            users_id=current_user.id
-            )
 
-        db.session.add(food)
-        db.session.commit()
-        flash("Item added!")
-
-    food = Food.query.filter_by(users_id=current_user.id).all()
-    return render_template('restaurant.html', businessname=current_user.businessname, food=food)
 
 
 

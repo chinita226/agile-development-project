@@ -1,0 +1,29 @@
+{% extends "base.html" %} {% block title %}Login{% endblock %}
+{% block content %}
+    {% if user.user_type == 'restaurant' %}
+    <div class="row user-content">
+        <div class="col-xl-3 col-lg-4 col-md-12 form-col">
+            <div class="p-3 pt-4">
+                <form action="{{ url_for('views.add', user=user) }}" method='POST'>
+                    <div class="mb-4">
+                        <input type="text" class="form-control" id="floatingInput" name='food_name' placeholder="Food type">
+                    </div>
+                    <div class="mb-4">
+                        <input type="text" class="form-control" id="floatingInput" name='description' placeholder="Description">
+                    </div>
+                    <div class="mb-4">
+                        <input type="text" class="form-control" id="floatingInput" placeholder="Quantity">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Add</button>
+                </form>
+            </div>
+        </div>
+        <div class="col-xl-9 col-lg-8 col-md-12 content-col">
+
+        </div>
+    </div>
+
+    {% else %}
+
+    {% endif %}
+{% endblock %}

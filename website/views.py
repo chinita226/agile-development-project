@@ -60,14 +60,13 @@ def npo_search():
         tag = request.form["tag"]
 
         search = "%{}%".format(tag)
-        location = User.query(User.location.like(search)).order_by(User.location)
+        location = User.query.filter(User.location.like(search)).order_by(User.location)
         location_for_render = location.limit(per_page).offset(offset)
 
         # if location == []:
         #     flash("not found")
         #     return render_template('npo.html', businessname=current_user.businessname, food =[], tag=tag)
         """
-        This if statement below i have commented out so that it works.
         What if a user searches by restaurant name and not location? You
         will need to query the database for that too and have another variable
         that holds the return value for that the same as you have for location.
@@ -76,12 +75,9 @@ def npo_search():
         Also if no results were found for the search term, you will need to handle that
         also.
         """
-        # for i in location:
-        #     food = Food.query.filter_by(users_id=i.id).order_by(Food.food_name)
-        #     food_for_render = food.limit(per_page).offset(offset)
-
-        food = Food.query.all()
-        food_for_render = food.limit(per_page).offset(offset)
+        for i in location:
+            food = Food.query.filter_by(users_id=i.id).order_by(Food.food_name)
+            food_for_render = food.limit(per_page).offset(offset)
 
         pagination = Pagination(
             page=page,

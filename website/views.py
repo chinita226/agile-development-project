@@ -15,8 +15,15 @@ def home():
 
 @views.route('/insight')
 def insight():
+    Food.query.all()
     """Route to insight page."""
-    return render_template("insight.html")
+    food = Food.query.all()
+    names,values=[],[]
+    for item in food:
+        names.append(item.food_name)
+        values.append(item.quantity)
+
+    return render_template("insight.html",names=names,values=values)
 
 
 @views.route('/food-waste')

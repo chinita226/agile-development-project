@@ -266,14 +266,14 @@ new Chart("myChart", {
         legend: { display: false },
         title: {
             display: true,
-            text: "YUMMY SAVIOUR FOOD INSIGHT"
+            text: "YUMMY FOOD SAVIOUR INSIGHT"
         },
         scales: {
             yAxes: [{
                 display: true,
                 ticks: {
 
-                    max: 50,
+                    max: 200,
                     suggestedMin: 0, // minimum will be 0, unless there is a lower value.
                     // OR //
                     beginAtZero: true // minimum value will be 0.

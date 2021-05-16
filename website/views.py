@@ -15,15 +15,14 @@ def home():
 
 @views.route('/insight')
 def insight():
-    Food.query.all()
     """Route to insight page."""
-    food = Food.query.all()
-    names,values=[],[]
+    food = Food.query.filter_by(users_id=current_user.id).all()
+    names, values = [], []
     for item in food:
         names.append(item.food_name)
         values.append(item.quantity)
 
-    return render_template("insight.html",names=names,values=values)
+    return render_template("insight.html", names=names, values=values)
 
 
 @views.route('/food-waste')
@@ -38,7 +37,7 @@ def dashboard(user):
     if current_user.user_type == 'restaurant':
         food = Food.query.filter_by(users_id=current_user.id).all()
         return render_template('restaurant.html', businessname=current_user.businessname, food=food)
-    
+
     food = Food.query.all()
     # Show NPO page
     return render_template('npo.html', businessname=current_user.businessname, food=food)
@@ -56,11 +55,11 @@ def add(user):
             quantity=request.form.get("quantity"),
             users_id=current_user.id
         )
-        
+
         db.session.add(food)
         db.session.commit()
         flash("Item added!")
-    
+
     food = Food.query.filter_by(users_id=current_user.id).all()
     return render_template('restaurant.html', businessname=current_user.businessname, food=food)
 

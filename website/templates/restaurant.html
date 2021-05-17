@@ -67,7 +67,7 @@
                 <form class="row p-0 m-0" action="{{ url_for('views.update', id=food.id) }}" method="POST" id="update_form_{{ food.id }}">
                     <input type="hidden" value="{{ food.id }}" name="id">
                     <input class="col mx-1 form-control" type="text" value="{{ food.food_name }}" name="name">
-                    <input class="col mx-1 form-control" type="text" value="{{ food.description }}" name="des">
+                    <input class="col mx-1 form-control" type="text" value="{{ food.description }}" name="description">
                     <input class="col mx-1 form-control" type="number" value="{{ food.quantity }}" name="quantity">
                 </form>
             </td>

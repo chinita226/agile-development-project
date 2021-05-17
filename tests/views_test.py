@@ -41,7 +41,7 @@ class TestViewRoutes(BaseTestCase):
 
             response = client.get('/')
 
-            self.assertTrue(response.status_code == 200)
+            self.assertTrue(response.status_code == 302)
 
     def test_delete(self):
         with self.context:

@@ -17,7 +17,7 @@
     <!-- Add icon library -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="../static/about.css">
-    <link rel="stylesheet" href="../static/main.css"> 
+    <link rel="stylesheet" href="../static/main.css">
     {% block style %}{% endblock %}
     <title>{% block title %}Home{% endblock %}</title>
 </head>
@@ -34,12 +34,16 @@
     </button>
     <div class="collapse navbar-collapse" id="navbar">
       <div class="navbar-nav">
-        <a class="btn btn-outline-success btn-sm nav-btn my-1" href="{{ url_for('views.insight') }}", role="button">Insight of Food Waste</a>
-        <a class="btn btn-outline-success btn-sm nav-btn my-1" href="{{ url_for('views.home') }}", role="button">About Yummy Savior</a>
-        <a class="btn btn-outline-success btn-sm nav-btn my-1" href="{{ url_for('auth.logout') }}", role="button">Log out</a>
-        <a class="btn btn-outline-success btn-sm nav-btn my-1" href="{{ url_for('auth.login') }}", role="button">Log in</a>
-        <a class="btn btn-outline-success btn-sm nav-btn my-1" href="{{ url_for('auth.signup') }}",role="button">Sign Up</a>
-        <a class="btn btn-outline-success btn-sm nav-btn my-1" href="{{ url_for('views.blog') }}", role="button">Food Waste</a>
+        <a class="btn btn-outline-success btn-sm nav-btn my-1" href="{{ url_for('views.home') }}", role="button">Home</a>
+        <a class="btn btn-outline-success btn-sm nav-btn my-1" href="{{ url_for('views.about') }}", role="button">About us</a>
+        <a class="btn btn-outline-success btn-sm nav-btn my-1" href="{{ url_for('views.blog') }}", role="button">Blog</a>
+        {% if user.is_authenticated %}
+            <a class="btn btn-outline-success btn-sm nav-btn my-1" href="{{ url_for('auth.logout') }}", role="button">Log out</a>
+            <a class="btn btn-outline-success btn-sm nav-btn my-1" href="{{ url_for('views.insight') }}", role="button">Insights</a>
+        {% else %}
+            <a class="btn btn-outline-success btn-sm nav-btn my-1" href="{{ url_for('auth.login') }}", role="button">Log in</a>
+            <a class="btn btn-outline-success btn-sm nav-btn my-1" href="{{ url_for('auth.signup') }}",role="button">Sign Up</a>
+        {% endif %}
       </div>
       <div id="nav-logo">
         <img src="../static/logo-icon.png" alt="logo">

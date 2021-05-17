@@ -12,16 +12,28 @@ auth = Blueprint('auth', __name__)
 def signup():
     """GET signup page."""
     if current_user.is_authenticated:
-        return redirect(url_for('views.dashboard', user=current_user.username))
-    return render_template('signup.html')
+        return redirect(
+            url_for('views.dashboard',
+                    username=current_user.username,
+                    user=current_user))
+
+    return render_template(
+        'signup.html',
+        user=current_user)
 
 
 @auth.route('/login')
 def login():
     """GET login page."""
     if current_user.is_authenticated:
-        return redirect(url_for('views.dashboard', user=current_user.username))
-    return render_template('login.html')
+        return redirect(
+            url_for('views.dashboard',
+                    username=current_user.username,
+                    user=current_user))
+
+    return render_template(
+        'login.html',
+        user=current_user)
 
 
 @auth.route('/login', methods=['POST'])
@@ -30,23 +42,28 @@ def login_post():
     # Retrieve the data the user entered into the form.
     username = request.form.get('username')
     password = request.form.get('password')
-    
+
     # Find the user in the database
     user = User.query.filter_by(username=username).first()
-    
+
     # If no user was found or the password was incorrect create error message
     # and redirect to the login page to display it.
     # status_code 401: Unauthorized
     if not user or not check_password_hash(user.password, password):
         flash('Incorrect username or password!', category='error')
-        return redirect(url_for('auth.login'))
-    
+        return redirect(
+            url_for('auth.login',
+                    user=current_user))
+
     # If the above block didnt run, there is a user with the correct
     # credentials. Log the user in and create success message.
-    
+
     login_user(user)
     flash("Log in Successful!", category='success')
-    return redirect(url_for('views.dashboard', user=user.username))
+    return redirect(
+        url_for('views.dashboard',
+                username=user.username,
+                user=current_user))
 
 
 @auth.route('/signup', methods=['POST'])
@@ -59,7 +76,7 @@ def signup_post():
     businessname = request.form.get('businessname')
     location = request.form.get('location')
     user_type = request.form.get('user_type')
-    
+
     if not (username and password and confirm and businessname and location and user_type):
         msg = "Missing required fields"
     else:
@@ -84,7 +101,7 @@ def signup_post():
                         businessname=businessname,
                         location=location,
                         user_type=user_type)
-            
+
             # Add the user to the database
             db.session.add(user)
             # Save the changes to the database
@@ -94,16 +111,23 @@ def signup_post():
             # log the user in
             login_user(user)
             # redirect the user to the dashboard
-            return redirect(url_for('views.dashboard', user=user.username))
-    
+            return redirect(
+                url_for('views.dashboard',
+                        username=user.username,
+                        user=current_user))
+
     flash(msg, category='error')
     # If the else block above didn't run, refresh the signup page
     # to display messages to user.
-    return redirect(url_for('auth.signup'))
+    return redirect(
+        url_for('auth.signup',
+                user=current_user))
 
 
 @auth.route('/logout')
 @login_required
 def logout():
     logout_user()
-    return redirect(url_for('auth.login'))
+    return redirect(
+        url_for('auth.login',
+                user=current_user))

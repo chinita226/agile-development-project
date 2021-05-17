@@ -9,7 +9,23 @@ views = Blueprint('views', __name__)
 @views.route('/')
 def home():
     """Route to home page."""
-    return render_template("about.html")
+    if current_user.is_authenticated:
+        return redirect(
+            url_for(
+                'views.dashboard',
+                user=current_user,
+                username=current_user.username
+            )
+        )
+
+    return redirect(
+        url_for('views.about', user=current_user)
+    )
+
+@views.route('/about')
+def about():
+    """Route to home page."""
+    return render_template("about.html", user=current_user)
 
 
 @views.route('/insight')
@@ -23,30 +39,48 @@ def insight():
             names.append(item.food_name)
             values.append(item.quantity)
 
-        return render_template("insight.html", names=names, values=values)
-    return redirect(url_for("views.dashboard", user=current_user))
+        return render_template(
+            "insight.html",
+            names=names,
+            values=values,
+            user=current_user)
+
+    return redirect(
+        url_for("views.dashboard",
+                user=current_user,
+                username=current_user.username))
 
 
 @views.route('/food-waste')
 def blog():
-    return render_template("blog.html")
+    return render_template(
+        "blog.html",
+        user=current_user
+        )
 
 
-@views.route('/<user>')
+@views.route('/<username>')
 @login_required
-def dashboard(user):
+def dashboard(username):
     # Show restaurant page
     if current_user.user_type == 'restaurant':
         food = Food.query.filter_by(users_id=current_user.id).all()
-        return render_template('restaurant.html', businessname=current_user.businessname, food=food)
+        return render_template(
+            'restaurant.html',
+            businessname=current_user.businessname,
+            food=food,
+            user=current_user)
 
     food = Food.query.all()
     users = User.query.all()
     # Show NPO page
-    return render_template('npo.html',
-                           businessname=current_user.businessname,
-                           food=food,
-                           users=users)
+    return render_template(
+        'npo.html',
+        businessname=current_user.businessname,
+        food=food,
+        users=users,
+        user=current_user
+        )
 
 
 # current_user is the object for the logged in user.
@@ -67,7 +101,12 @@ def add(user):
         flash("Item added!")
 
     food = Food.query.filter_by(users_id=current_user.id).all()
-    return render_template('restaurant.html', businessname=current_user.businessname, food=food)
+    return render_template(
+        'restaurant.html',
+        businessname=current_user.businessname,
+        food=food,
+        user=current_user
+        )
 
 
 # Changed the code
@@ -88,7 +127,10 @@ def update(id):
     db.session.commit()
     flash('Item Updated!')
 
-    return redirect(url_for("views.dashboard", user=current_user))
+    return redirect(
+        url_for("views.dashboard",
+                user=current_user,
+                username=current_user.username))
 
 
 @views.route("/delete", methods=["POST"])
@@ -100,4 +142,7 @@ def delete():
     db.session.commit()
     flash("Item deleted!")
     Food.query.all()
-    return redirect(url_for("views.dashboard", user=current_user))
+    return redirect(
+        url_for("views.dashboard",
+                user=current_user,
+                username=current_user.username))

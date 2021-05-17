@@ -34,12 +34,16 @@
     </button>
     <div class="collapse navbar-collapse" id="navbar">
       <div class="navbar-nav">
-        <a class="btn btn-outline-success btn-sm nav-btn my-1" href="{{ url_for('views.home') }}", role="button">Home</a>
+        {% if user.is_authenticated %}
+            <a class="btn btn-outline-success btn-sm nav-btn my-1" href="{{ url_for('views.home') }}", role="button">Home</a>
+        {% endif %}
         <a class="btn btn-outline-success btn-sm nav-btn my-1" href="{{ url_for('views.about') }}", role="button">About us</a>
         <a class="btn btn-outline-success btn-sm nav-btn my-1" href="{{ url_for('views.blog') }}", role="button">Blog</a>
         {% if user.is_authenticated %}
             <a class="btn btn-outline-success btn-sm nav-btn my-1" href="{{ url_for('auth.logout') }}", role="button">Log out</a>
-            <a class="btn btn-outline-success btn-sm nav-btn my-1" href="{{ url_for('views.insight') }}", role="button">Insights</a>
+            {% if user.user_type == 'restaurant' %}
+                <a class="btn btn-outline-success btn-sm nav-btn my-1" href="{{ url_for('views.insight') }}", role="button">Insights</a>
+            {% endif %}
         {% else %}
             <a class="btn btn-outline-success btn-sm nav-btn my-1" href="{{ url_for('auth.login') }}", role="button">Log in</a>
             <a class="btn btn-outline-success btn-sm nav-btn my-1" href="{{ url_for('auth.signup') }}",role="button">Sign Up</a>

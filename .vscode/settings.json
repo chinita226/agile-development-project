@@ -7,7 +7,7 @@
     // PYTHON LANGUAGE SERVER
 
 
-    "python.analysis.extraPaths": ["tests"],
+    "python.analysis.extraPaths": ["./tests"],
     "python.languageServer": "Pylance",
     "python.terminal.activateEnvironment": true,
 

@@ -110,15 +110,17 @@ def add(user):
     return render_template('restaurant.html', businessname=current_user.businessname, food=food)
 
 
+# Changed the code
 @views.route("/update/<id>", methods=["POST"])
 @login_required
 def update(id):
-    # Show and Update items in restaurant page
-    id = request.form.get("id")
-    name = request.form.get("name")
-    description = request.form.get("des")
-    quantity = request.form.get("quantity")
+    id = request.form.get('id')
+    name = request.form.get('name')
+    description = request.form.get('description')
+    quantity = request.form.get('quantity')
+
     food = Food.query.filter_by(id=id).first()
+
     food.food_name = name
     food.description = description
     food.quantity = quantity

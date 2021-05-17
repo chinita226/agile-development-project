@@ -1,5 +1,5 @@
 """Signup route tests."""
-from tests import BaseTestCase
+from tests.base_test import BaseTestCase
 from website.models import User
 from flask_login import current_user
 from flask import request

@@ -1,8 +1,7 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for
 from flask_login import login_required, current_user
-
 from . import db
-from .models import Food
+from .models import Food, User
 
 views = Blueprint('views', __name__)
 
@@ -14,15 +13,18 @@ def home():
 
 
 @views.route('/insight')
+@login_required
 def insight():
     """Route to insight page."""
-    food = Food.query.filter_by(users_id=current_user.id).all()
-    names, values = [], []
-    for item in food:
-        names.append(item.food_name)
-        values.append(item.quantity)
+    if current_user.user_type == 'restaurant':
+        food = Food.query.filter_by(users_id=current_user.id).all()
+        names, values = [], []
+        for item in food:
+            names.append(item.food_name)
+            values.append(item.quantity)
 
-    return render_template("insight.html", names=names, values=values)
+        return render_template("insight.html", names=names, values=values)
+    return redirect(url_for("views.dashboard", user=current_user))
 
 
 @views.route('/food-waste')
@@ -39,8 +41,12 @@ def dashboard(user):
         return render_template('restaurant.html', businessname=current_user.businessname, food=food)
 
     food = Food.query.all()
+    users = User.query.all()
     # Show NPO page
-    return render_template('npo.html', businessname=current_user.businessname, food=food)
+    return render_template('npo.html',
+                           businessname=current_user.businessname,
+                           food=food,
+                           users=users)
 
 
 # current_user is the object for the logged in user.

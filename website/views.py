@@ -1,9 +1,15 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for
+<<<<<<< HEAD
 from flask.globals import session
 from .models import Food, User
 from . import db
 from flask_login import login_required, current_user
 from flask_paginate import Pagination
+=======
+from flask_login import login_required, current_user
+from . import db
+from .models import Food, User
+>>>>>>> 8d3cb2b1e840e639820fff0158020dcb3a8be5c4
 
 views = Blueprint('views', __name__)
 
@@ -12,6 +18,22 @@ views = Blueprint('views', __name__)
 def home():
     """Route to home page."""
     return render_template("about.html")
+
+
+@views.route('/insight')
+@login_required
+def insight():
+    """Route to insight page."""
+    if current_user.user_type == 'restaurant':
+        food = Food.query.filter_by(users_id=current_user.id).all()
+        names, values = [], []
+        for item in food:
+            names.append(item.food_name)
+            values.append(item.quantity)
+
+        return render_template("insight.html", names=names, values=values)
+    return redirect(url_for("views.dashboard", user=current_user))
+
 
 @views.route('/food-waste')
 def blog():
@@ -77,7 +99,7 @@ def add(user):
             description=request.form.get("description"),
             quantity=request.form.get("quantity"),
             users_id=current_user.id
-            )
+        )
 
         db.session.add(food)
         db.session.commit()
@@ -90,21 +112,17 @@ def add(user):
 
 @views.route("/update/<id>", methods=["POST"])
 @login_required
-def update(id):
-    id = request.form.get('id')
-    name = request.form.get('name')
-    description = request.form.get('description')
-    quantity = request.form.get('quantity')
-
-    food = Food.query.filter_by(id=id).first()
-
+def update():
+    # Show and Update items in restaurant page
+    _id = request.form.get("id")
+    name = request.form.get("name")
+    des = request.form.get("des")
+    quantity = request.form.get("quantity")
+    food = Food.query.filter_by(id=_id).first()
     food.food_name = name
-    food.description = description
+    food.description = des
     food.quantity = quantity
-
     db.session.commit()
-    flash('Item Updated!')
-
     return redirect(url_for("views.dashboard", user=current_user))
 
 

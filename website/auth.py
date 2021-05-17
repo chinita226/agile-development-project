@@ -1,17 +1,18 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for
-from werkzeug.security import generate_password_hash, check_password_hash
-from .models import User
-from . import db
 from flask_login import login_user, login_required, logout_user, current_user
+from werkzeug.security import generate_password_hash, check_password_hash
+from . import db
+from .models import User
 
 
 auth = Blueprint('auth', __name__)
+
 
 @auth.route('/signup')
 def signup():
     """GET signup page."""
     if current_user.is_authenticated:
-        return redirect(url_for('views.dashboard', user=current_user.username), code=302)
+        return redirect(url_for('views.dashboard', user=current_user.username))
     return render_template('signup.html')
 
 
@@ -29,20 +30,20 @@ def login_post():
     # Retrieve the data the user entered into the form.
     username = request.form.get('username')
     password = request.form.get('password')
-
+    
     # Find the user in the database
     user = User.query.filter_by(username=username).first()
-
+    
     # If no user was found or the password was incorrect create error message
     # and redirect to the login page to display it.
     # status_code 401: Unauthorized
     if not user or not check_password_hash(user.password, password):
         flash('Incorrect username or password!', category='error')
         return redirect(url_for('auth.login'))
-
+    
     # If the above block didnt run, there is a user with the correct
     # credentials. Log the user in and create success message.
-
+    
     login_user(user)
     flash("Log in Successful!", category='success')
     return redirect(url_for('views.dashboard', user=user.username))
@@ -58,7 +59,7 @@ def signup_post():
     businessname = request.form.get('businessname')
     location = request.form.get('location')
     user_type = request.form.get('user_type')
-
+    
     if not (username and password and confirm and businessname and location and user_type):
         msg = "Missing required fields"
     else:
@@ -83,7 +84,7 @@ def signup_post():
                         businessname=businessname,
                         location=location,
                         user_type=user_type)
-
+            
             # Add the user to the database
             db.session.add(user)
             # Save the changes to the database
@@ -94,11 +95,12 @@ def signup_post():
             login_user(user)
             # redirect the user to the dashboard
             return redirect(url_for('views.dashboard', user=user.username))
-
+    
     flash(msg, category='error')
     # If the else block above didn't run, refresh the signup page
     # to display messages to user.
     return redirect(url_for('auth.signup'))
+
 
 @auth.route('/logout')
 @login_required

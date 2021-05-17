@@ -4,87 +4,69 @@
 <link rel="stylesheet" href="../static/backgroundcolor.css">
 
 <style>
+    input[type="submit"] {
+    font-size: .9em;
+    color: #fff;
+    background: #76b852;
+    outline: none;
+    border: 1px solid #76b852;
+    cursor: pointer;
+    padding: 0.9em;
+    width: 94.5%;
+    margin: 0.15em 0;
+    letter-spacing: 4px;
+  }
 
-    .submitbtn {
-      color: white;
-      padding: 14px 20px;
-      margin: 8px 0;
-      border: none;
-      cursor: pointer;
-      width: auto;
-      padding: 10px 18px;
-      background-color: green;
-    }
+    .table {
+    width: 30%;
+    margin: 2em auto;
+    background: rgb(255, 255, 255);
+    padding: 1em 4em 0;
+  }
 
-    /* Center the image */
-    .imgcontainer {
-      text-align: center;
-        margin: 10px;
-      position: relative;
-    }
+  input[type="text"], input[type="password"], input[type="businessname"], input[type="location"] {
+    font-size: 0.9em;
+    color: rgb(8, 0, 0);
+    font-weight: 100;
+    width: 94.5%;
+    padding: 0.8em;
+    border: solid 1px rgba(10, 10, 10, 0.37);
+    background: -webkit-linear-gradient(top, rgba(255, 255, 255, 0) 96%, #fff 4%);
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 96%, #fff 4%);
+    background-position: -800px 0;
+    background-size: 100%;
+    background-repeat: no-repeat;
+    color: rgb(5, 0, 0);
+    font-family: 'Roboto', sans-serif;
+  }
 
-    img.user {
-      width: 20%;
-      border-radius: 50%;
-    }
-
-    .container {
-      padding: 16px;
-    }
+  h1 {
+    font-size: 3em;
+    text-align: center;
+    color: rgb(14, 1, 1);
+    font-weight: 100;
+    text-transform: capitalize;
+    letter-spacing: 4px;
+    font-weight: bold;
+  }
+  
     </style>
-
-
-<div class="container">
-  
-  <div class="text-center">
-  <h1>Sign Up</h1>
-  <p>Please fill in this form to create an account.</p>
-<img src="../static/user2.png" width="150" height="150" alt=""/>
-</div>
+<body>
+<h1>Sign Up</h1>
+<p align="center">Please fill in this form to create an account.</p>
+<div class="table">
 <form method="POST">
-  
-
-    <div class="row">
-    <div class="col-6">
-      <label for="name">Username</label>
-    <input type="text" id='username' class="form-control" name='username' placeholder="Enter username" required><br><br></div>
-
-    <div class="col-6">
-        <label for="password">Password</label>
-        <input type="password" id='password1' class="form-control" name='password' placeholder="Enter password" required><br><br>
-    </div>
-
-    <div class="col-6">
-      <lable for="confirm">Confirm password</lable>
-      <input type="password" id='password2' class="form-control" name='confirm' placeholder="Confirm password" required><br><br>
-    </div>
-
-    <div class="col-6">
-      <label for="business name">Business Name</label>
-      <input type="businessname" id='businessname' class="form-control" name='businessname' placeholder="Enter your business name"
-        required><br><br>
-    </div>
-
-    <div class="col-6">
-      <label for="location">Location</label>
-      <input type="location" id='location' class="form-control" name='location' placeholder="Enter your location" required><br><br>
-    </div>
-
-    <div class="col-12">
-          <input type="radio" name="user_type"  id="restaurant_select" value='restaurant' checked>
-          <label for="restaurant_select">Restaurant</label><br>
-    </div>
-
-    <div class="col-12">
-      <input type="radio" name="user_type" id="npo_select" value='npo'>
-      <label for="npo_select">NPO</label><br><br>
-    </div>
-
-   
-    <div class="col-12 text-center">
+    <input type="text" id='username' name='username' placeholder="Enter username" required><br><br>
+    <input type="password" id='password1' name='password' placeholder="Enter password" required><br><br>
+    <input type="password" id='password2' name='confirm' placeholder="Confirm password" required><br><br>
+    <input type="businessname" id='businessname' name='businessname' placeholder="Enter your business name" required><br><br>
+    <input type="location" id='location' name='location' placeholder="Enter your location" required><br><br>
+    <input type="radio" name="user_type" id="restaurant_select" value='restaurant' checked>
+    <label for="restaurant_select">Restaurant</label><br>
+    <input type="radio" name="user_type" id="npo_select" value='npo'>
+    <label for="npo_select">NPO</label><br><br>
     <input type="submit" value="Submit" class="submitbtn">
-  </div>
-</div>
 </form>
 </div>
+</body>
 {% endblock %}

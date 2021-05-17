@@ -4,7 +4,7 @@ from website import db
 from website.models import User
 from flask_login import current_user
 from werkzeug.security import generate_password_hash
-from tests import BaseTestCase
+from tests.base_test import BaseTestCase
 
 
 class TestLogin(BaseTestCase):

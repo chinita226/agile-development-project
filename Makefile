@@ -38,9 +38,8 @@ unittest:
 	 $(PYTHON) -m unittest discover . "*_test.py"
 
 coverage:
-	coverage run -m unittest discover . "*_test.py"
-	coverage html
-	coverage report -m
+	coverage run -m unittest discover ./tests "*_test.py"
+	coverage report -m --omit=".venv/*"
 
 pylint:
 	pylint *.py

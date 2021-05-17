@@ -71,19 +71,23 @@ def add(user):
 
 
 # Changed the code
-@views.route("/update", methods=["POST"])
+@views.route("/update/<id>", methods=["POST"])
 @login_required
-def update():
-    # Show and Update items in restaurant page
-    _id = request.form.get("id")
-    name = request.form.get("name")
-    des = request.form.get("des")
-    quantity = request.form.get("quantity")
-    food = Food.query.filter_by(id=_id).first()
+def update(id):
+    id = request.form.get('id')
+    name = request.form.get('name')
+    description = request.form.get('description')
+    quantity = request.form.get('quantity')
+
+    food = Food.query.filter_by(id=id).first()
+
     food.food_name = name
-    food.description = des
+    food.description = description
     food.quantity = quantity
+
     db.session.commit()
+    flash('Item Updated!')
+
     return redirect(url_for("views.dashboard", user=current_user))
 
 

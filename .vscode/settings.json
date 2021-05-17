@@ -48,7 +48,5 @@
     ],
     "python.testing.pytestEnabled": false,
     "python.testing.nosetestsEnabled": false,
-    "git.ignoreLimitWarning": true,
-    "python.pythonPath": ".venv/bin/python",
 }
 

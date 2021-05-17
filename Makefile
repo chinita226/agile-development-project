@@ -35,12 +35,12 @@ app:
 	$(PYTHON) website/main.py
 
 unittest:
-	coverage run -m unittest discover ./tests/unittests "*_test.py"
-	coverage report -m --omit=".venv/*"
+	 $(PYTHON) -m unittest discover . "*_test.py"
 
 coverage:
-	coverage run -m unittest discover ./tests "*_test.py"
-	coverage report -m --omit=".venv/*"
+	coverage run -m unittest discover . "*_test.py"
+	coverage html
+	coverage report -m
 
 pylint:
 	pylint *.py

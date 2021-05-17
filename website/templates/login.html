@@ -29,23 +29,32 @@ img.user {
  
 .container {
   padding: 16px;
- 
+}
 </style>
+
+<div class="container">
+
 
 <h1>Log in</h1>
 
 <form method="POST">
-    <body>
-    <div class="imgcontainer">
-    <img src="../static/user2.png" width="150" height="150" alt=""/> </div>
-    <label for="name">Username</label>
-    <input type="text" id="username" name="username" placeholder="Enter username"><br><br>
-    <label for="password">Password</label>
-    <input type="password" id="password" name="password" placeholder="Enter password"><br><br>
-     <div class="container" style="background-color:rgb(179, 222, 248);">
+   
+    <div class="imgcontainer row">
+    <img src="../static/user2.png" width="150" height="150" alt=""/>
+     </div>
+     <div class="col-6">
+<label for="name">Username</label>
+<input type="text" id="username" name="username" class="form-control" placeholder="Enter username"><br><br>
+     </div>
+     <div class="col-6">
+<label for="password">Password</label>
+<input type="password" id="password" name="password" class="form-control" placeholder="Enter password"><br><br>
+     </div>
+  
+     <div class="col-6">
     <input type="submit" value="Submit"class="submitbtn">
   </div>
-</body>
+
 </form>
- 
+</div>
 {% endblock %}

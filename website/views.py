@@ -1,7 +1,8 @@
+import datetime
 from flask import Blueprint, render_template, request, flash, redirect, url_for
 from flask_login import login_required, current_user
 from . import db
-from .models import Food, User
+from .models import Food, User, Order, OrderDetails
 
 views = Blueprint('views', __name__)
 
@@ -73,13 +74,17 @@ def dashboard(username):
 
     food = Food.query.all()
     users = User.query.all()
+    orders = Order.query.filter_by(user_id=current_user.id)
+    details = OrderDetails.query.all()
     # Show NPO page
     return render_template(
         'npo.html',
         businessname=current_user.businessname,
         food=food,
         users=users,
-        user=current_user
+        user=current_user,
+        orders=orders,
+        details=details
         )
 
 
@@ -146,3 +151,31 @@ def delete():
         url_for("views.dashboard",
                 user=current_user,
                 username=current_user.username))
+
+
+@views.route("/order", methods=["POST"])
+@login_required
+def create_order():
+
+    date = datetime.datetime.now()
+    order = Order(user_id=current_user.id, date=date)
+    db.session.add(order)
+    db.session.commit()
+
+    order_id = db.session.query(Order).filter_by(date=date).first().id
+
+    order_data = request.json
+
+    for item in order_data:
+        order_details = OrderDetails(
+            food_id=item['id'],
+            order_id=order_id,
+            quantity=item['quantity']
+        )
+        db.session.add(order_details)
+
+        food = Food.query.filter_by(id=item['id']).first()
+        food.quantity -= int(item['quantity'])
+        db.session.commit()
+
+    return 'a response'

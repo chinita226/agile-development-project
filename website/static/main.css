@@ -29,3 +29,27 @@
 .fa:hover {
     opacity: 0.7;
 }
+
+#food-list {
+    background-color: white;
+    text-align: center;
+}
+
+#order-table {
+    background-color: white;
+    text-align: center;
+}
+
+#confirm-btn {
+    position: absolute;
+    right: 1rem;
+}
+
+.btn-container {
+    position: relative;
+    min-height: 3rem;
+}
+
+.list-products {
+    margin-left: 3rem;
+}

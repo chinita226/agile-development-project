@@ -35,10 +35,13 @@ def insight():
     """Route to insight page."""
     if current_user.user_type == 'restaurant':
         food = Food.query.filter_by(users_id=current_user.id).all()
+        order = OrderDetails.query.all()
         names, values = [], []
         for item in food:
-            names.append(item.food_name)
-            values.append(item.quantity)
+            for i in order:
+                if item.id == i.food_id:
+                    names.append(item.food_name)
+                    values.append(i.quantity)
 
         return render_template(
             "insight.html",

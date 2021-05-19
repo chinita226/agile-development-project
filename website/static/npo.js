@@ -32,7 +32,7 @@ foodList.addEventListener('click', (e) => {
             </tr>
             `
             order.push({"id":id,"quantity": orderQuantity.value});
-
+            console.log(order)
             orderQuantity.value = '';
         }
     }
@@ -53,10 +53,11 @@ orderTableBody.addEventListener('click', (e) => {
         row.parentElement.removeChild(row);
 
         // remove the item from the order object
-        for(i=0; i<order.items.length; i++){
+        for(i=0; i < order.length; i++){
             if(order[i].id == orderFoodId){
                 order.splice(i, i+1)
             }
+        console.log(order)
         }
     }
 })

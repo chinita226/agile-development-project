@@ -36,17 +36,19 @@ def insight():
     if current_user.user_type == 'restaurant':
         food = Food.query.filter_by(users_id=current_user.id).all()
         order = OrderDetails.query.all()
-        names, values = [], []
+        data = dict()
         for item in food:
             for i in order:
                 if item.id == i.food_id:
-                    names.append(item.food_name)
-                    values.append(i.quantity)
+                    if item.food_name in data:
+                        data[item.food_name] = i.quantity + data[item.food_name]
+                    else:
+                        data[item.food_name] = i.quantity
 
         return render_template(
             "insight.html",
-            names=names,
-            values=values,
+            names=list(data.keys()),
+            values=list(data.values()),
             user=current_user)
 
     return redirect(

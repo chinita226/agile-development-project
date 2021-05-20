@@ -1,8 +1,9 @@
 from tests.base_test import BaseTestCase
-from website.models import Food, User
+from website.models import Food, Order, OrderDetails, User
 from flask_login import current_user
 from werkzeug.security import generate_password_hash
 from website import db
+import json
 
 
 class TestViewRoutes(BaseTestCase):
@@ -20,10 +21,16 @@ class TestViewRoutes(BaseTestCase):
                                   location='Sweden',
                                   user_type='restaurant')
 
+            self.npo_user = User(username='npoUsername',
+                                 password=generate_password_hash('password', 'sha256'),
+                                 businessname='npoName',
+                                 location='Sweden',
+                                 user_type='npo')
+
             self.test_food = Food(id=1,
                                   food_name='name',
                                   description='desc',
-                                  quantity='qty',
+                                  quantity=10,
                                   users_id=self.test_user.id)
 
             db.create_all()
@@ -249,3 +256,37 @@ class TestViewRoutes(BaseTestCase):
             res = client.get('/food-waste')
 
             self.assertTrue(res.status_code == 200)
+
+    def test_create_order(self):
+        """Order is created and added to database."""
+        with self.context:
+            db.session.add(self.npo_user)
+            db.session.add(self.test_food)
+            db.session.commit()
+            with self.client as client:
+                food = self.test_food
+                client.post(
+                    '/login',
+                    follow_redirects=True,
+                    data=dict(
+                        username=self.npo_user.username,
+                        password='password'
+                    )
+                )
+
+                test_order = [{"id": food.id, "quantity": food.quantity}]
+
+                client.post(
+                    '/order',
+                    follow_redirects=True,
+                    data=json.dumps(test_order),
+                    content_type='application/json'
+                )
+                # Get the newly created order
+                order = Order.query.filter_by(user_id=self.npo_user.id).first()
+
+                self.assertIsNotNone(order)
+                # Get the food item associated with the new order
+                order_item = OrderDetails.query.filter_by(order_id=order.id).first()
+
+                self.assertTrue(order_item.food_id == food.id)

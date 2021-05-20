@@ -32,7 +32,6 @@ foodList.addEventListener('click', (e) => {
             </tr>
             `
             order.push({"id":id,"quantity": orderQuantity.value});
-            console.log(order)
             orderQuantity.value = '';
         }
     }
@@ -57,7 +56,6 @@ orderTableBody.addEventListener('click', (e) => {
             if(order[i].id == orderFoodId){
                 order.splice(i, i+1)
             }
-        console.log(order)
         }
     }
 })

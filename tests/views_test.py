@@ -264,6 +264,21 @@ class TestViewRoutes(BaseTestCase):
             db.session.add(self.test_food)
             db.session.commit()
             with self.client as client:
+                food = self.test_food
+                user = self.test_user
+                client.post(
+                    '/login',
+                    follow_redirects=True,
+                    data=dict(
+                        username=self.test_user.username,
+                        password='password'
+                    )
+                )
+                client.post('/search', follow_redirects=True, data=dict(id=food.users_id, location=user.location))
+                id = User.query.filter_by(id=food.users_id).first()
+                self.assertTrue(id)
+                
+
     def test_create_order(self):
         """Order is created and added to database."""
         with self.context:
@@ -276,26 +291,27 @@ class TestViewRoutes(BaseTestCase):
                     '/login',
                     follow_redirects=True,
                     data=dict(
-                        username=self.test_user.username,
+                        username=self.npo_user.username,
                         password='password'
                     )
                 )
-                self.assertTrue(current_user.is_authenticated)
 
-                user = self.test_user
+                test_order = [{"id": food.id, "quantity": food.quantity}]
 
                 client.post(
-                    '/search',
+                    '/order',
                     follow_redirects=True,
-                    data=dict(
-                        id=user.id,
-                        location=user.location,
-                        businessname=user.businessname,
-                        )
+                    data=json.dumps(test_order),
+                    content_type='application/json'
                 )
-                # if the filter match a location
-                the_user = User.query.filter_by(location=user.location).first()
-                self.assertTrue(the_user)
+                # Get the newly created order
+                order = Order.query.filter_by(user_id=self.npo_user.id).first()
+
+                self.assertIsNotNone(order)
+                # Get the food item associated with the new order
+                order_item = OrderDetails.query.filter_by(order_id=order.id).first()
+
+                self.assertTrue(order_item.food_id == food.id)
 
 
     def test_npo_search_flash_message_not_found(self):
@@ -330,24 +346,3 @@ class TestViewRoutes(BaseTestCase):
 
                 #msg = b"Not found"
                 #self.assertTrue(msg)
-                        username=self.npo_user.username,
-                        password='password'
-                    )
-                )
-
-                test_order = [{"id": food.id, "quantity": food.quantity}]
-
-                client.post(
-                    '/order',
-                    follow_redirects=True,
-                    data=json.dumps(test_order),
-                    content_type='application/json'
-                )
-                # Get the newly created order
-                order = Order.query.filter_by(user_id=self.npo_user.id).first()
-
-                self.assertIsNotNone(order)
-                # Get the food item associated with the new order
-                order_item = OrderDetails.query.filter_by(order_id=order.id).first()
-
-                self.assertTrue(order_item.food_id == food.id)

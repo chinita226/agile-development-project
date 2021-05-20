@@ -1,3 +1,4 @@
+from re import search
 from tests.base_test import BaseTestCase
 from website.models import Food, User
 from flask_login import current_user
@@ -249,3 +250,68 @@ class TestViewRoutes(BaseTestCase):
             res = client.get('/food-waste')
 
             self.assertTrue(res.status_code == 200)
+
+    def test_npo_search(self):
+        with self.context:
+            db.session.add(self.test_user)
+            db.session.add(self.test_food)
+            db.session.commit()
+            with self.client as client:
+                client.post(
+                    '/login',
+                    follow_redirects=True,
+                    data=dict(
+                        username=self.test_user.username,
+                        password='password'
+                    )
+                )
+                self.assertTrue(current_user.is_authenticated)
+
+                user = self.test_user
+
+                client.post(
+                    '/search',
+                    follow_redirects=True,
+                    data=dict(
+                        id=user.id,
+                        location=user.location,
+                        businessname=user.businessname,
+                        )
+                )
+                # if the filter match a location
+                the_user = User.query.filter_by(location=user.location).first()
+                self.assertTrue(the_user)
+
+
+    def test_npo_search_flash_message_not_found(self):
+        with self.context:
+            db.session.add(self.test_user)
+            db.session.commit()
+            with self.client as client:
+                client.post(
+                    '/login',
+                    follow_redirects=True,
+                    data=dict(
+                        username=self.test_user.username,
+                        password='password'
+                    )
+                )
+
+                self.assertTrue(current_user.is_authenticated)
+
+            with self.client as client:
+
+                user = self.test_user
+
+                client.post(
+                    '/search',
+                    follow_redirects=True,
+                    data=dict(
+                        location ="None"
+                    )
+                )
+                the_user = User.query.filter_by(location=user.location).first()
+                #self.assertTrue(not the_user)
+
+                #msg = b"Not found"
+                #self.assertTrue(msg)

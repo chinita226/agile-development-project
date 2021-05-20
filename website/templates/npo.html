@@ -10,22 +10,21 @@
   <br>
   <h3>Available Food</h3>
   <br>
-  <div class="container">
     <div class="row">
-     <div class="col-8">
-     <strong>Search For : {{ tag}}</strong>
+      <div class="col">
+    <strong>Search For : {{ tag}}</strong>
+    </div>
+    <div class="col">
+     <form action="{{ url_for('views.npo_search') }}" method="post"> 
      </div>
-     <div class="col-4">
-      <form action="" method="post" autocomplete="off"> 
-      <div class="row">
-       <div class="col-6">
-       <input type="text" class="form-control" name="tag" id="tag"  placeholder="Enter keyword"/> 
-       </div>
-       <div class="col-6" align="left">
-       <input type="submit" value="Search" class="form-control btn btn-primary " name=""> 
-       </div>
-      </form> 
+     <div class="col">
+      <input type="text" class="form-control" name="tag" id="tag"  placeholder="Enter keyword"/> 
       </div>
+      <div class="col-sm-2" >
+      <input type="submit" value="Search" class="form-control btn btn-primary " name=""> 
+      <br><br>
+      </div>
+     </form> 
      </div>
     </div>
   <table class="table table-striped" id='food-list'>

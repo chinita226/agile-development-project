@@ -23,6 +23,7 @@ def home():
         url_for('views.about', user=current_user)
     )
 
+
 @views.route('/about')
 def about():
     """Route to home page."""
@@ -73,11 +74,6 @@ def dashboard(username):
             food=food,
             user=current_user)
 
-        return render_template(
-            'restaurant.html',
-            businessname=current_user.businessname,
-            food=food)
-
     food = Food.query.order_by(Food.food_name)
     users = User.query.all()
     orders = Order.query.filter_by(user_id=current_user.id)
@@ -99,9 +95,11 @@ def dashboard(username):
 def npo_search():
 
     tag = request.form["tag"]
+    orders = Order.query.filter_by(user_id=current_user.id)
+    details = OrderDetails.query.all()
     if not tag:
         flash("Missing keyword")
-        return redirect(url_for("views.dashboard", user=current_user))
+        return redirect(url_for("views.dashboard", user=current_user, username=current_user.username))
 
     search = "%{}%".format(tag)
     location_filter = User.query.filter(User.location.like(search)).one_or_none()
@@ -110,21 +108,29 @@ def npo_search():
         businessname_filter = User.query.filter(User.businessname.like(search)).one_or_none()
         if businessname_filter is None:
             flash("Not found")
-            return render_template('npo.html', businessname=current_user.businessname, food=[], users=[], tag=tag)
+            return render_template('npo.html', businessname=current_user.businessname, food=[], user=[], tag=tag, )
 
         businessname = User.query.filter(User.businessname.like(search)).all()
         for i in businessname:
             food = Food.query.filter_by(users_id=i.id).all()
-            return render_template('npo.html',
-                                    businessname=current_user.businessname,
-                                    food=food,
-                                    users=businessname,
-                                    tag=tag)
+            return render_template(
+                'npo.html',
+                businessname=current_user.businessname,
+                food=food, users=businessname,
+                tag=tag, orders=orders,
+                details=details,
+                user=current_user)
 
     location = User.query.filter(User.location.like(search)).all()
     for i in location:
         food = Food.query.filter_by(users_id=i.id).all()
-        return render_template('npo.html', businessname=current_user.businessname, food=food, users=location, tag=tag)
+        return render_template(
+                'npo.html',
+                businessname=current_user.businessname,
+                food=food, users=location,
+                tag=tag, orders=orders,
+                details=details,
+                user=current_user)
 
 
 # current_user is the object for the logged in user.

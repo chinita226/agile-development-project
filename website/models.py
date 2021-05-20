@@ -28,3 +28,20 @@ class Food(db.Model):
         return "<food_name: {}>".format(self.food_name)
 
 
+class Order(db.Model):
+    """Order model class."""
+
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    date = db.Column(db.DateTime, nullable=False)
+    details = db.relationship('OrderDetails', backref='order', lazy=False)
+
+
+class OrderDetails(db.Model):
+    """Order details model class."""
+
+    food_id = db.Column(db.Integer, db.ForeignKey('food.id'), primary_key=True)
+    order_id = db.Column(db.Integer, db.ForeignKey('order.id'), primary_key=True)
+    quantity = db.Column(db.Integer, nullable=False)
+
+

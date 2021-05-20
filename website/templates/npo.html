@@ -3,74 +3,9 @@
 
 <link rel="stylesheet" href="../static/backgroundcolor.css">
 
-<h1>Welcome to Yummy Saviour, {{ businessname }}!</h1>
-<h2>NPO</h2>
-<h1 align="center">Available Food</h1>
 
-<div class="container">
-  <div class="row">
-    <div class="col">
-  <strong>Search For : {{ tag}}</strong>
-  </div>
-  <div class="col-sm-2">
-   <form action="{{ url_for('views.npo_search') }}" method="post"> 
-   </div>
-   <div class="col">
-    <input type="text" class="form-control" name="tag" id="tag"  placeholder="Enter keyword"/> 
-    </div>
-    <div class="col-2" >
-    <input type="submit" value="Search" class="form-control btn btn-primary " name=""> 
-    <br><br>
-    </div>
-   </form> 
-   </div>
-  </div>
- </div> 
-
- <div class="container pb-5">
-<table>
-  <thead>
-  <tr>
-    <th>Food name</th>
-    <th>Description</th>
-    <th>Quantity</th>
-    <th>Company</th>
-    <th>Location</th>
-  </tr>
-</thead>
-  {% for food in food %}
-    <tr>
-      <form method="POST" action="./view" style="display: inline">
-        <td><input type="text" value="{{food.food_name}}" name="food_name" readonly></td>
-        <td><input type="text" value="{{food.description}}" name="description" readonly></td>
-        <td><input type="text" value="{{food.quantity}}" name="quantity" readonly></td>
-      {% for user in users %}
-          {% if user.id == food.users_id %}
-            <td><input type="text" value="{{user.businessname}}" name="restaurant" readonly></td>
-            <td><input type="text" value="{{user.location}}" name="location" readonly></td>
-          {% endif %}
-      {% endfor %}
-          <input type="hidden" value="{{food.id}}" name="id">
-        </form>
-    </tr>
-  {% endfor %}
-</table>
-</div>
 
 <style>
-  table,
-  th,
-  td {
-      border: 1px solid #555555;
-      border-collapse: collapse;
-  }
-  
-  th,
-  td {
-      padding: 5px;
-      text-align: left;
-  }
-
   .row{
     width: 89.7% ;
 
@@ -80,3 +15,102 @@
 
 {% endblock %}
 
+<div class="container-fluid">
+  <h1>Welcome to Yummy Saviour, {{ businessname }}!</h1>
+  <br>
+  <h3>Available Food</h3>
+  <br>
+  <div class="container">
+    <div class="row">
+      <div class="col">
+    <strong>Search For : {{ tag}}</strong>
+    </div>
+    <div class="col-sm-2">
+     <form action="{{ url_for('views.npo_search') }}" method="post"> 
+     </div>
+     <div class="col">
+      <input type="text" class="form-control" name="tag" id="tag"  placeholder="Enter keyword"/> 
+      </div>
+      <div class="col-2" >
+      <input type="submit" value="Search" class="form-control btn btn-primary " name=""> 
+      <br><br>
+      </div>
+     </form> 
+     </div>
+    </div>
+   </div> 
+  <table class="table table-striped" id='food-list'>
+    <thead>
+      <tr>
+        <th scope='col'>#</th>
+        <th scope='col'>Food name</th>
+        <th scope='col'>Description</th>
+        <th scope='col'>Company</th>
+        <th scope='col'>Location</th>
+        <th scope='col'>Quantity</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for food in food %}
+      {% if food.quantity > 0 %}
+      <tr id={{food.id}}>
+        <th scope='row'>{{ food.id }}</th>
+        <td>{{ food.food_name }}</td>
+        <td>{{ food.description }}</td>
+        {% for user in users %}
+        {% if user.id == food.users_id %}
+        <td>{{ user.businessname }}</td>
+        <td>{{ user.location }}</td>
+        {% endif %}
+        {% endfor %}
+        <td>{{ food.quantity }}</td>
+        <td><input type="text" placeholder="Order quantity"></td>
+        <td><button class="btn btn-sm btn-primary addItem">Add to order</button></td>
+      </tr>
+      {% endif %}
+      {% endfor %}
+    </tbody>
+  </table>
+  <br>
+  <h3>Current Order</h3>
+  <br>
+  <table id="order-table" class="table table-striped">
+    <thead>
+      <tr>
+        <th scope='col'>#</th>
+        <th scope='col'>Food name</th>
+        <th scope='col'>Description</th>
+        <th scope='col'>Company</th>
+        <th scope='col'>Location</th>
+        <th scope='col'>Quantity</th>
+      </tr>
+    </thead>
+    <tbody id="order-content">
+    </tbody>
+  </table>
+  <div class="btn-container">
+    <button class="btn btn-sm btn-success" id="confirm-btn">Confirm order</button>
+  </div>
+  <br>
+  <h3>Order History</h3>
+  <br>
+  <div id="order-history">
+    {% for order in orders %}
+      <ul class="list-group">
+        <li class="list-group-item">
+          <span><strong>Date: </strong>{{ order.date.date() }}</span>
+          <span class="list-products">
+            <strong>Products: </strong>
+            {% for ordered in order.details %}
+            {% for food in food %}
+            {% if ordered.food_id == food.id %}
+            <span> {{ food.food_name }}  {{ ordered.quantity }}Kg, </span>
+            {% endif %}
+            {% endfor %}{% endfor %}
+          </span>
+        </li>
+      </ul>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

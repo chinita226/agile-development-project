@@ -9,9 +9,10 @@
     
 
     <script>
-        let values = {{values|safe}};
-        let names = {{names|safe}};
+        let values = {{ values|safe }};
+        let names = {{ names|safe }};
     </script>
+
  <!-- script for the chart javascript -->
 
     <script type="text/javascript" src="{{ url_for('static', filename='Chart.min.js') }}"></script>

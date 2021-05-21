@@ -53,3 +53,7 @@
 .list-products {
     margin-left: 3rem;
 }
+
+.alert-spacer {
+    min-height: 3.5rem;
+}

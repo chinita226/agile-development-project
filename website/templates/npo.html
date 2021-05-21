@@ -13,12 +13,12 @@
     <div class="row">
       <div class="col">
     <strong>Search For : {{ tag}}</strong>
-    </div>
-    <div class="col-2">
-     <form action="{{ url_for('views.npo_search') }}" method="post">
-    </div>
-     <div class="col-2">
-      <input type="text" class="form-control" name="tag" id="tag"  placeholder="Enter keyword"/>
+      </div>
+      <div class="col-2">
+        <form action="{{ url_for('views.npo_search') }}" method="post">
+      </div>
+      <div class="col-2">
+        <input type="text" class="form-control" name="tag" id="tag"  placeholder="Enter keyword"/>
       </div>
       <div class="col-2" >
         <input type="submit" value="Search" class="form-control btn btn-primary " name="">
@@ -26,11 +26,9 @@
       <div class="col-1">
         <button type="submit" formaction="{{url_for('views.reset_search')}}" class="btn btn-secondary">Reset</button>
       </div>
-      </div>
-     </form>
-     <br><br>
-     </div>
+      </form>
     </div>
+     <br><br>
   <table class="table table-striped" id='food-list'>
     <thead>
       <tr>

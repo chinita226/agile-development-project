@@ -3,6 +3,8 @@ from flask import Blueprint, render_template, request, flash, redirect, url_for
 from flask_login import login_required, current_user
 from . import db
 from .models import Food, User, Order, OrderDetails
+from itertools import product
+
 
 views = Blueprint('views', __name__)
 
@@ -35,16 +37,20 @@ def about():
 def insight():
     """Route to insight page."""
     if current_user.user_type == 'restaurant':
-        food = Food.query.filter_by(users_id=current_user.id).all()
-        names, values = [], []
-        for item in food:
-            names.append(item.food_name)
-            values.append(item.quantity)
+        foods = Food.query.filter_by(users_id=current_user.id).all()
+        orders = OrderDetails.query.all()
+        data = dict()
+        for item, order in product(foods, orders):
+            if item.id == order.food_id:
+                if item.food_name in data:
+                    data[item.food_name] += order.quantity
+                else:
+                    data[item.food_name] = order.quantity
 
         return render_template(
             "insight.html",
-            names=names,
-            values=values,
+            names=list(data.keys()),
+            values=list(data.values()),
             user=current_user)
 
     return redirect(

@@ -286,7 +286,7 @@ class TestViewRoutes(BaseTestCase):
 
                 self.assertTrue(b'Missing keyword' in response.data)
                 # response.data returns the html for the page it will route to.
-                print(response.data)
+
     # def test_npo_search(self):
     #     with self.context:
     #         db.session.add(self.test_user)
@@ -386,9 +386,8 @@ class TestViewRoutes(BaseTestCase):
                         '/search',
                         follow_redirects=True,
                         data=dict( tag = "Sweden"))
-                
+
                 self.assertTrue(response.status_code==200)
-                print(response.status_code)
 
     def test_npo_valid_businessname(self):
         with self.context:

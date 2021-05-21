@@ -1,4 +1,5 @@
 from re import search
+from website.views import dashboard
 
 from flask.globals import request
 from tests.base_test import BaseTestCase
@@ -45,13 +46,33 @@ class TestViewRoutes(BaseTestCase):
             db.session.remove()
             self.test_user = None
 
-    def test_home(self):
+    def test_home_not_authenticated(self):
 
         with self.app.test_client() as client:
 
-            response = client.get('/')
+            response = client.get('/', follow_redirects=True)
 
-            self.assertTrue(response.status_code == 302)
+            self.assertTrue(request.path == '/about')
+
+    def test_home_as_authenticated(self):
+        with self.context:
+            db.session.add(self.test_user)
+            db.session.commit()
+            with self.client as client:
+
+                client.post(
+                    '/login',
+                    follow_redirects=True,
+                    data=dict(
+                        username=self.test_user.username,
+                        password='password'
+                    )
+                )
+
+                client.get('/', follow_redirects=True)
+
+                dashboard_route = f'/{self.test_user.username}'
+                self.assertTrue(request.path == dashboard_route)
 
     def test_delete(self):
         with self.context:

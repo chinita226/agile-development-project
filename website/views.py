@@ -78,10 +78,10 @@ def npo_search():
         for i in businessname:
             food = Food.query.filter_by(users_id=i.id).all()
             return render_template('npo.html',
-                                    businessname=current_user.businessname,
-                                    food=food,
-                                    users=businessname,
-                                    tag=tag)
+                                   businessname=current_user.businessname,
+                                   food=food,
+                                   users=businessname,
+                                   tag=tag)
 
     location = User.query.filter(User.location.like(search)).all()
     for i in location:

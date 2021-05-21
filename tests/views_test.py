@@ -251,7 +251,7 @@ class TestViewRoutes(BaseTestCase):
 
             self.assertTrue(res.status_code == 200)
 
-    def test_npo_search(self):
+    def test_npo_search_no_tag(self):
         with self.context:
             db.session.add(self.test_user)
             db.session.add(self.test_food)
@@ -267,23 +267,39 @@ class TestViewRoutes(BaseTestCase):
                 )
                 self.assertTrue(current_user.is_authenticated)
 
-                user = self.test_user
+                # If we assign the post to a variable like below. We will get the response
+                # object as the value. Then you can check properties of the response object
+                # like status_code or data etc.
 
-                client.post(
+                response = client.post(
                     '/search',
                     follow_redirects=True,
+                    # The values in the dict() should correspond to any values
+                    # you use in the form. So for this route, it is just the
+                    # tag.
+                    # The way you were doing the post to the route, just returned
+                    # a 400 status error for 'Bad request' because you were passing
+                    # form values that didn't exist.
                     data=dict(
-                        id=user.id,
-                        location=user.location,
-                        businessname=user.businessname,
+                        tag=''
+                        # No tag value passed in above by providing an empty string as value.
+                        # The "if not tag:" code block in the search function of views.py
+                        # will run. So we can check if the correct flash message was
+                        # inserted into the html template.
                         )
                 )
-                # if the filter match a location
-                the_user = User.query.filter_by(location=user.location).first()
-                self.assertTrue(the_user)
 
+                # Here we will check the flash message by checking if the message
+                # is in the response data. The response data is a bytes object,
+                # so you need to prefix the string with b. Like below:
+                self.assertTrue(b'Missing keyword' in response.data)
+                # response.data returns the html for the page it will route to.
+                # I have added a print statement to show you. If you run the tests
+                # with `make coverage` command from the terminal. It will print the
+                # data when the test runs.
+                print(response.data) # This is just to show you what the response.data is
 
-    def test_npo_search_flash_message_not_found(self):
+    def test_npo_search_invalid_search_term(self):
         with self.context:
             db.session.add(self.test_user)
             db.session.commit()
@@ -303,15 +319,53 @@ class TestViewRoutes(BaseTestCase):
 
                 user = self.test_user
 
+                # Set this post value to a variable like i did in the previous test.
+                # That way you can check the properties of the response object.
+                # Like below:
+                # response = client.post( ### Your parameters go here ### )
+
                 client.post(
                     '/search',
                     follow_redirects=True,
                     data=dict(
-                        location ="None"
+                        # Here you should be have provided a value for tag,
+                        # not location because tag is what is in the form.
+                        # So you just pass a value to tag, that isn't an empty
+                        # string like the previous test but it also isnt a
+                        # correct location.
+                        # For our tests, at the very top of this
+                        # file, we have a set up function. In there we have a
+                        # test user. The test users location is "Sweden". There is
+                        # also a test_food and the users_id for the test_food
+                        # is the id of the test user. So the location value for the food
+                        # will correspond to that of the test_user. So any value
+                        # other than "Sweden" will be an invalid location.
+                        # So you could have something like below:
+                        # tag='Vietnam'
+
+                        location="None" # You can remove this and replace it with tag.
                     )
                 )
-                the_user = User.query.filter_by(location=user.location).first()
-                #self.assertTrue(not the_user)
 
-                #msg = b"Not found"
-                #self.assertTrue(msg)
+                # You don't need to check anything with the user so you don't need
+                # the line below.
+                the_user = User.query.filter_by(location=user.location).first()
+
+                # You want to check for the message. So you can do that by checking response.data
+                # like i did in the previous test.
+
+    def test_npo_search_valid_location(self):
+        with self.context:
+            db.session.add(self.test_user)
+            db.session.add(self.test_food)
+            db.session.commit()
+            with self.client as client:
+
+    def test_npo_search_valid_businessname(self):
+        with self.context:
+            db.session.add(self.test_user)
+            db.session.add(self.test_food)
+            db.session.commit()
+            with self.client as client:
+
+

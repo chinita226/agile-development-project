@@ -96,7 +96,7 @@ def npo_search():
 
     tag = request.form["tag"]
     orders = Order.query.filter_by(user_id=current_user.id)
-    #details = OrderDetails.query.all()
+    # details = OrderDetails.query.all()
     if not tag:
         flash("Missing keyword")
         return redirect(url_for("views.dashboard", user=current_user, username=current_user.username))
@@ -113,7 +113,7 @@ def npo_search():
         businessname = User.query.filter(User.businessname.like(search)).all()
         for i in businessname:
             food = Food.query.filter_by(users_id=i.id).all()
-            details = OrderDetails.query.filter(Food.users_id==i.id).all()
+            details = OrderDetails.query.filter(Food.users_id == i.id).all()
             return render_template(
                 'npo.html',
                 businessname=current_user.businessname,
@@ -125,7 +125,7 @@ def npo_search():
     location = User.query.filter(User.location.like(search)).all()
     for i in location:
         food = Food.query.filter_by(users_id=i.id).all()
-        details = OrderDetails.query.filter(Food.users_id==i.id).all()
+        details = OrderDetails.query.filter(Food.users_id == i.id).all()
         return render_template(
                 'npo.html',
                 businessname=current_user.businessname,

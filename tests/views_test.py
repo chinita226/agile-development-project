@@ -1,4 +1,6 @@
 from re import search
+
+from flask.wrappers import Response
 from tests.base_test import BaseTestCase
 from website.models import Food, Order, OrderDetails, User
 from flask_login import current_user
@@ -258,14 +260,12 @@ class TestViewRoutes(BaseTestCase):
 
             self.assertTrue(res.status_code == 200)
 
-    def test_npo_search(self):
+    def test_npo_search_no_tag(self):
         with self.context:
             db.session.add(self.test_user)
             db.session.add(self.test_food)
             db.session.commit()
             with self.client as client:
-                food = self.test_food
-                user = self.test_user
                 client.post(
                     '/login',
                     follow_redirects=True,
@@ -274,10 +274,19 @@ class TestViewRoutes(BaseTestCase):
                         password='password'
                     )
                 )
-                client.post('/search', follow_redirects=True, data=dict(id=food.users_id, location=user.location))
-                id = User.query.filter_by(id=food.users_id).first()
-                self.assertTrue(id)
-                
+                self.assertTrue(current_user.is_authenticated)
+
+                response = client.post(
+                    '/search',
+                    follow_redirects=True,
+                    data=dict(
+                        tag=''
+                        )
+                )
+
+                self.assertTrue(b'Missing keyword' in response.data)
+                # response.data returns the html for the page it will route to.
+                print(response.data)
 
     def test_create_order(self):
         """Order is created and added to database."""
@@ -314,7 +323,33 @@ class TestViewRoutes(BaseTestCase):
                 self.assertTrue(order_item.food_id == food.id)
 
 
-    def test_npo_search_flash_message_not_found(self):
+    def test_npo_search_invalid_search_term(self):
+            with self.context:
+                db.session.add(self.test_user)
+                db.session.commit()
+                with self.client as client:
+                    client.post(
+                        '/login',
+                        follow_redirects=True,
+                        data=dict(
+                            username=self.test_user.username,
+                            password='password'
+                        )
+                    )
+
+                    self.assertTrue(current_user.is_authenticated)
+
+                with self.client as client:
+                    response = client.post(
+                        '/search',
+                        follow_redirects=True,
+                        data=dict(
+                            tag="None"
+                        )
+                    )
+                    self.assertTrue(b"Not found" in response.data)
+
+    def test_npo_valid_location(self):
         with self.context:
             db.session.add(self.test_user)
             db.session.commit()
@@ -326,23 +361,31 @@ class TestViewRoutes(BaseTestCase):
                         username=self.test_user.username,
                         password='password'
                     )
-                )
+                    )
+                response= client.post(
+                        '/search',
+                        follow_redirects=True,
+                        data=dict( tag = "Sweden"))
+                
+                self.assertTrue(response.status_code==200)
+                print(response.status_code)
 
-                self.assertTrue(current_user.is_authenticated)
-
+    def test_npo_valid_businessname(self):
+        with self.context:
+            db.session.add(self.test_user)
+            db.session.commit()
             with self.client as client:
-
-                user = self.test_user
-
                 client.post(
-                    '/search',
+                    '/login',
                     follow_redirects=True,
                     data=dict(
-                        location ="None"
+                        username=self.test_user.username,
+                        password='password'
                     )
-                )
-                the_user = User.query.filter_by(location=user.location).first()
-                #self.assertTrue(not the_user)
-
-                #msg = b"Not found"
-                #self.assertTrue(msg)
+                    )
+                response= client.post(
+                        '/search',
+                        follow_redirects=True,
+                        data=dict( tag = 'testbusiness'))
+                
+                self.assertTrue(response.status_code==200)

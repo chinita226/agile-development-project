@@ -14,17 +14,21 @@
       <div class="col">
     <strong>Search For : {{ tag}}</strong>
     </div>
-    <div class="col">
-     <form action="{{ url_for('views.npo_search') }}" method="post"> 
-     </div>
-     <div class="col">
-      <input type="text" class="form-control" name="tag" id="tag"  placeholder="Enter keyword"/> 
+    <div class="col-2">
+     <form action="{{ url_for('views.npo_search') }}" method="post">
+    </div>
+     <div class="col-2">
+      <input type="text" class="form-control" name="tag" id="tag"  placeholder="Enter keyword"/>
       </div>
-      <div class="col-sm-2" >
-      <input type="submit" value="Search" class="form-control btn btn-primary " name=""> 
-      <br><br>
+      <div class="col-2" >
+        <input type="submit" value="Search" class="form-control btn btn-primary " name="">
       </div>
-     </form> 
+      <div class="col-1">
+        <button type="submit" formaction="{{url_for('views.reset_search')}}" class="btn btn-secondary">Reset</button>
+      </div>
+      </div>
+     </form>
+     <br><br>
      </div>
     </div>
   <table class="table table-striped" id='food-list'>
@@ -39,24 +43,45 @@
       </tr>
     </thead>
     <tbody>
-      {% for food in food %}
-      {% if food.quantity > 0 %}
-      <tr id={{food.id}}>
-        <th scope='row'>{{ food.id }}</th>
-        <td>{{ food.food_name }}</td>
-        <td>{{ food.description }}</td>
-        {% for user in users %}
-        {% if user.id == food.users_id %}
-        <td>{{ user.businessname }}</td>
-        <td>{{ user.location }}</td>
-        {% endif %}
+      {% if filtered %}
+        {% for food in filtered %}
+          {% if food.quantity > 0 %}
+          <tr id={{food.id}}>
+            <th scope='row'>{{ food.id }}</th>
+            <td>{{ food.food_name }}</td>
+            <td>{{ food.description }}</td>
+            {% for user in users %}
+              {% if user.id == food.users_id %}
+                <td>{{ user.businessname }}</td>
+                <td>{{ user.location }}</td>
+              {% endif %}
+            {% endfor %}
+            <td>{{ food.quantity }}</td>
+            <td><input type="text" placeholder="Order quantity"></td>
+            <td><button class="btn btn-sm btn-primary addItem">Add to order</button></td>
+          </tr>
+          {% endif %}
         {% endfor %}
-        <td>{{ food.quantity }}</td>
-        <td><input type="text" placeholder="Order quantity"></td>
-        <td><button class="btn btn-sm btn-primary addItem">Add to order</button></td>
-      </tr>
+      {% else %}
+        {% for food in food %}
+          {% if food.quantity > 0 %}
+            <tr id={{food.id}}>
+              <th scope='row'>{{ food.id }}</th>
+              <td>{{ food.food_name }}</td>
+              <td>{{ food.description }}</td>
+              {% for user in users %}
+                {% if user.id == food.users_id %}
+                <td>{{ user.businessname }}</td>
+                <td>{{ user.location }}</td>
+                {% endif %}
+              {% endfor %}
+              <td>{{ food.quantity }}</td>
+              <td><input type="text" placeholder="Order quantity"></td>
+              <td><button class="btn btn-sm btn-primary addItem">Add to order</button></td>
+            </tr>
+          {% endif %}
+        {% endfor %}
       {% endif %}
-      {% endfor %}
     </tbody>
   </table>
   <br>
@@ -90,11 +115,15 @@
           <span class="list-products">
             <strong>Products: </strong>
             {% for ordered in order.details %}
-            {% for food in food %}
-            {% if ordered.food_id == food.id %}
-            <span> {{ food.food_name }}  {{ ordered.quantity }}Kg, </span>
-            {% endif %}
-            {% endfor %}{% endfor %}
+              {% for food in food %}
+                {% if ordered.food_id == food.id %}
+                <span>
+                  {{ food.food_name }}
+                  {{ ordered.quantity }}Kg
+                </span>
+                {% endif %}
+              {% endfor %}
+            {% endfor %}
           </span>
         </li>
       </ul>

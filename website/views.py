@@ -99,7 +99,7 @@ def dashboard(username):
 @views.route('/search', methods=["POST"])
 @login_required
 def npo_search():
-
+    """Search food items by keyword."""
     tag = request.form["tag"]
     orders = Order.query.filter_by(user_id=current_user.id)
     # details = OrderDetails.query.all()
@@ -108,38 +108,60 @@ def npo_search():
         return redirect(url_for("views.dashboard", user=current_user, username=current_user.username))
 
     search = "%{}%".format(tag)
-    location_filter = User.query.filter(User.location.like(search)).one_or_none()
+    location = User.query.filter(User.location.like(search)).all()
+    food = Food.query.all()
 
-    if location_filter is None:
-        businessname_filter = User.query.filter(User.businessname.like(search)).one_or_none()
-        if businessname_filter is None:
-            flash("Not found")
-            return render_template('npo.html', businessname=current_user.businessname, food=[], user=[], tag=tag, )
+    if location is not None:
+        for i in location:
+            filtered = Food.query.filter_by(users_id=i.id).all()
 
-        businessname = User.query.filter(User.businessname.like(search)).all()
+            details = OrderDetails.query.filter(Food.users_id == i.id).all()
+            return render_template(
+                    'npo.html',
+                    businessname=current_user.businessname,
+                    food=food,
+                    filtered=filtered,
+                    users=location,
+                    tag=tag,
+                    orders=orders,
+                    details=details,
+                    user=current_user)
+
+    businessname = User.query.filter(User.businessname.like(search)).all()
+
+    if businessname is not None:
         for i in businessname:
-            food = Food.query.filter_by(users_id=i.id).all()
+            filtered = Food.query.filter_by(users_id=i.id).all()
             details = OrderDetails.query.filter(Food.users_id == i.id).all()
             return render_template(
                 'npo.html',
                 businessname=current_user.businessname,
-                food=food, users=businessname,
-                tag=tag, orders=orders,
+                food=food,
+                filtered=filtered,
+                users=businessname,
+                tag=tag,
+                orders=orders,
                 details=details,
                 user=current_user)
 
-    location = User.query.filter(User.location.like(search)).all()
-    for i in location:
-        food = Food.query.filter_by(users_id=i.id).all()
-        details = OrderDetails.query.filter(Food.users_id == i.id).all()
-        return render_template(
-                'npo.html',
-                businessname=current_user.businessname,
-                food=food, users=location,
-                tag=tag, orders=orders,
-                details=details,
-                user=current_user)
+    flash("Not found")
+    return render_template(
+        'npo.html',
+        businessname=current_user.businessname,
+        food=food,
+        user=current_user,
+        tag=tag
+    )
 
+
+@views.route('/clear_search', methods=["POST"])
+@login_required
+def reset_search():
+
+    return redirect(
+        url_for('views.dashboard',
+                username=current_user.username,
+                user=current_user))
 
 # current_user is the object for the logged in user.
 @views.route('/<user>', methods=["POST"])

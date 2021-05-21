@@ -1,4 +1,6 @@
 from re import search
+
+from flask.globals import request
 from tests.base_test import BaseTestCase
 from website.models import Food, Order, OrderDetails, User
 from flask_login import current_user
@@ -297,7 +299,7 @@ class TestViewRoutes(BaseTestCase):
                         '/search',
                         follow_redirects=True,
                         data=dict(tag='testbusiness'))
-                
+
                 self.assertTrue(response.status_code == 200)
 
     def test_create_order(self):
@@ -387,3 +389,28 @@ class TestViewRoutes(BaseTestCase):
                 )
 
                 self.assertTrue(b'Missing keyword' in response.data)
+
+    def test_reset_search(self):
+        with self.context:
+            db.session.add(self.npo_user)
+            db.session.add(self.test_food)
+            db.session.commit()
+            with self.client as client:
+                client.post(
+                    '/login',
+                    follow_redirects=True,
+                    data=dict(
+                        username=self.npo_user.username,
+                        password='password'
+                    )
+                )
+            response = client.post(
+                '/clear_search',
+                follow_redirects=True,
+                data=dict(
+                    username=self.npo_user.username,
+                    user=self.npo_user
+                    )
+                )
+
+            self.assertEqual(response.status_code, 200)

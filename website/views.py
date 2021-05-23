@@ -61,6 +61,7 @@ def insight():
 
 @views.route('/food-waste')
 def blog():
+    """Serve the blog page."""
     return render_template(
         "blog.html",
         user=current_user
@@ -70,7 +71,7 @@ def blog():
 @views.route('/<username>')
 @login_required
 def dashboard(username):
-    # Show restaurant page
+    """Show user dashboard depending on user type."""
     if current_user.user_type == 'restaurant':
 
         food = Food.query.filter_by(users_id=current_user.id).all()
@@ -157,16 +158,18 @@ def npo_search():
 @views.route('/clear_search', methods=["POST"])
 @login_required
 def reset_search():
-
+    """Reset the search function."""
     return redirect(
         url_for('views.dashboard',
                 username=current_user.username,
                 user=current_user))
 
+
 # current_user is the object for the logged in user.
 @views.route('/<user>', methods=["POST"])
 @login_required
 def add(user):
+    """Add a food to the restaurants list of foods."""
     # Show and add items in restaurant page
     if current_user.user_type == 'restaurant' and request.form:
         food = Food(
@@ -193,6 +196,7 @@ def add(user):
 @views.route("/update/<id>", methods=["POST"])
 @login_required
 def update(id):
+    """Update a food item in the restaurant list."""
     id = request.form.get('id')
     name = request.form.get('name')
     description = request.form.get('description')
@@ -216,7 +220,7 @@ def update(id):
 @views.route("/delete", methods=["POST"])
 @login_required
 def delete():
-    # Show and delete items in restaurant page
+    """Delete a food item from the restaurant list."""
     id = request.form.get("id")
     Food.query.filter_by(id=id).delete()
     db.session.commit()
@@ -231,7 +235,7 @@ def delete():
 @views.route("/order", methods=["POST"])
 @login_required
 def create_order():
-
+    """Create an order for NPO user."""
     date = datetime.datetime.now()
     order = Order(user_id=current_user.id, date=date)
     db.session.add(order)

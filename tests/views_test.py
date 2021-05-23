@@ -1,3 +1,4 @@
+"""View routes."""
 from flask.globals import request
 from tests.base_test import BaseTestCase
 from website.models import Food, Order, OrderDetails, User
@@ -8,10 +9,10 @@ import json
 
 
 class TestViewRoutes(BaseTestCase):
-
-    # TEST INITIALIZATION AND TEAR DOWN #
+    """View route tests."""
 
     def setUp(self):
+        """Set up the tests."""
         with self.app.app_context() as context:
             self.context = context
             self.client = self.app.test_client()
@@ -37,14 +38,16 @@ class TestViewRoutes(BaseTestCase):
             db.create_all()
 
     def tearDown(self):
-        # clear the database at the end of the test
+        """Clean up after the tests."""
         with self.context:
             db.drop_all()
             db.session.remove()
             self.test_user = None
+            self.npo_user = None
+            self.test_food = None
 
     def test_home_not_authenticated(self):
-
+        """Home route redirects unauhtenticated user correctly."""
         with self.app.test_client() as client:
 
             client.get('/', follow_redirects=True)
@@ -52,6 +55,7 @@ class TestViewRoutes(BaseTestCase):
             self.assertTrue(request.path == '/about')
 
     def test_home_as_authenticated(self):
+        """Home route redirects authenticated user correctly."""
         with self.context:
             db.session.add(self.test_user)
             db.session.commit()
@@ -72,6 +76,7 @@ class TestViewRoutes(BaseTestCase):
                 self.assertTrue(request.path == dashboard_route)
 
     def test_delete(self):
+        """Food item can be deleted from restaurant page."""
         with self.context:
             db.session.add(self.test_user)
             db.session.add(self.test_food)
@@ -156,6 +161,7 @@ class TestViewRoutes(BaseTestCase):
                 self.assertEqual(res, exp)
 
     def test_delete_flash_message(self):
+        """Correct flash message displayed on delete."""
         with self.context:
             db.session.add(self.test_user)
             db.session.add(self.test_food)
@@ -222,6 +228,7 @@ class TestViewRoutes(BaseTestCase):
                 self.assertTrue(msg)
 
     def test_update_flash_message(self):
+        """Correct flash message displayed on update."""
         with self.context:
             db.session.add(self.test_user)
             db.session.add(self.test_food)
@@ -273,13 +280,14 @@ class TestViewRoutes(BaseTestCase):
                 self.assertTrue(msg)
 
     def test_blog(self):
+        """Blog page served correctly."""
         with self.client as client:
             res = client.get('/food-waste')
 
             self.assertTrue(res.status_code == 200)
 
     def test_npo_valid_location(self):
-        """valid location is found in db"""
+        """Valid location is found in database."""
         with self.context:
             db.session.add(self.test_user)
             db.session.commit()
@@ -300,7 +308,7 @@ class TestViewRoutes(BaseTestCase):
                 self.assertTrue(response.status_code == 200)
 
     def test_npo_valid_businessname(self):
-        """valid businessname is found in db"""
+        """Valid businessname is found in database."""
         with self.context:
             db.session.add(self.test_user)
             db.session.commit()
@@ -355,7 +363,7 @@ class TestViewRoutes(BaseTestCase):
                 self.assertTrue(order_item.food_id == food.id)
 
     def test_npo_search_invalid_search_term(self):
-        """check message is displayed when term is not found"""
+        """Check message is displayed when term is not found."""
         with self.context:
             db.session.add(self.test_user)
             db.session.commit()
@@ -382,7 +390,7 @@ class TestViewRoutes(BaseTestCase):
                 self.assertTrue(b"Not found" in response.data)
 
     def test_npo_search_no_tag(self):
-        """check message is displayed when tag is none"""
+        """Check message is displayed when tag is none."""
         with self.context:
             db.session.add(self.test_user)
             db.session.add(self.test_food)
@@ -409,6 +417,7 @@ class TestViewRoutes(BaseTestCase):
                 self.assertTrue(b'Missing keyword' in response.data)
 
     def test_reset_search(self):
+        """Search functionality can be reset."""
         with self.context:
             db.session.add(self.npo_user)
             db.session.add(self.test_food)

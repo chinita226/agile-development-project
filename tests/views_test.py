@@ -1,6 +1,3 @@
-from re import search
-from website.views import dashboard
-
 from flask.globals import request
 from tests.base_test import BaseTestCase
 from website.models import Food, Order, OrderDetails, User
@@ -50,7 +47,7 @@ class TestViewRoutes(BaseTestCase):
 
         with self.app.test_client() as client:
 
-            response = client.get('/', follow_redirects=True)
+            client.get('/', follow_redirects=True)
 
             self.assertTrue(request.path == '/about')
 

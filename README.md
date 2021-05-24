@@ -1,8 +1,8 @@
 # **Agile development project**
 <br />
 
-## **Introduction of the "Yummy Savior" Website Service**
-**Yummy Savior (YS)** is a fullstack web-based service (prototype). YS is built using flask framework, with python, html, javascript and css for front and back end. The idea behind YS is that, it is a bridge between restaurants and non-profit organizations (npo), to deliver free foods to people in need. Restaurants offer food that otherwise go to waste available for npo, then npo orders food and distribute to people in need.
+## **Introduction of the "Yummy Saviour" Website Service**
+**Yummy Saviour (YS)** is a fullstack web-based service (prototype). YS is built using flask framework, with python, html, javascript and css for front and back end. The idea behind YS is that, it is a bridge between restaurants and non-profit organizations (npo), to deliver free foods to people in need. Restaurants offer food that otherwise go to waste available for npo, then npo orders food and distribute to people in need.
 <br />
 
 ## **Features of YS**
@@ -35,6 +35,6 @@ Click on the http link and you will see the YS website and use it. If it is the 
 <br />
 
 ## **Running the program tests**
-There are two ways to run the program tests. 
+There are two ways to run the program tests.
 1. In venv environment under project directory, type in terminal "make unittest". All tests available will run.
 2. We added a button to run tests, you should see a bottle like icon named "testing" when hover, on the left side of visual studio's navigation bar, click the button and run all or certain tests of your choice, and view test files.

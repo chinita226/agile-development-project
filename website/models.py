@@ -4,7 +4,7 @@ from flask_login import UserMixin
 
 
 class User(UserMixin, db.Model):
-    """User object class for database."""
+    """User object model class."""
 
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(25), unique=True, nullable=False)
@@ -16,7 +16,7 @@ class User(UserMixin, db.Model):
 
 
 class Food(db.Model):
-    """Food object class for database."""
+    """Food object model class."""
 
     id = db.Column(db.Integer, primary_key=True)
     food_name = db.Column(db.String(25))
@@ -43,3 +43,4 @@ class OrderDetails(db.Model):
     food_id = db.Column(db.Integer, db.ForeignKey('food.id'), primary_key=True)
     order_id = db.Column(db.Integer, db.ForeignKey('order.id'), primary_key=True)
     quantity = db.Column(db.Integer, nullable=False)
+    shipped = db.Column(db.Boolean, nullable=False, default=False)

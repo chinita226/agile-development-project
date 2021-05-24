@@ -4,6 +4,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from os import path
 
+
 db = SQLAlchemy()
 
 def create_app():

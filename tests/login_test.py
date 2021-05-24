@@ -41,21 +41,24 @@ class TestLogin(BaseTestCase):
 
     def test_login_success(self):
         """User can log in."""
+        # The application context
         with self.context:
-            with self.client as client:
-                # Add test user to database
-                db.session.add(self.test_user)
-                db.session.commit()
+            # Add the test user to the database.
+            db.session.add(self.test_user)
+            db.session.commit()
 
-                # Check current_user has no user object
+            # The request context
+            with self.client as client:
+                # Check current_user has no user object assigned
                 self.assertTrue(not current_user)
 
                 # Sign in with test users credentials
-                client.post('/login',
-                            follow_redirects=True,
-                            data=dict(
-                                username=self.test_user.username,
-                                password='password'))
+                response = client.post(
+                    '/login',
+                    follow_redirects=True,
+                    data=dict(
+                        username=self.test_user.username,
+                        password='password'))
 
                 # Check current_user has been assigned user object
                 self.assertTrue(current_user)
@@ -63,6 +66,8 @@ class TestLogin(BaseTestCase):
                 self.assertTrue(current_user.is_authenticated)
                 # Check the redirect url matches users dashboard url
                 self.assertTrue(request.path == f'/{current_user.username}')
+                # Check the status_code of the response.
+                self.assertTrue(response.status_code == 200)
 
     def test_login_redirect(self):
         """Login redirects logged in user when authenticated."""

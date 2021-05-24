@@ -148,7 +148,7 @@ def npo_search():
     return render_template(
         'npo.html',
         businessname=current_user.businessname,
-        food=food,
+        food=[],
         user=current_user,
         tag=tag
     )

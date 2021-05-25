@@ -16,6 +16,10 @@ foodList.addEventListener('click', (e) => {
         const quantity = column[5];
         const orderQuantity = column[6].firstElementChild;
 
+        if (orderQuantity.value < 0){
+            return
+        }
+
         if (quantity.innerText - Math.abs(orderQuantity.value) >= 0){
             // Update the quantity
             quantity.innerText = quantity.innerText - orderQuantity.value;

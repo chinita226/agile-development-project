@@ -85,7 +85,6 @@ def dashboard(username):
     food = Food.query.order_by(Food.food_name)
     users = User.query.all()
     orders = Order.query.filter_by(user_id=current_user.id)
-    details = OrderDetails.query.all()
     # Show NPO page
     return render_template(
         'npo.html',
@@ -93,8 +92,7 @@ def dashboard(username):
         food=food,
         users=users,
         user=current_user,
-        orders=orders,
-        details=details
+        orders=orders
         )
 
 
@@ -117,7 +115,6 @@ def npo_search():
         for i in location:
             filtered = Food.query.filter_by(users_id=i.id).all()
 
-            details = OrderDetails.query.filter(Food.users_id == i.id).all()
             return render_template(
                     'npo.html',
                     businessname=current_user.businessname,
@@ -126,7 +123,6 @@ def npo_search():
                     users=location,
                     tag=tag,
                     orders=orders,
-                    details=details,
                     user=current_user)
 
     businessname = User.query.filter(User.businessname.like(search)).all()
@@ -134,7 +130,6 @@ def npo_search():
     if businessname is not None:
         for i in businessname:
             filtered = Food.query.filter_by(users_id=i.id).all()
-            details = OrderDetails.query.filter(Food.users_id == i.id).all()
             return render_template(
                 'npo.html',
                 businessname=current_user.businessname,
@@ -143,7 +138,6 @@ def npo_search():
                 users=businessname,
                 tag=tag,
                 orders=orders,
-                details=details,
                 user=current_user)
 
     flash("Not found")

@@ -4,7 +4,6 @@
 __pycache__
 htmlcov/
 *.pyc
-/doc
 *.dot
 /website.egg-info
 .mypy_cache

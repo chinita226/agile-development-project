@@ -1,3 +1,4 @@
+"""Auth routes module."""
 from flask import Blueprint, render_template, request, flash, redirect, url_for
 from flask_login import login_user, login_required, logout_user, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -127,6 +128,7 @@ def signup_post():
 @auth.route('/logout')
 @login_required
 def logout():
+    """Logout the user."""
     logout_user()
     return redirect(
         url_for('auth.login',

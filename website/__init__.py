@@ -1,3 +1,4 @@
+"""Application initialisation module."""
 from flask import Flask
 from website.config import DevSettings, TestSettings
 from flask_sqlalchemy import SQLAlchemy
@@ -7,7 +8,9 @@ from os import path
 
 db = SQLAlchemy()
 
+
 def create_app():
+    """Create Application object instance."""
     app = Flask(__name__)
     app.config.from_object(DevSettings)
 
@@ -35,12 +38,14 @@ def create_app():
 
 
 def create_table(app):
+    """Create database tables."""
     if not path.exists('website/' + DevSettings.SQLALCHEMY_DATABASE_URI):
         db.create_all(app=app)
         print('Created Database!')
 
 
 def create_test_app():
+    """Create test application instance."""
     app = Flask(__name__)
     app.config.from_object(TestSettings)
 

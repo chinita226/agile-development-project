@@ -156,4 +156,6 @@ class TestLogin(BaseTestCase):
 
                 self.assertTrue(current_user.is_authenticated)
 
-                response = client.get('/logout', follow_redirects=True)
+                client.get('/logout', follow_redirects=True)
+
+                self.assertFalse(current_user.is_authenticated)

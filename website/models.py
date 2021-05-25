@@ -25,6 +25,7 @@ class Food(db.Model):
     users_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
     def repr(self):
+        """Format the food name output."""
         return "<food_name: {}>".format(self.food_name)
 
 

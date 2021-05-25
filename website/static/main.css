@@ -35,6 +35,10 @@
     text-align: center;
 }
 
+.centered {
+    margin: 0 auto;
+}
+
 #order-table {
     background-color: white;
     text-align: center;

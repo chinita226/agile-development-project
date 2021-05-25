@@ -20,42 +20,38 @@
 
 <div class="container">
     <h1 class="text-center p-3 pt-5">Welcome to Yummy Food Saviour {{ businessname }}!</h1>
-    <h2 class="text-center text-info">Restaurant</h2>
 </div>
-
-
-
-
-
+<br>
 <div class="container p-3">
-    <form method="POST">
-        <div class="form-row">
-            <div class="col-md-3 col-12">
-                <input aria-label="Food Name" type="text" class="form-control" placeholder="Food Name" name="food_name" required>
+    <div class="centered">
+        <form method="POST">
+            <div class="form-row">
+                <div class="col-md-3 col-12">
+                    <input aria-label="Food Name" type="text" class="form-control" placeholder="Food Name" name="food_name" required>
+                </div>
+                <div class="col-md-3 col-12">
+                    <input aria-label="Description" type="text" class="form-control" placeholder="Description" name="description" required></div>
+                <div class="col-md-3 col-12">
+                    <input aria-label="Quantity" type="number" class="form-control" placeholder="Quantity" name="quantity" required min="1"></div>
+                <div class="col-md-3 col-12">
+                    <input aria-label="ADD" type="submit" class="btn btn-block btn-warning" value="Add">
+                </div>
             </div>
-            <div class="col-md-3 col-12">
-                <input aria-label="Description" type="text" class="form-control" placeholder="Description" name="description" required></div>
-            <div class="col-md-3 col-12">
-                <input aria-label="Quantity" type="number" class="form-control" placeholder="Quantity" name="quantity" required min="1"></div>
-            <div class="col-md-2 col-12">
-                <input aria-label="ADD" type="submit" class="form-control btn btn-warning" value="Add"></div>
-        </div>
-    </form>
+        </form>
+    </div>
 </div>
 
-{#
-<h1 class="p-3">Foods</h1>#}
-<h1 class="h1 p-3 padding-auto", align="center">List of Foods</h1>
+<br><br>
+
+<h1 class="h1 p-3 padding-auto text-center">List of Foods</h1>
 <div class="container pb-5">
-    <table>
+    <table class="centered">
         <tr>
             <th class="d-flex justify-content-around border-0">
                 <span>Food Name</span>
                 <span>Description</span>
                 <span>Quantity(kg)</span>
             </th>
-            <th>Update item</th>
-            <th>Remove item</th>
         </tr>
         {% for food in food %}
         <tr>
@@ -68,12 +64,12 @@
                 </form>
             </td>
             <td>
-                <input class="btn btn-info" type="submit" form="update_form_{{ food.id }}" name="update" value="Update">
+                <input class="btn btn-block btn-info" type="submit" form="update_form_{{ food.id }}" name="update" value="Update">
             </td>
             <td>
                 <form action="{{ url_for('views.delete', id=food.id) }}" method="POST">
                     <input type="hidden" value="{{ food.id }}" name="id">
-                    <input class="btn btn-danger" type="submit" name="delete" value="Delete">
+                    <input class="btn btn-block btn-danger" type="submit" name="delete" value="Delete">
                 </form>
             </td>
         </tr>

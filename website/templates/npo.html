@@ -55,8 +55,10 @@
               {% endif %}
             {% endfor %}
             <td>{{ food.quantity }}</td>
-            <td><input type="text" placeholder="Order quantity"></td>
-            <td><button class="btn btn-sm btn-primary addItem">Add to order</button></td>
+            <form action="#">
+              <td><input type="text" placeholder="Order quantity" min="1"></td>
+              <td><button class="btn btn-sm btn-primary addItem">Add to order</button></td>
+            </form>
           </tr>
           {% endif %}
         {% endfor %}

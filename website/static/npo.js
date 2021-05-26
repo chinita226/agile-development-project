@@ -16,7 +16,7 @@ foodList.addEventListener('click', (e) => {
         const quantity = column[5];
         const orderQuantity = column[6].firstElementChild;
 
-        if (orderQuantity.value < 0){
+        if (orderQuantity.value < 1){
             return
         }
 
@@ -65,6 +65,10 @@ orderTableBody.addEventListener('click', (e) => {
 })
 
 confirmBtn.addEventListener('click', (e) =>{
+
+    if (order.length < 1){
+        return
+    }
 
     fetch('/order', {
         method: 'POST',

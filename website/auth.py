@@ -131,5 +131,5 @@ def logout():
     """Logout the user."""
     logout_user()
     return redirect(
-        url_for('auth.login',
+        url_for('views.home',
                 user=current_user))
